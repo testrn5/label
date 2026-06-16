@@ -18,7 +18,7 @@ const SYSTEM_PROMPT = `Ты эксперт по распознаванию то�
   "confidence": "high"|"medium"|"low"
 }
 material_type — основной материал упаковки.
-size — размер упаковки: small (банка 0.33л, маленькая бутылка), medium (1л бутылка, пакет молока), large (1.5-2л бутылка, большая коробка), xlarge (канистра 5л+, большая коробка).
+size — размер: small (банка 0.33л), medium (1л), large (1.5-2л), xlarge (5л+).
 Используй null, если поле неизвестно.`;
 
 const MODEL_LIST = [
@@ -28,8 +28,6 @@ const MODEL_LIST = [
   "qwen/qwen2.5-vl-72b-instruct:free",
   "mistralai/pixtral-12b:free",
 ];
-
-const MAX_MODELS = 50;
 
 async function getFreeModels(apiKey: string) {
   try {
@@ -47,14 +45,12 @@ async function getFreeModels(apiKey: string) {
           (m.architecture?.modality || '').includes('image') ||
           (m.architecture?.modality || '').includes('vision') ||
           (m.description || '').toLowerCase().includes('vision') ||
-          (m.name || '').toLowerCase().includes('vision') ||          (m.id || '').toLowerCase().includes('vision') ||
-          (m.id || '').toLowerCase().includes('vl') ||
-          (m.id || '').toLowerCase().includes('pixtral') ||
-          (m.id || '').toLowerCase().includes('gemini');
-        return isFree && hasVision;
+          (m.name || '').toLowerCase().includes('vision') ||
+          (m.id || '').toLowerCase().includes('vision') ||
+          (m.id || '').toLowerCase().includes('vl');        return isFree && hasVision;
       })
       .map((m: any) => m.id)
-      .slice(0, MAX_MODELS);
+      .slice(0, 50);
   } catch {
     return [];
   }
@@ -86,24 +82,21 @@ async function tryModel(model: string, image: string, mediaType: string, apiKey:
 
   if (data.error) {
     const msg = data.error.message || '';
-    const code = data.error.code || '';
     const skip =
       msg.includes('unavailable for free') ||
       msg.includes('not a valid model') ||
       msg.includes('not available') ||
       msg.includes('model_not_found') ||
-      code === 'model_not_found' ||
-      code === 'model_unavailable' ||
       msg.includes('rate limit');
 
-    if (skip) return { success: false, skip: true, error: msg.slice(0, 80) };    return { success: false, skip: false, error: msg };
+    if (skip) return { success: false, skip: true, error: msg.slice(0, 80) };
+    return { success: false, skip: false, error: msg };
   }
 
   const text = data.choices?.[0]?.message?.content;
   if (!text) return { success: false, skip: true, error: 'Пустой ответ' };
 
-  const clean = text.replace(/```json\n?|\n?```/g, '').trim();
-  const parsed = JSON.parse(clean);
+  const clean = text.replace(/```json\n?|\n?```/g, '').trim();  const parsed = JSON.parse(clean);
   return { success: true, result: parsed };
 }
 
@@ -145,14 +138,14 @@ export async function POST(req: NextRequest) {
       const result = await tryModel(model, image, mediaType, apiKey);
       if (result.success) {
         return NextResponse.json({
-          ...result.result,          _used_model: model,
+          ...result.result,
+          _used_model: model,
           _total_tried: tried.length,
           _total_skipped: skipped.length,
           _tried_models: tried,
           _skipped_models: skipped
         });
-      }
-      if (result.skip) {
+      }      if (result.skip) {
         skipped.push(model);
       } else {
         return NextResponse.json({

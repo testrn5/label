@@ -26,12 +26,7 @@
     h1 { font-size: 28px; font-weight: 700; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
     .free-badge { display: inline-block; font-size: 10px; font-weight: 700; background: var(--success); color: #fff; padding: 3px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; -webkit-text-fill-color: #fff; }
     .theme-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text); cursor: pointer; font-weight: 600; }
-    .version-switcher { display: flex; gap: 8px; margin-bottom: 20px; }
-    .version-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-muted); cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s; }
-    .version-btn:hover { background: var(--accent-bg); color: var(--accent); }
-    .version-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .view { display: none; }
-    .view.active { display: block; }
+
     .model-status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; padding: 10px 14px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; font-size: 13px; }
     .model-label { color: var(--text-muted); font-weight: 500; }
     .model-name { color: var(--accent); font-weight: 600; font-family: monospace; font-size: 12px; }
@@ -39,24 +34,39 @@
     .btn-switch { padding: 4px 10px; border-radius: 6px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-muted); cursor: pointer; font-size: 11px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px; }
     .btn-switch:hover:not(:disabled) { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
     .btn-switch:disabled { opacity: 0.4; cursor: not-allowed; }
+
     .preferred-info { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; padding: 8px 12px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--card-border); }
+
     .video-container { position: relative; background: #111; border-radius: 16px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--card-border); }
     video, canvas { width: 100%; display: block; max-height: 420px; object-fit: contain; }
-    .camera-overlay { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 14px; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.9) 100%); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; }
+    .camera-overlay {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 12px 14px;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.9) 100%);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;      justify-content: center;
+    }
+
     .btn { padding: 10px 18px; border-radius: 10px; border: 1px solid transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(0.3); }
     .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
     .btn-primary:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
-    .btn-danger { background: var(--danger-bg); color: var(--danger); border-color: rgba(239,68,68,0.3); }    .btn-danger:hover:not(:disabled) { background: var(--danger); color: #fff; }
+    .btn-danger { background: var(--danger-bg); color: var(--danger); border-color: rgba(239,68,68,0.3); }
+    .btn-danger:hover:not(:disabled) { background: var(--danger); color: #fff; }
     .btn-success { background: var(--success-bg); color: var(--success); border-color: rgba(34,197,94,0.3); }
     .btn-success:hover:not(:disabled) { background: var(--success); color: #fff; }
     .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--card-border); }
     .btn-ghost:hover:not(:disabled) { color: var(--text); background: var(--card-bg); }
     .btn-large { padding: 12px 24px; font-size: 15px; }
+
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px; }
     .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; text-align: center; }
     .stat-value { font-size: 24px; font-weight: 700; color: var(--accent); }
     .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
     .result-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
     .result-header { padding: 16px 20px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
     .result-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
@@ -67,6 +77,7 @@
     .field-label { min-width: 130px; color: var(--text-muted); font-size: 13px; font-weight: 500; }
     .field-value { color: var(--text); font-size: 14px; flex: 1; }
     .model-info { padding: 12px 20px; background: rgba(99,102,241,0.05); font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--card-border); }
+
     .history { margin-top: 20px; }
     .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .history h3 { font-size: 16px; margin: 0; color: var(--text-muted); }
@@ -86,126 +97,84 @@
     .detail-value { color: var(--text); flex: 1; }
     .weight-calc { background: var(--success-bg); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 8px 12px; margin-top: 8px; font-size: 12px; color: var(--success); }
     .err { background: var(--danger-bg); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 12px 16px; color: var(--danger); font-size: 14px; margin-bottom: 16px; }
+
     .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .old-version-notice { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 12px; padding: 12px 16px; color: #f59e0b; font-size: 14px; margin-bottom: 16px; }
-    .cloud-badge { background: rgba(139,92,246,0.15); color: #8b5cf6; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-left: 8px; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h1>♻ Распознавание v2.9<span class="free-badge">FREE</span></h1>
-      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 Темная</button>    </div>
-
-    <!-- Переключатель версий -->
-    <div class="version-switcher">
-      <button class="version-btn active" onclick="switchVersion('new')" id="btnNewVersion">✨ Новая версия</button>
-      <button class="version-btn" onclick="switchVersion('old')" id="btnOldVersion">📦 Старая версия (v2.7)</button>
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn"> Темная</button>
     </div>
 
-    <!-- НОВАЯ ВЕРСИЯ (v2.9) -->
-    <div class="view active" id="viewNew">
-      <div class="model-status">
-        <span class="model-label">📡 Модель:</span>
-        <span class="model-name" id="currentModel">nex-agi/nex-n2-pro:free</span>
-        <button class="btn-switch" onclick="switchToNextModel()" id="btnSwitch" disabled title="Переключиться на следующую модель">🔄 Сменить</button>
-        <span class="model-badge" id="preferredBadge" style="display:none"> <span id="preferredCount">0</span> в приоритете</span>
-      </div>
+    <div class="model-status">
+      <span class="model-label">📡 Модель:</span>
+      <span class="model-name" id="currentModel">nex-agi/nex-n2-pro:free</span>
+      <button class="btn-switch" onclick="switchToNextModel()" id="btnSwitch" disabled title="Переключиться на следующую модель">
+        🔄 Сменить
+      </button>
+      <span class="model-badge" id="preferredBadge" style="display:none">⚡ <span id="preferredCount">0</span> в приоритете</span>
+    </div>
 
-      <div class="preferred-info" id="preferredInfo" style="display:none">
-         Ускорение: <span id="preferredInfoCount">0</span> моделей в приоритете
-      </div>
+    <div class="preferred-info" id="preferredInfo" style="display:none">
+      ⚡ Ускорение: <span id="preferredInfoCount">0</span> моделей в приоритете
+    </div>
 
-      <div class="err" id="err" style="display:none"></div>
+    <div class="err" id="err" style="display:none"></div>
 
-      <div class="video-container">
-        <video id="vid" autoplay playsinline muted></video>
-        <canvas id="can" style="display:none"></canvas>
-        <div class="camera-overlay" id="cameraOverlay">
-          <button class="btn btn-primary" onclick="toggleCamera()" id="btnCamera">▶ Включить камеру</button>
-          <button class="btn btn-success btn-large" onclick="handleAction()" id="btnAction" disabled>🔍 Распознать</button>
-          <button class="btn btn-ghost" onclick="cancelResult()" id="btnCancel" style="display:none">✕ Отменить</button>
-        </div>
-      </div>
-
-      <div class="stats">
-        <div class="stat-card"><div class="stat-value" id="sTotal">0</div><div class="stat-label">Всего</div></div>
-        <div class="stat-card"><div class="stat-value" id="sRec">0</div><div class="stat-label">♻ Перераб.</div></div>
-        <div class="stat-card"><div class="stat-value" id="sW">0 г</div><div class="stat-label">Вес пустой тары</div></div>
-      </div>
-
-      <div class="result-card" id="res" style="display:none">
-        <div class="result-header">
-          <span class="result-title">Результат</span>
-          <span class="confidence-badge" id="conf"></span>
-        </div>
-        <div class="result-desc" id="desc"></div>
-        <div id="fields"></div>
-        <div class="model-info" id="modelInfo"></div>
-      </div>
-
-      <div class="history">        <div class="history-header">
-          <h3>История операций (<span id="historyCount">0</span>)</h3>
-          <button class="btn btn-ghost" onclick="clearHistory()" id="btnClear" disabled style="font-size:12px;padding:6px 12px">Очистить</button>
-        </div>
-        <ul class="history-list" id="historyList"></ul>
+    <div class="video-container">
+      <video id="vid" autoplay playsinline muted></video>
+      <canvas id="can" style="display:none"></canvas>
+      <div class="camera-overlay" id="cameraOverlay">
+        <button class="btn btn-primary" onclick="toggleCamera()" id="btnCamera">▶ Включить камеру</button>
+        <button class="btn btn-success btn-large" onclick="handleAction()" id="btnAction" disabled>🔍 Распознать</button>
+        <button class="btn btn-ghost" onclick="cancelResult()" id="btnCancel" style="display:none">✕ Отменить</button>
       </div>
     </div>
 
-    <!-- СТАРАЯ ВЕРСИЯ (v2.7) -->
-    <div class="view" id="viewOld">
-      <div class="old-version-notice">
-        ⚠️ Старая версия работает локально. Нажмите "Распознать по этикетке" для подключения облачного AI.
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-value" id="sTotal">0</div>
+        <div class="stat-label">Всего</div>
       </div>
-
-      <div class="err" id="errOld" style="display:none"></div>
-
-      <div class="video-container">
-        <video id="vidOld" autoplay playsinline muted></video>
-        <canvas id="canOld" style="display:none"></canvas>
+      <div class="stat-card">
+        <div class="stat-value" id="sRec">0</div>
+        <div class="stat-label">♻ Перераб.</div>
       </div>
+      <div class="stat-card">
+        <div class="stat-value" id="sW">0 г</div>
+        <div class="stat-label">Вес пустой тары</div>      </div>
+    </div>
 
-      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;">
-        <button class="btn btn-primary" onclick="toggleCameraOld()" id="btnCameraOld">▶ Включить камеру</button>
-        <button class="btn btn-danger" onclick="stopCameraOld()" id="btnStopOld" disabled>⏹ Стоп камера</button>
-        <button class="btn btn-success" onclick="recognizeOld()" id="btnRecOld" disabled>🔍 Распознать</button>
-        <button class="btn btn-primary" onclick="recognizeLabelOld()" id="btnLabelOld" disabled>🏷️ Распознать по этикетке<span class="cloud-badge">CLOUD</span></button>
-        <button class="btn btn-ghost" onclick="saveOld()" id="btnSaveOld" disabled>💾 Сохранить</button>
-        <button class="btn btn-ghost" onclick="cancelOld()" id="btnCancelOld" disabled>✕ Отмена</button>
+    <div class="result-card" id="res" style="display:none">
+      <div class="result-header">
+        <span class="result-title">Результат</span>
+        <span class="confidence-badge" id="conf"></span>
       </div>
+      <div class="result-desc" id="desc"></div>
+      <div id="fields"></div>
+      <div class="model-info" id="modelInfo"></div>
+    </div>
 
-      <div class="stats">
-        <div class="stat-card"><div class="stat-value" id="sTotalOld">0</div><div class="stat-label">Всего</div></div>
-        <div class="stat-card"><div class="stat-value" id="sRecOld">0</div><div class="stat-label">♻ Перераб.</div></div>
-        <div class="stat-card"><div class="stat-value" id="sWOld">0 г</div><div class="stat-label">Общий вес</div></div>
+    <div class="history">
+      <div class="history-header">
+        <h3>История операций (<span id="historyCount">0</span>)</h3>
+        <button class="btn btn-ghost" onclick="clearHistory()" id="btnClear" disabled style="font-size:12px;padding:6px 12px">Очистить</button>
       </div>
-
-      <div class="result-card" id="resOld" style="display:none">
-        <div class="result-header">
-          <span class="result-title">Результат распознавания</span>
-          <span class="confidence-badge" id="confOld"></span>
-        </div>
-        <div class="result-desc" id="descOld"></div>
-        <div id="fieldsOld"></div>
-        <div class="model-info" id="modelInfoOld"></div>
-      </div>
-
-      <div class="history">
-        <div class="history-header">
-          <h3>История операций ▼</h3>
-        </div>        <ul class="history-list" id="historyListOld"></ul>
-      </div>
-
-      <div style="margin-top: 30px; font-size: 12px; color: var(--text-muted); text-align: center;">
-        Приложение запущено | Beta v2.7
-      </div>
+      <ul class="history-list" id="historyList"></ul>
     </div>
   </div>
 
   <script>
-    // Общие данные
-    let currentView = 'new';
+    let stream, result, stats = { total: 0, rec: 0, w: 0 };
+    let history = [];
+    let preferredModels = [];
+    let currentModel = "nex-agi/nex-n2-pro:free";
+    let expandedId = null;
+    let actionState = 'recognize';
+
     const MATERIAL_DENSITY = { plastic: 200, glass: 500, aluminum: 300, paper: 150, cardboard: 180, metal: 400, other: 250 };
     const SIZE_VOLUME = { small: 0.0008, medium: 0.002, large: 0.005, xlarge: 0.015 };
     const MATERIAL_LABELS = { plastic: "Пластик", glass: "Стекло", aluminum: "Алюминий", paper: "Бумага", cardboard: "Картон", metal: "Металл", other: "Другое" };
@@ -217,38 +186,15 @@
       return Math.round(density * volume);
     }
 
-    function toggleTheme() {
-      const html = document.documentElement;
-      const isDark = html.getAttribute('data-theme') === 'dark';
-      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
-    }
-
-    function switchVersion(version) {
-      currentView = version;
-      document.getElementById('viewNew').classList.toggle('active', version === 'new');
-      document.getElementById('viewOld').classList.toggle('active', version === 'old');
-      document.getElementById('btnNewVersion').classList.toggle('active', version === 'new');
-      document.getElementById('btnOldVersion').classList.toggle('active', version === 'old');
-    }
-
-    // ==================== НОВАЯ ВЕРСИЯ ====================
-    let stream, result, stats = { total: 0, rec: 0, w: 0 };
-    let history = [];
-    let preferredModels = [];
-    let currentModel = "nex-agi/nex-n2-pro:free";
-    let expandedId = null;
-    let actionState = 'recognize';
-
     function loadFromStorage() {
       try {
         const savedModels = localStorage.getItem("recognizer_preferred_models");
-        if (savedModels) { preferredModels = JSON.parse(savedModels); updatePreferredUI(); }        const savedHistory = localStorage.getItem("recognizer_history");
+        if (savedModels) { preferredModels = JSON.parse(savedModels); updatePreferredUI(); }
+        const savedHistory = localStorage.getItem("recognizer_history");
         if (savedHistory) { history = JSON.parse(savedHistory); renderHistory(); }
         const savedStats = localStorage.getItem("recognizer_stats");
         if (savedStats) { stats = JSON.parse(savedStats); updateStats(); }
-      } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }
-    }
+      } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }    }
 
     function updatePreferredUI() {
       if (preferredModels.length > 0) {
@@ -263,6 +209,13 @@
       document.getElementById('sTotal').textContent = stats.total;
       document.getElementById('sRec').textContent = stats.rec;
       document.getElementById('sW').textContent = stats.w + ' г';
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
     }
 
     async function toggleCamera() {
@@ -290,17 +243,22 @@
       }
     }
 
-    async function handleAction() {
-      if (actionState === 'recognize') await doRecognize();
-      else if (actionState === 'saving') doSave();    }
+    async function handleAction() {      if (actionState === 'recognize') {
+        await doRecognize();
+      } else if (actionState === 'saving') {
+        doSave();
+      }
+    }
 
     async function doRecognize(specificModel) {
       const vid = document.getElementById('vid');
       const can = document.getElementById('can');
+      
       const maxDim = 1024;
       const scale = Math.min(maxDim / vid.videoWidth, maxDim / vid.videoHeight, 1);
       can.width = vid.videoWidth * scale;
       can.height = vid.videoHeight * scale;
+      
       can.getContext('2d').drawImage(vid, 0, 0, can.width, can.height);
       const img = can.toDataURL('image/jpeg', 0.6).split(',')[1];
 
@@ -318,30 +276,40 @@
         const res = await fetch('/api/recognize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: img, mediaType: 'image/jpeg', preferredModels: preferredModels, useSpecificModel: specificModel })
+          body: JSON.stringify({
+            image: img,
+            mediaType: 'image/jpeg',
+            preferredModels: preferredModels,
+            useSpecificModel: specificModel
+          })
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
+        
         result = data;
         currentModel = data._used_model || currentModel;
         document.getElementById('currentModel').textContent = currentModel;
+
         if (data._used_model && !preferredModels.includes(data._used_model)) {
           preferredModels = [data._used_model, ...preferredModels].slice(0, 5);
-          localStorage.setItem("recognizer_preferred_models", JSON.stringify(preferredModels));
-          updatePreferredUI();
+          localStorage.setItem("recognizer_preferred_models", JSON.stringify(preferredModels));          updatePreferredUI();
         }
+
         showResult(data);
+
         actionState = 'saving';
         btnAction.disabled = false;
         btnAction.innerHTML = '💾 Сохранить';
         btnAction.classList.remove('btn-primary');
         btnAction.classList.add('btn-success');
         document.getElementById('btnCancel').style.display = 'inline-flex';
+
       } catch (e) {
         showError(e.message);
         actionState = 'recognize';
         btnAction.disabled = false;
-        btnAction.innerHTML = ' Распознать';        btnAction.classList.remove('btn-primary');
+        btnAction.innerHTML = '🔍 Распознать';
+        btnAction.classList.remove('btn-primary');
         btnAction.classList.add('btn-success');
       }
     }
@@ -363,6 +331,7 @@
       history = [newItem, ...history].slice(0, 50);
       localStorage.setItem("recognizer_history", JSON.stringify(history));
       renderHistory();
+
       actionState = 'recognize';
       const btnAction = document.getElementById('btnAction');
       btnAction.innerHTML = '🔍 Распознать';
@@ -372,7 +341,6 @@
       document.getElementById('res').style.display = 'none';
       result = null;
     }
-
     function cancelResult() {
       actionState = 'recognize';
       const btnAction = document.getElementById('btnAction');
@@ -390,7 +358,8 @@
       document.getElementById('btnSwitch').disabled = true;
       document.getElementById('err').style.display = 'none';
       try {
-        const modelsRes = await fetch('/api/models');        const modelsData = await modelsRes.json();
+        const modelsRes = await fetch('/api/models');
+        const modelsData = await modelsRes.json();
         if (!modelsData.models || modelsData.models.length === 0) throw new Error("Не удалось получить список моделей");
         const currentIndex = modelsData.models.findIndex(m => m.id === currentModel);
         const nextIndex = (currentIndex + 1) % modelsData.models.length;
@@ -421,8 +390,7 @@
       document.getElementById('fields').innerHTML = fields.map(([l, v]) => 
         `<div class="field"><span class="field-label">${l}</span><span class="field-value">${v || '—'}</span></div>`
       ).join('');
-      if (r._used_model) {
-        document.getElementById('modelInfo').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
+      if (r._used_model) {        document.getElementById('modelInfo').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
       }
       document.getElementById('res').style.display = 'block';
     }
@@ -439,7 +407,8 @@
         <li class="history-item">
           <div class="history-item-header" onclick="toggleExpand(${item.id})">
             <div>
-              <div class="history-item-title">${item.recyclable ? '♻' : ''} ${item.product_name}</div>              <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.calculated_weight} г</div>
+              <div class="history-item-title">${item.recyclable ? '♻' : ''} ${item.product_name}</div>
+              <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.calculated_weight} г</div>
             </div>
             <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>
           </div>
@@ -468,193 +437,10 @@
 
     function showError(msg) {
       const el = document.getElementById('err');
-      el.textContent = '⚠ ' + msg;
-      el.style.display = 'block';
-    }
-
-    // ==================== СТАРАЯ ВЕРСИЯ (v2.7) ====================
-    let streamOld, resultOld, statsOld = { total: 0, rec: 0, w: 0 };
-    let historyOld = [];
-
-    function loadFromStorageOld() {
-      try {
-        const savedHistory = localStorage.getItem("recognizer_history_old");
-        if (savedHistory) { historyOld = JSON.parse(savedHistory); renderHistoryOld(); }
-        const savedStats = localStorage.getItem("recognizer_stats_old");
-        if (savedStats) { statsOld = JSON.parse(savedStats); updateStatsOld(); }
-      } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }
-    }
-
-    function updateStatsOld() {
-      document.getElementById('sTotalOld').textContent = statsOld.total;
-      document.getElementById('sRecOld').textContent = statsOld.rec;
-      document.getElementById('sWOld').textContent = statsOld.w + ' г';    }
-
-    async function toggleCameraOld() {
-      try {
-        streamOld = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-        document.getElementById('vidOld').srcObject = streamOld;
-        document.getElementById('btnCameraOld').innerHTML = '⏹ Выключить камеру';
-        document.getElementById('btnCameraOld').classList.remove('btn-primary');
-        document.getElementById('btnCameraOld').classList.add('btn-danger');
-        document.getElementById('btnStopOld').disabled = false;
-        document.getElementById('btnRecOld').disabled = false;
-        document.getElementById('btnLabelOld').disabled = false;
-        document.getElementById('errOld').style.display = 'none';
-      } catch (e) { showErrorOld("Ошибка камеры: " + e.message); }
-    }
-
-    function stopCameraOld() {
-      if (streamOld) { streamOld.getTracks().forEach(t => t.stop()); streamOld = null; }
-      document.getElementById('vidOld').srcObject = null;
-      document.getElementById('btnCameraOld').innerHTML = '▶ Включить камеру';
-      document.getElementById('btnCameraOld').classList.remove('btn-danger');
-      document.getElementById('btnCameraOld').classList.add('btn-primary');
-      document.getElementById('btnStopOld').disabled = true;
-      document.getElementById('btnRecOld').disabled = true;
-      document.getElementById('btnLabelOld').disabled = true;
-      document.getElementById('btnSaveOld').disabled = true;
-      document.getElementById('btnCancelOld').disabled = true;
-      document.getElementById('resOld').style.display = 'none';
-    }
-
-    // Локальное распознавание (без AI)
-    function recognizeOld() {
-      const vid = document.getElementById('vidOld');
-      const can = document.getElementById('canOld');
-      can.width = vid.videoWidth;
-      can.height = vid.videoHeight;
-      can.getContext('2d').drawImage(vid, 0, 0);
-      
-      // Локальная логика: просто сохраняем кадр
-      resultOld = {
-        product_name: 'Локальное распознавание',
-        manufacturer: 'Неизвестно',
-        brand: 'Неизвестно',
-        country: 'Неизвестно',
-        category: 'Неизвестно',
-        description: 'Локальное распознавание без AI. Используйте кнопку "Распознать по этикетке" для облачного AI.',
-        barcode: null,
-        weight: null,
-        ingredients: null,
-        recyclable: true,        material_type: 'other',
-        size: 'medium',
-        confidence: 'low',
-        _used_model: 'local',
-        _total_tried: 0
-      };
-      
-      showResultOld(resultOld);
-      document.getElementById('btnSaveOld').disabled = false;
-      document.getElementById('btnCancelOld').disabled = false;
-    }
-
-    // Облачное распознавание по этикетке
-    async function recognizeLabelOld() {
-      const vid = document.getElementById('vidOld');
-      const can = document.getElementById('canOld');
-      const maxDim = 1024;
-      const scale = Math.min(maxDim / vid.videoWidth, maxDim / vid.videoHeight, 1);
-      can.width = vid.videoWidth * scale;
-      can.height = vid.videoHeight * scale;
-      can.getContext('2d').drawImage(vid, 0, 0, can.width, can.height);
-      const img = can.toDataURL('image/jpeg', 0.6).split(',')[1];
-
-      document.getElementById('btnLabelOld').disabled = true;
-      document.getElementById('btnLabelOld').innerHTML = '<span class="spinner"></span> Анализ этикетки...';
-      document.getElementById('resOld').style.display = 'none';
-      document.getElementById('errOld').style.display = 'none';
-
-      try {
-        const res = await fetch('/api/recognize', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: img, mediaType: 'image/jpeg', preferredModels: [], useSpecificModel: null })
-        });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
-        resultOld = data;
-        showResultOld(data);
-        document.getElementById('btnSaveOld').disabled = false;
-        document.getElementById('btnCancelOld').disabled = false;
-      } catch (e) { showErrorOld(e.message); }
-      finally {
-        document.getElementById('btnLabelOld').disabled = false;
-        document.getElementById('btnLabelOld').innerHTML = '🏷️ Распознать по этикетке<span class="cloud-badge">CLOUD</span>';
-      }
-    }
-
-    function showResultOld(r) {
-      const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
-      const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };      document.getElementById('confOld').textContent = `Точность: ${labels[r.confidence]}`;
-      document.getElementById('confOld').style.background = `${colors[r.confidence]}18`;
-      document.getElementById('confOld').style.color = colors[r.confidence];
-      document.getElementById('confOld').style.border = `1px solid ${colors[r.confidence]}40`;
-      document.getElementById('descOld').textContent = r.description || '';
-      const fields = [
-        ['Название', r.product_name], ['Производитель', r.manufacturer],
-        ['Бренд', r.brand], ['Страна', r.country], ['Категория', r.category],
-        ['Штрихкод', r.barcode || '—'], ['Вес / Объём', r.weight || '—'],
-        ['Состав', r.ingredients || '—']
-      ];
-      document.getElementById('fieldsOld').innerHTML = fields.map(([l, v]) => 
-        `<div class="field"><span class="field-label">${l}</span><span class="field-value">${v || '—'}</span></div>`
-      ).join('');
-      if (r._used_model) {
-        document.getElementById('modelInfoOld').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
-      }
-      document.getElementById('resOld').style.display = 'block';
-    }
-
-    function saveOld() {
-      if (!resultOld) return;
-      const calculatedWeight = calculateEmptyWeight(resultOld.material_type || 'other', resultOld.size || 'medium');
-      const newItem = {
-        id: Date.now(), product_name: resultOld.product_name || 'Неизвестно',
-        brand: resultOld.brand || 'No brand', category: resultOld.category || '—',
-        weight: calculatedWeight, recyclable: resultOld.recyclable,
-        timestamp: new Date().toLocaleString('ru-RU')
-      };
-      statsOld = { total: statsOld.total + 1, rec: resultOld.recyclable ? statsOld.rec + 1 : statsOld.rec, w: statsOld.w + calculatedWeight };
-      localStorage.setItem("recognizer_stats_old", JSON.stringify(statsOld));
-      updateStatsOld();
-      historyOld = [newItem, ...historyOld].slice(0, 50);
-      localStorage.setItem("recognizer_history_old", JSON.stringify(historyOld));
-      renderHistoryOld();
-      document.getElementById('resOld').style.display = 'none';
-      document.getElementById('btnSaveOld').disabled = true;
-      document.getElementById('btnCancelOld').disabled = true;
-      resultOld = null;
-    }
-
-    function cancelOld() {
-      document.getElementById('resOld').style.display = 'none';
-      document.getElementById('btnSaveOld').disabled = true;
-      document.getElementById('btnCancelOld').disabled = true;
-      resultOld = null;
-    }
-
-    function renderHistoryOld() {
-      const list = document.getElementById('historyListOld');      if (historyOld.length === 0) {
-        list.innerHTML = '<li style="text-align:center;color:var(--text-muted);padding:20px;font-size:14px">Пока пусто</li>';
-        return;
-      }
-      list.innerHTML = historyOld.map(item => `
-        <li style="padding: 8px 0; border-bottom: 1px solid var(--card-border); font-size: 14px; color: var(--text-muted);">
-          ✓ ${item.product_name} (${item.brand}) — ${item.weight} г
-        </li>
-      `).join('');
-    }
-
-    function showErrorOld(msg) {
-      const el = document.getElementById('errOld');
       el.textContent = ' ' + msg;
       el.style.display = 'block';
     }
-
-    // Инициализация
     loadFromStorage();
-    loadFromStorageOld();
   </script>
 </body>
 </html>

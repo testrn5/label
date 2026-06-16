@@ -21,9 +21,8 @@ material_type — основной материал упаковки.
 size — размер упаковки: small (банка 0.33л, маленькая бутылка), medium (1л бутылка, пакет молока), large (1.5-2л бутылка, большая коробка), xlarge (канистра 5л+, большая коробка).
 Используй null, если поле неизвестно.`;
 
-// Список моделей для перебора (nex-n2-pro первая как основная)
 const MODEL_LIST = [
-  "nex-agi/nex-n2-pro:free",  // Основная рабочая модель
+  "nex-agi/nex-n2-pro:free",
   "google/gemini-2.0-flash-exp:free",
   "meta-llama/llama-3.2-90b-vision-instruct:free",
   "qwen/qwen2.5-vl-72b-instruct:free",
@@ -47,8 +46,8 @@ async function getFreeModels(apiKey: string) {
         const hasVision =
           (m.architecture?.modality || '').includes('image') ||
           (m.architecture?.modality || '').includes('vision') ||
-          (m.description || '').toLowerCase().includes('vision') ||          (m.name || '').toLowerCase().includes('vision') ||
-          (m.id || '').toLowerCase().includes('vision') ||
+          (m.description || '').toLowerCase().includes('vision') ||
+          (m.name || '').toLowerCase().includes('vision') ||          (m.id || '').toLowerCase().includes('vision') ||
           (m.id || '').toLowerCase().includes('vl') ||
           (m.id || '').toLowerCase().includes('pixtral') ||
           (m.id || '').toLowerCase().includes('gemini');
@@ -96,8 +95,8 @@ async function tryModel(model: string, image: string, mediaType: string, apiKey:
       code === 'model_not_found' ||
       code === 'model_unavailable' ||
       msg.includes('rate limit');
-    if (skip) return { success: false, skip: true, error: msg.slice(0, 80) };
-    return { success: false, skip: false, error: msg };
+
+    if (skip) return { success: false, skip: true, error: msg.slice(0, 80) };    return { success: false, skip: false, error: msg };
   }
 
   const text = data.choices?.[0]?.message?.content;
@@ -117,21 +116,14 @@ export async function POST(req: NextRequest) {
 
   let modelsToTry: string[] = [];
 
-  // Если указана конкретная модель для теста — используем только её
   if (useSpecificModel) {
     modelsToTry = [useSpecificModel];
   } else {
-    // Получаем все бесплатные модели
     const allModels = await getFreeModels(apiKey);
     if (allModels.length === 0) {
       return NextResponse.json({ error: 'Не удалось получить список бесплатных моделей' }, { status: 503 });
     }
 
-    // Формируем порядок: 
-    // 1. Сначала конкретная модель из списка (nex-n2-pro)
-    // 2. Затем preferredModels (из localStorage)
-    // 3. Затем остальные из MODEL_LIST
-    // 4. Затем все остальные
     const defaultModel = "nex-agi/nex-n2-pro:free";
     const preferred = (preferredModels || []).filter((m: string) => allModels.includes(m) && m !== defaultModel);
     const modelListFiltered = MODEL_LIST.filter(m => allModels.includes(m) && m !== defaultModel && !preferred.includes(m));
@@ -146,14 +138,14 @@ export async function POST(req: NextRequest) {
 
   const tried: string[] = [];
   const skipped: string[] = [];
+
   for (const model of modelsToTry) {
     tried.push(model);
     try {
       const result = await tryModel(model, image, mediaType, apiKey);
       if (result.success) {
         return NextResponse.json({
-          ...result.result,
-          _used_model: model,
+          ...result.result,          _used_model: model,
           _total_tried: tried.length,
           _total_skipped: skipped.length,
           _tried_models: tried,

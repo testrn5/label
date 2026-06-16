@@ -114,11 +114,15 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ image: img, mediaType: 'image/jpeg' })
         });
-        if (!res.ok) throw new Error();
-        result = await res.json();
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || "Ошибка сервера");
+        
+        result = data;
         showResult(result);
         document.getElementById('btnSave').disabled = false;
-      } catch { showError("Ошибка распознавания. Проверьте API ключ."); }
+      } catch (e) { 
+        showError(e.message); // Показывает реальную ошибку
+      }
       finally { document.getElementById('loader').classList.remove('on'); }
     };
 

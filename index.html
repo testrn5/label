@@ -11,7 +11,6 @@
       --accent: #818cf8; --accent-bg: rgba(99,102,241,0.15);
       --success: #22c55e; --success-bg: rgba(34,197,94,0.15);
       --danger: #ef4444; --danger-bg: rgba(239,68,68,0.15);
-      --warn: #f59e0b;
     }
     [data-theme="light"] {
       --bg: #f8fafc; --text: #0f172a; --text-muted: #64748b;
@@ -28,7 +27,6 @@
     .free-badge { display: inline-block; font-size: 10px; font-weight: 700; background: var(--success); color: #fff; padding: 3px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; -webkit-text-fill-color: #fff; }
     .theme-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text); cursor: pointer; font-weight: 600; }
 
-    /* Модель и кнопка смены */
     .model-status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; padding: 10px 14px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; font-size: 13px; }
     .model-label { color: var(--text-muted); font-weight: 500; }
     .model-name { color: var(--accent); font-weight: 600; font-family: monospace; font-size: 12px; }
@@ -39,7 +37,6 @@
 
     .preferred-info { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; padding: 8px 12px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--card-border); }
 
-    /* Видео с оверлеем */
     .video-container { position: relative; background: #111; border-radius: 16px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--card-border); }
     video, canvas { width: 100%; display: block; max-height: 420px; object-fit: contain; }
     .camera-overlay {
@@ -47,43 +44,28 @@
       left: 0; right: 0; bottom: 0;
       padding: 12px 14px;
       background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.9) 100%);
-      display: flex;      flex-wrap: wrap;
+      display: flex;
+      flex-wrap: wrap;
       gap: 8px;
-      align-items: center;
-      justify-content: center;
+      align-items: center;      justify-content: center;
     }
-    .camera-overlay .btn { font-size: 13px; padding: 8px 14px; }
 
-    /* Кнопки */
     .btn { padding: 10px 18px; border-radius: 10px; border: 1px solid transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(0.3); }
-
     .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
     .btn-primary:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
-
-    .btn-secondary { background: var(--card-bg); color: var(--text); border-color: var(--card-border); }
-    .btn-secondary:hover:not(:disabled) { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
-
     .btn-danger { background: var(--danger-bg); color: var(--danger); border-color: rgba(239,68,68,0.3); }
     .btn-danger:hover:not(:disabled) { background: var(--danger); color: #fff; }
-
     .btn-success { background: var(--success-bg); color: var(--success); border-color: rgba(34,197,94,0.3); }
     .btn-success:hover:not(:disabled) { background: var(--success); color: #fff; }
-
     .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--card-border); }
     .btn-ghost:hover:not(:disabled) { color: var(--text); background: var(--card-bg); }
-
     .btn-large { padding: 12px 24px; font-size: 15px; }
 
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px; }
     .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; text-align: center; }
     .stat-value { font-size: 24px; font-weight: 700; color: var(--accent); }
     .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
-
-    .loader { display: none; text-align: center; padding: 24px; color: var(--accent); }
-    .loader.active { display: block; }
-    .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid rgba(99,102,241,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 8px; }
-    @keyframes spin { to { transform: rotate(360deg); } }
 
     .result-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
     .result-header { padding: 16px 20px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
@@ -96,7 +78,8 @@
     .field-value { color: var(--text); font-size: 14px; flex: 1; }
     .model-info { padding: 12px 20px; background: rgba(99,102,241,0.05); font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--card-border); }
 
-    .history { margin-top: 20px; }    .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+    .history { margin-top: 20px; }
+    .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .history h3 { font-size: 16px; margin: 0; color: var(--text-muted); }
     .history-list { list-style: none; padding: 0; }
     .history-item { border: 1px solid var(--card-border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; background: var(--card-bg); }
@@ -113,11 +96,10 @@
     .detail-label { min-width: 120px; color: var(--text-muted); font-weight: 500; }
     .detail-value { color: var(--text); flex: 1; }
     .weight-calc { background: var(--success-bg); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 8px 12px; margin-top: 8px; font-size: 12px; color: var(--success); }
-
     .err { background: var(--danger-bg); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 12px 16px; color: var(--danger); font-size: 14px; margin-bottom: 16px; }
 
-    /* Скрываем кнопки управления камерой вне оверлея */
-    .camera-controls-hidden { display: none; }
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
@@ -142,18 +124,16 @@
 
     <div class="err" id="err" style="display:none"></div>
 
-    <!-- Видео с оверлеем кнопок -->
     <div class="video-container">
       <video id="vid" autoplay playsinline muted></video>
-      <canvas id="can" style="display:none"></canvas>      <div class="camera-overlay" id="cameraOverlay">
-        <button class="btn btn-primary" onclick="startCam()" id="btnStart">▶ Включить камеру</button>
-        <button class="btn btn-danger" onclick="stopCam()" id="btnStop" disabled>⏹ Стоп камера</button>
-        <button class="btn btn-success btn-large" onclick="recognize()" id="btnRec" disabled>🔍 Распознать</button>
-        <button class="btn btn-ghost" onclick="save()" id="btnSave" disabled>💾 Сохранить</button>
-        <button class="btn btn-ghost" id="btnAiStatus" style="display:none">
-          <span class="spinner" style="width:14px;height:14px;border-width:2px;margin-right:6px"></span>
-          Анализ по AI...
-        </button>
+      <canvas id="can" style="display:none"></canvas>
+      <div class="camera-overlay" id="cameraOverlay">
+        <!-- Кнопка камеры (toggle) -->
+        <button class="btn btn-primary" onclick="toggleCamera()" id="btnCamera">▶ Включить камеру</button>
+        <!-- Кнопка действия (Распознать / Сохранить / Анализ) -->
+        <button class="btn btn-success btn-large" onclick="handleAction()" id="btnAction" disabled>🔍 Распознать</button>
+        <!-- Кнопка отмены (появляется после распознавания) -->
+        <button class="btn btn-ghost" onclick="cancelResult()" id="btnCancel" style="display:none">✕ Отменить</button>
       </div>
     </div>
 
@@ -165,8 +145,7 @@
       <div class="stat-card">
         <div class="stat-value" id="sRec">0</div>
         <div class="stat-label">♻ Перераб.</div>
-      </div>
-      <div class="stat-card">
+      </div>      <div class="stat-card">
         <div class="stat-value" id="sW">0 г</div>
         <div class="stat-label">Вес пустой тары</div>
       </div>
@@ -194,8 +173,10 @@
   <script>
     let stream, result, stats = { total: 0, rec: 0, w: 0 };
     let history = [];
-    let preferredModels = [];    let currentModel = "nex-agi/nex-n2-pro:free";
+    let preferredModels = [];
+    let currentModel = "nex-agi/nex-n2-pro:free";
     let expandedId = null;
+    let actionState = 'recognize'; // 'recognize' | 'saving' | 'analyzing'
 
     const MATERIAL_DENSITY = { plastic: 200, glass: 500, aluminum: 300, paper: 150, cardboard: 180, metal: 400, other: 250 };
     const SIZE_VOLUME = { small: 0.0008, medium: 0.002, large: 0.005, xlarge: 0.015 };
@@ -213,8 +194,7 @@
         const savedModels = localStorage.getItem("recognizer_preferred_models");
         if (savedModels) { preferredModels = JSON.parse(savedModels); updatePreferredUI(); }
         const savedHistory = localStorage.getItem("recognizer_history");
-        if (savedHistory) { history = JSON.parse(savedHistory); renderHistory(); }
-        const savedStats = localStorage.getItem("recognizer_stats");
+        if (savedHistory) { history = JSON.parse(savedHistory); renderHistory(); }        const savedStats = localStorage.getItem("recognizer_stats");
         if (savedStats) { stats = JSON.parse(savedStats); updateStats(); }
       } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }
     }
@@ -241,40 +221,44 @@
       document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
     }
 
-    async function startCam() {
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });        document.getElementById('vid').srcObject = stream;
-        document.getElementById('btnStart').disabled = true;
-        document.getElementById('btnStop').disabled = false;
-        document.getElementById('btnRec').disabled = false;
-        document.getElementById('btnSwitch').disabled = false;
-        document.getElementById('err').style.display = 'none';
-      } catch (e) { showError("Ошибка камеры: " + e.message); }
+    // Toggle камеры: одна кнопка меняет состояние
+    async function toggleCamera() {
+      if (stream) {
+        // Выключаем
+        stream.getTracks().forEach(t => t.stop());
+        stream = null;
+        document.getElementById('vid').srcObject = null;
+        document.getElementById('btnCamera').innerHTML = '▶ Включить камеру';
+        document.getElementById('btnCamera').classList.remove('btn-danger');
+        document.getElementById('btnCamera').classList.add('btn-primary');
+        document.getElementById('btnAction').disabled = true;
+        document.getElementById('btnSwitch').disabled = true;
+        cancelResult(); // сбрасываем результат при выключении
+      } else {
+        // Включаем
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+          document.getElementById('vid').srcObject = stream;
+          document.getElementById('btnCamera').innerHTML = '⏹ Выключить камеру';
+          document.getElementById('btnCamera').classList.remove('btn-primary');
+          document.getElementById('btnCamera').classList.add('btn-danger');
+          document.getElementById('btnAction').disabled = false;
+          document.getElementById('btnSwitch').disabled = false;          document.getElementById('err').style.display = 'none';
+        } catch (e) { showError("Ошибка камеры: " + e.message); }
+      }
     }
 
-    function stopCam() {
-      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
-      document.getElementById('vid').srcObject = null;
-      document.getElementById('btnStart').disabled = false;
-      document.getElementById('btnStop').disabled = true;
-      document.getElementById('btnRec').disabled = true;
-      document.getElementById('btnSwitch').disabled = true;
-      document.getElementById('btnSave').disabled = true;
-      document.getElementById('res').style.display = 'none';
-      hideAiStatus();
+    // Обработчик главной кнопки действия (Распознать / Сохранить)
+    async function handleAction() {
+      if (actionState === 'recognize') {
+        await doRecognize();
+      } else if (actionState === 'saving') {
+        doSave();
+      }
     }
 
-    function showAiStatus() {
-      document.getElementById('btnAiStatus').style.display = 'inline-flex';
-      document.getElementById('btnRec').disabled = true; // Дизейблим кнопку Распознать
-    }
-
-    function hideAiStatus() {
-      document.getElementById('btnAiStatus').style.display = 'none';
-      if (stream) document.getElementById('btnRec').disabled = false;
-    }
-
-    async function recognize(specificModel) {
+    // Распознавание
+    async function doRecognize(specificModel) {
       const vid = document.getElementById('vid');
       const can = document.getElementById('can');
       can.width = vid.videoWidth;
@@ -282,9 +266,15 @@
       can.getContext('2d').drawImage(vid, 0, 0);
       const img = can.toDataURL('image/jpeg', 0.8).split(',')[1];
 
-      showAiStatus();
+      // Состояние "анализ"
+      actionState = 'analyzing';
+      const btnAction = document.getElementById('btnAction');
+      btnAction.disabled = true;
+      btnAction.innerHTML = '<span class="spinner"></span> Анализ по AI...';
+      btnAction.classList.remove('btn-success');
+      btnAction.classList.add('btn-primary');
       document.getElementById('res').style.display = 'none';
-      document.getElementById('btnSave').disabled = true;
+      document.getElementById('btnCancel').style.display = 'none';
       document.getElementById('err').style.display = 'none';
 
       try {
@@ -292,7 +282,8 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            image: img,            mediaType: 'image/jpeg',
+            image: img,
+            mediaType: 'image/jpeg',
             preferredModels: preferredModels,
             useSpecificModel: specificModel
           })
@@ -301,8 +292,7 @@
         if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
         
         result = data;
-        currentModel = data._used_model || currentModel;
-        document.getElementById('currentModel').textContent = currentModel;
+        currentModel = data._used_model || currentModel;        document.getElementById('currentModel').textContent = currentModel;
 
         if (data._used_model && !preferredModels.includes(data._used_model)) {
           preferredModels = [data._used_model, ...preferredModels].slice(0, 5);
@@ -311,54 +301,27 @@
         }
 
         showResult(data);
-        document.getElementById('btnSave').disabled = false;
-      } catch (e) { showError(e.message); }
-      finally { hideAiStatus(); }
-    }
 
-    async function switchToNextModel() {
-      if (!stream) { showError("Сначала включите камеру"); return; }
-      document.getElementById('btnSwitch').disabled = true;
-      document.getElementById('err').style.display = 'none';
-      try {
-        const modelsRes = await fetch('/api/models');
-        const modelsData = await modelsRes.json();
-        if (!modelsData.models || modelsData.models.length === 0) throw new Error("Не удалось получить список моделей");
-        const currentIndex = modelsData.models.findIndex(m => m.id === currentModel);
-        const nextIndex = (currentIndex + 1) % modelsData.models.length;
-        const nextModel = modelsData.models[nextIndex].id;
-        await recognize(nextModel);
-      } catch (e) { showError(e.message); }
-      finally { document.getElementById('btnSwitch').disabled = false; }
-    }
+        // Переключаем кнопку в режим "Сохранить"
+        actionState = 'saving';
+        btnAction.disabled = false;
+        btnAction.innerHTML = '💾 Сохранить';
+        btnAction.classList.remove('btn-primary');
+        btnAction.classList.add('btn-success');
+        document.getElementById('btnCancel').style.display = 'inline-flex';
 
-    function showResult(r) {
-      const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
-      const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
-      document.getElementById('conf').textContent = `Точность: ${labels[r.confidence]}`;
-      document.getElementById('conf').style.background = `${colors[r.confidence]}18`;
-      document.getElementById('conf').style.color = colors[r.confidence];
-      document.getElementById('conf').style.border = `1px solid ${colors[r.confidence]}40`;
-      document.getElementById('desc').textContent = r.description || '';
-      const fields = [
-        ['Название', r.product_name], ['Производитель', r.manufacturer],        ['Бренд', r.brand], ['Страна', r.country], ['Категория', r.category],
-        ['Материал', MATERIAL_LABELS[r.material_type || 'other']],
-        ['Размер', SIZE_LABELS[r.size || 'medium']],
-        ['Вес пустой тары', `${calculateEmptyWeight(r.material_type || 'other', r.size || 'medium')} г`],
-        ['Указанный вес', r.weight || '—'],
-        ['Переработка', r.recyclable ? '♻ Да' : '✗ Нет'],
-        ['Штрихкод', r.barcode || '—'], ['Состав', r.ingredients || '—']
-      ];
-      document.getElementById('fields').innerHTML = fields.map(([l, v]) => 
-        `<div class="field"><span class="field-label">${l}</span><span class="field-value">${v || '—'}</span></div>`
-      ).join('');
-      if (r._used_model) {
-        document.getElementById('modelInfo').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
+      } catch (e) {
+        showError(e.message);
+        actionState = 'recognize';
+        btnAction.disabled = false;
+        btnAction.innerHTML = ' Распознать';
+        btnAction.classList.remove('btn-primary');
+        btnAction.classList.add('btn-success');
       }
-      document.getElementById('res').style.display = 'block';
     }
 
-    function save() {
+    // Сохранение результата
+    function doSave() {
       if (!result) return;
       const calculatedWeight = calculateEmptyWeight(result.material_type || 'other', result.size || 'medium');
       const newItem = {
@@ -375,9 +338,71 @@
       history = [newItem, ...history].slice(0, 50);
       localStorage.setItem("recognizer_history", JSON.stringify(history));
       renderHistory();
+
+      // Возвращаем кнопку в режим "Распознать"
+      actionState = 'recognize';
+      const btnAction = document.getElementById('btnAction');      btnAction.innerHTML = '🔍 Распознать';
+      btnAction.classList.remove('btn-primary');
+      btnAction.classList.add('btn-success');
+      document.getElementById('btnCancel').style.display = 'none';
       document.getElementById('res').style.display = 'none';
-      document.getElementById('btnSave').disabled = true;
       result = null;
+    }
+
+    // Отмена результата
+    function cancelResult() {
+      actionState = 'recognize';
+      const btnAction = document.getElementById('btnAction');
+      btnAction.innerHTML = '🔍 Распознать';
+      btnAction.classList.remove('btn-primary');
+      btnAction.classList.add('btn-success');
+      btnAction.disabled = !stream;
+      document.getElementById('btnCancel').style.display = 'none';
+      document.getElementById('res').style.display = 'none';
+      result = null;
+    }
+
+    // Смена модели
+    async function switchToNextModel() {
+      if (!stream) { showError("Сначала включите камеру"); return; }
+      document.getElementById('btnSwitch').disabled = true;
+      document.getElementById('err').style.display = 'none';
+      try {
+        const modelsRes = await fetch('/api/models');
+        const modelsData = await modelsRes.json();
+        if (!modelsData.models || modelsData.models.length === 0) throw new Error("Не удалось получить список моделей");
+        const currentIndex = modelsData.models.findIndex(m => m.id === currentModel);
+        const nextIndex = (currentIndex + 1) % modelsData.models.length;
+        const nextModel = modelsData.models[nextIndex].id;
+        await doRecognize(nextModel);
+      } catch (e) { showError(e.message); }
+      finally { document.getElementById('btnSwitch').disabled = false; }
+    }
+
+    function showResult(r) {
+      const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
+      const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
+      document.getElementById('conf').textContent = `Точность: ${labels[r.confidence]}`;
+      document.getElementById('conf').style.background = `${colors[r.confidence]}18`;
+      document.getElementById('conf').style.color = colors[r.confidence];
+      document.getElementById('conf').style.border = `1px solid ${colors[r.confidence]}40`;
+      document.getElementById('desc').textContent = r.description || '';
+      const fields = [
+        ['Название', r.product_name], ['Производитель', r.manufacturer],
+        ['Бренд', r.brand], ['Страна', r.country], ['Категория', r.category],
+        ['Материал', MATERIAL_LABELS[r.material_type || 'other']],        ['Размер', SIZE_LABELS[r.size || 'medium']],
+        ['Вес пустой тары', `${calculateEmptyWeight(r.material_type || 'other', r.size || 'medium')} г`],
+        ['Указанный вес', r.weight || '—'],
+        ['Переработка', r.recyclable ? '♻ Да' : '✗ Нет'],
+        ['Штрихкод', r.barcode || '—'], ['Состав', r.ingredients || '—']
+      ];
+      document.getElementById('fields').innerHTML = fields.map(([l, v]) => 
+        `<div class="field"><span class="field-label">${l}</span><span class="field-value">${v || '—'}</span></div>`
+      ).join('');
+      if (r._used_model) {
+        document.getElementById('modelInfo').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
+      }
+      document.getElementById('res').style.display = 'block';
     }
 
     function renderHistory() {
@@ -390,7 +415,8 @@
       }
       list.innerHTML = history.map(item => `
         <li class="history-item">
-          <div class="history-item-header" onclick="toggleExpand(${item.id})">            <div>
+          <div class="history-item-header" onclick="toggleExpand(${item.id})">
+            <div>
               <div class="history-item-title">${item.recyclable ? '♻' : ''} ${item.product_name}</div>
               <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.calculated_weight} г</div>
             </div>
@@ -413,8 +439,7 @@
 
     function clearHistory() {
       if (!confirm('Очистить всю историю и статистику?')) return;
-      history = []; stats = { total: 0, rec: 0, w: 0 };
-      localStorage.removeItem("recognizer_history");
+      history = []; stats = { total: 0, rec: 0, w: 0 };      localStorage.removeItem("recognizer_history");
       localStorage.removeItem("recognizer_stats");
       updateStats(); renderHistory();
     }

@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
 
-// Кеш списка моделей (обновляется раз в час)
 let cachedModels: any[] = null;
 let cacheTime = 0;
-const CACHE_TTL = 60 * 60 * 1000; // 1 час
+const CACHE_TTL = 60 * 60 * 1000;
 
 export async function GET() {
-  // Возвращаем кеш, если он свежий
   if (cachedModels && Date.now() - cacheTime < CACHE_TTL) {
     return NextResponse.json({ models: cachedModels, cached: true });
   }
@@ -15,14 +13,13 @@ export async function GET() {
     const response = await fetch('https://openrouter.ai/api/v1/models');
     const data = await response.json();
 
-    // Фильтруем: price=0 и поддержка vision
     const freeVisionModels = (data.data || [])
       .filter((m: any) => {
         const pricing = m.pricing || {};
         const promptPrice = parseFloat(pricing.prompt || '1');
         const completionPrice = parseFloat(pricing.completion || '1');
         const isFree = promptPrice === 0 && completionPrice === 0;
-        const hasVision = 
+        const hasVision =
           (m.architecture?.modality || '').includes('image') ||
           (m.architecture?.modality || '').includes('vision') ||
           (m.description || '').toLowerCase().includes('vision') ||

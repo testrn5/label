@@ -106,7 +106,7 @@
   <div class="container">
     <div class="header">
       <h1>♻ Распознавание v2.9<span class="free-badge">FREE</span></h1>
-      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 Темная</button>
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn"> Темная</button>
     </div>
 
     <div class="model-status">
@@ -128,11 +128,8 @@
       <video id="vid" autoplay playsinline muted></video>
       <canvas id="can" style="display:none"></canvas>
       <div class="camera-overlay" id="cameraOverlay">
-        <!-- Кнопка камеры (toggle) -->
         <button class="btn btn-primary" onclick="toggleCamera()" id="btnCamera">▶ Включить камеру</button>
-        <!-- Кнопка действия (Распознать / Сохранить / Анализ) -->
         <button class="btn btn-success btn-large" onclick="handleAction()" id="btnAction" disabled>🔍 Распознать</button>
-        <!-- Кнопка отмены (появляется после распознавания) -->
         <button class="btn btn-ghost" onclick="cancelResult()" id="btnCancel" style="display:none">✕ Отменить</button>
       </div>
     </div>
@@ -145,10 +142,10 @@
       <div class="stat-card">
         <div class="stat-value" id="sRec">0</div>
         <div class="stat-label">♻ Перераб.</div>
-      </div>      <div class="stat-card">
-        <div class="stat-value" id="sW">0 г</div>
-        <div class="stat-label">Вес пустой тары</div>
       </div>
+      <div class="stat-card">
+        <div class="stat-value" id="sW">0 г</div>
+        <div class="stat-label">Вес пустой тары</div>      </div>
     </div>
 
     <div class="result-card" id="res" style="display:none">
@@ -176,7 +173,7 @@
     let preferredModels = [];
     let currentModel = "nex-agi/nex-n2-pro:free";
     let expandedId = null;
-    let actionState = 'recognize'; // 'recognize' | 'saving' | 'analyzing'
+    let actionState = 'recognize';
 
     const MATERIAL_DENSITY = { plastic: 200, glass: 500, aluminum: 300, paper: 150, cardboard: 180, metal: 400, other: 250 };
     const SIZE_VOLUME = { small: 0.0008, medium: 0.002, large: 0.005, xlarge: 0.015 };
@@ -194,10 +191,10 @@
         const savedModels = localStorage.getItem("recognizer_preferred_models");
         if (savedModels) { preferredModels = JSON.parse(savedModels); updatePreferredUI(); }
         const savedHistory = localStorage.getItem("recognizer_history");
-        if (savedHistory) { history = JSON.parse(savedHistory); renderHistory(); }        const savedStats = localStorage.getItem("recognizer_stats");
+        if (savedHistory) { history = JSON.parse(savedHistory); renderHistory(); }
+        const savedStats = localStorage.getItem("recognizer_stats");
         if (savedStats) { stats = JSON.parse(savedStats); updateStats(); }
-      } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }
-    }
+      } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }    }
 
     function updatePreferredUI() {
       if (preferredModels.length > 0) {
@@ -221,10 +218,8 @@
       document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
     }
 
-    // Toggle камеры: одна кнопка меняет состояние
     async function toggleCamera() {
       if (stream) {
-        // Выключаем
         stream.getTracks().forEach(t => t.stop());
         stream = null;
         document.getElementById('vid').srcObject = null;
@@ -233,9 +228,8 @@
         document.getElementById('btnCamera').classList.add('btn-primary');
         document.getElementById('btnAction').disabled = true;
         document.getElementById('btnSwitch').disabled = true;
-        cancelResult(); // сбрасываем результат при выключении
+        cancelResult();
       } else {
-        // Включаем
         try {
           stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
           document.getElementById('vid').srcObject = stream;
@@ -243,30 +237,31 @@
           document.getElementById('btnCamera').classList.remove('btn-primary');
           document.getElementById('btnCamera').classList.add('btn-danger');
           document.getElementById('btnAction').disabled = false;
-          document.getElementById('btnSwitch').disabled = false;          document.getElementById('err').style.display = 'none';
+          document.getElementById('btnSwitch').disabled = false;
+          document.getElementById('err').style.display = 'none';
         } catch (e) { showError("Ошибка камеры: " + e.message); }
       }
     }
 
-    // Обработчик главной кнопки действия (Распознать / Сохранить)
-    async function handleAction() {
-      if (actionState === 'recognize') {
+    async function handleAction() {      if (actionState === 'recognize') {
         await doRecognize();
       } else if (actionState === 'saving') {
         doSave();
       }
     }
 
-    // Распознавание
     async function doRecognize(specificModel) {
       const vid = document.getElementById('vid');
       const can = document.getElementById('can');
-      can.width = vid.videoWidth;
-      can.height = vid.videoHeight;
-      can.getContext('2d').drawImage(vid, 0, 0);
-      const img = can.toDataURL('image/jpeg', 0.8).split(',')[1];
+      
+      const maxDim = 1024;
+      const scale = Math.min(maxDim / vid.videoWidth, maxDim / vid.videoHeight, 1);
+      can.width = vid.videoWidth * scale;
+      can.height = vid.videoHeight * scale;
+      
+      can.getContext('2d').drawImage(vid, 0, 0, can.width, can.height);
+      const img = can.toDataURL('image/jpeg', 0.6).split(',')[1];
 
-      // Состояние "анализ"
       actionState = 'analyzing';
       const btnAction = document.getElementById('btnAction');
       btnAction.disabled = true;
@@ -292,17 +287,16 @@
         if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
         
         result = data;
-        currentModel = data._used_model || currentModel;        document.getElementById('currentModel').textContent = currentModel;
+        currentModel = data._used_model || currentModel;
+        document.getElementById('currentModel').textContent = currentModel;
 
         if (data._used_model && !preferredModels.includes(data._used_model)) {
           preferredModels = [data._used_model, ...preferredModels].slice(0, 5);
-          localStorage.setItem("recognizer_preferred_models", JSON.stringify(preferredModels));
-          updatePreferredUI();
+          localStorage.setItem("recognizer_preferred_models", JSON.stringify(preferredModels));          updatePreferredUI();
         }
 
         showResult(data);
 
-        // Переключаем кнопку в режим "Сохранить"
         actionState = 'saving';
         btnAction.disabled = false;
         btnAction.innerHTML = '💾 Сохранить';
@@ -314,13 +308,12 @@
         showError(e.message);
         actionState = 'recognize';
         btnAction.disabled = false;
-        btnAction.innerHTML = ' Распознать';
+        btnAction.innerHTML = '🔍 Распознать';
         btnAction.classList.remove('btn-primary');
         btnAction.classList.add('btn-success');
       }
     }
 
-    // Сохранение результата
     function doSave() {
       if (!result) return;
       const calculatedWeight = calculateEmptyWeight(result.material_type || 'other', result.size || 'medium');
@@ -339,17 +332,15 @@
       localStorage.setItem("recognizer_history", JSON.stringify(history));
       renderHistory();
 
-      // Возвращаем кнопку в режим "Распознать"
       actionState = 'recognize';
-      const btnAction = document.getElementById('btnAction');      btnAction.innerHTML = '🔍 Распознать';
+      const btnAction = document.getElementById('btnAction');
+      btnAction.innerHTML = '🔍 Распознать';
       btnAction.classList.remove('btn-primary');
       btnAction.classList.add('btn-success');
       document.getElementById('btnCancel').style.display = 'none';
       document.getElementById('res').style.display = 'none';
       result = null;
     }
-
-    // Отмена результата
     function cancelResult() {
       actionState = 'recognize';
       const btnAction = document.getElementById('btnAction');
@@ -362,7 +353,6 @@
       result = null;
     }
 
-    // Смена модели
     async function switchToNextModel() {
       if (!stream) { showError("Сначала включите камеру"); return; }
       document.getElementById('btnSwitch').disabled = true;
@@ -390,7 +380,8 @@
       const fields = [
         ['Название', r.product_name], ['Производитель', r.manufacturer],
         ['Бренд', r.brand], ['Страна', r.country], ['Категория', r.category],
-        ['Материал', MATERIAL_LABELS[r.material_type || 'other']],        ['Размер', SIZE_LABELS[r.size || 'medium']],
+        ['Материал', MATERIAL_LABELS[r.material_type || 'other']],
+        ['Размер', SIZE_LABELS[r.size || 'medium']],
         ['Вес пустой тары', `${calculateEmptyWeight(r.material_type || 'other', r.size || 'medium')} г`],
         ['Указанный вес', r.weight || '—'],
         ['Переработка', r.recyclable ? '♻ Да' : '✗ Нет'],
@@ -399,8 +390,7 @@
       document.getElementById('fields').innerHTML = fields.map(([l, v]) => 
         `<div class="field"><span class="field-label">${l}</span><span class="field-value">${v || '—'}</span></div>`
       ).join('');
-      if (r._used_model) {
-        document.getElementById('modelInfo').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
+      if (r._used_model) {        document.getElementById('modelInfo').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
       }
       document.getElementById('res').style.display = 'block';
     }
@@ -439,17 +429,17 @@
 
     function clearHistory() {
       if (!confirm('Очистить всю историю и статистику?')) return;
-      history = []; stats = { total: 0, rec: 0, w: 0 };      localStorage.removeItem("recognizer_history");
+      history = []; stats = { total: 0, rec: 0, w: 0 };
+      localStorage.removeItem("recognizer_history");
       localStorage.removeItem("recognizer_stats");
       updateStats(); renderHistory();
     }
 
     function showError(msg) {
       const el = document.getElementById('err');
-      el.textContent = '⚠ ' + msg;
+      el.textContent = ' ' + msg;
       el.style.display = 'block';
     }
-
     loadFromStorage();
   </script>
 </body>

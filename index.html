@@ -9,54 +9,99 @@
       --bg: #0a0a0f; --text: #e8e8f0; --text-muted: #6b7280;
       --card-bg: rgba(255,255,255,0.03); --card-border: rgba(255,255,255,0.08);
       --accent: #818cf8; --accent-bg: rgba(99,102,241,0.15);
+      --success: #22c55e; --success-bg: rgba(34,197,94,0.15);
+      --danger: #ef4444; --danger-bg: rgba(239,68,68,0.15);
+      --warn: #f59e0b;
     }
     [data-theme="light"] {
       --bg: #f8fafc; --text: #0f172a; --text-muted: #64748b;
       --card-bg: #ffffff; --card-border: #e2e8f0;
       --accent: #4f46e5; --accent-bg: rgba(79, 70, 229, 0.1);
+      --success: #16a34a; --success-bg: rgba(22,163,74,0.1);
+      --danger: #dc2626; --danger-bg: rgba(220,38,38,0.1);
     }
     * { box-sizing: border-box; }
     body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; margin: 0; transition: background 0.3s, color 0.3s; }
     .container { max-width: 760px; margin: 0 auto; }
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
     h1 { font-size: 28px; font-weight: 700; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-    .free-badge { display: inline-block; font-size: 10px; font-weight: 700; background: #22c55e; color: #000; padding: 3px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; -webkit-text-fill-color: #000; }
+    .free-badge { display: inline-block; font-size: 10px; font-weight: 700; background: var(--success); color: #fff; padding: 3px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; -webkit-text-fill-color: #fff; }
     .theme-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text); cursor: pointer; font-weight: 600; }
-    .model-status { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; padding: 12px 16px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; font-size: 13px; }
+
+    /* Модель и кнопка смены */
+    .model-status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; padding: 10px 14px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; font-size: 13px; }
     .model-label { color: var(--text-muted); font-weight: 500; }
     .model-name { color: var(--accent); font-weight: 600; font-family: monospace; font-size: 12px; }
-    .model-badge { background: rgba(34, 197, 94, 0.15); color: #22c55e; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+    .model-badge { background: var(--success-bg); color: var(--success); padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
+    .btn-switch { padding: 4px 10px; border-radius: 6px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-muted); cursor: pointer; font-size: 11px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+    .btn-switch:hover:not(:disabled) { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
+    .btn-switch:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .preferred-info { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; padding: 8px 12px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--card-border); }
+
+    /* Видео с оверлеем */
     .video-container { position: relative; background: #111; border-radius: 16px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--card-border); }
-    video, canvas { width: 100%; display: block; max-height: 400px; object-fit: contain; }
-    .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
-    .btn { padding: 10px 20px; border-radius: 10px; border: 1px solid rgba(99,102,241,0.4); background: var(--accent-bg); color: var(--accent); font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 14px; }
-    .btn:hover:not(:disabled) { filter: brightness(1.1); }
-    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .btn-danger { background: rgba(239,68,68,0.15); color: #ef4444; border-color: rgba(239,68,68,0.4); }
+    video, canvas { width: 100%; display: block; max-height: 420px; object-fit: contain; }
+    .camera-overlay {
+      position: absolute;
+      left: 0; right: 0; bottom: 0;
+      padding: 12px 14px;
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.9) 100%);
+      display: flex;      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: center;
+    }
+    .camera-overlay .btn { font-size: 13px; padding: 8px 14px; }
+
+    /* Кнопки */
+    .btn { padding: 10px 18px; border-radius: 10px; border: 1px solid transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(0.3); }
+
+    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .btn-primary:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
+
+    .btn-secondary { background: var(--card-bg); color: var(--text); border-color: var(--card-border); }
+    .btn-secondary:hover:not(:disabled) { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
+
+    .btn-danger { background: var(--danger-bg); color: var(--danger); border-color: rgba(239,68,68,0.3); }
+    .btn-danger:hover:not(:disabled) { background: var(--danger); color: #fff; }
+
+    .btn-success { background: var(--success-bg); color: var(--success); border-color: rgba(34,197,94,0.3); }
+    .btn-success:hover:not(:disabled) { background: var(--success); color: #fff; }
+
+    .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--card-border); }
+    .btn-ghost:hover:not(:disabled) { color: var(--text); background: var(--card-bg); }
+
+    .btn-large { padding: 12px 24px; font-size: 15px; }
+
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px; }
     .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; text-align: center; }
     .stat-value { font-size: 24px; font-weight: 700; color: var(--accent); }
     .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
+
     .loader { display: none; text-align: center; padding: 24px; color: var(--accent); }
     .loader.active { display: block; }
     .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid rgba(99,102,241,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 8px; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
     .result-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
     .result-header { padding: 16px 20px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
     .result-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
     .confidence-badge { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
     .result-desc { padding: 16px 20px; border-bottom: 1px solid var(--card-border); font-size: 14px; color: var(--text-muted); line-height: 1.5; }
     .field { display: flex; padding: 12px 20px; border-bottom: 1px solid var(--card-border); }
-    .field:last-child { border-bottom: none; }    .field-label { min-width: 130px; color: var(--text-muted); font-size: 13px; font-weight: 500; }
+    .field:last-child { border-bottom: none; }
+    .field-label { min-width: 130px; color: var(--text-muted); font-size: 13px; font-weight: 500; }
     .field-value { color: var(--text); font-size: 14px; flex: 1; }
     .model-info { padding: 12px 20px; background: rgba(99,102,241,0.05); font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--card-border); }
-    .history { margin-top: 20px; }
-    .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+
+    .history { margin-top: 20px; }    .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .history h3 { font-size: 16px; margin: 0; color: var(--text-muted); }
     .history-list { list-style: none; padding: 0; }
     .history-item { border: 1px solid var(--card-border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; background: var(--card-bg); }
     .history-item-header { padding: 12px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; }
-    .history-item-header:hover { background: rgba(99,102,241,0.05); }
+    .history-item-header:hover { background: var(--accent-bg); }
     .history-item-title { font-weight: 600; font-size: 14px; color: var(--text); }
     .history-item-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
     .history-item-arrow { font-size: 12px; color: var(--text-muted); transition: transform 0.2s; }
@@ -67,9 +112,12 @@
     .detail-row:last-child { border-bottom: none; }
     .detail-label { min-width: 120px; color: var(--text-muted); font-weight: 500; }
     .detail-value { color: var(--text); flex: 1; }
-    .weight-calc { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 8px 12px; margin-top: 8px; font-size: 12px; color: #22c55e; }
-    .err { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 12px 16px; color: #ef4444; font-size: 14px; margin-bottom: 16px; }
-    .preferred-info { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; padding: 8px 12px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--card-border); }
+    .weight-calc { background: var(--success-bg); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 8px 12px; margin-top: 8px; font-size: 12px; color: var(--success); }
+
+    .err { background: var(--danger-bg); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 12px 16px; color: var(--danger); font-size: 14px; margin-bottom: 16px; }
+
+    /* Скрываем кнопки управления камерой вне оверлея */
+    .camera-controls-hidden { display: none; }
   </style>
 </head>
 <body>
@@ -82,6 +130,9 @@
     <div class="model-status">
       <span class="model-label">📡 Модель:</span>
       <span class="model-name" id="currentModel">nex-agi/nex-n2-pro:free</span>
+      <button class="btn-switch" onclick="switchToNextModel()" id="btnSwitch" disabled title="Переключиться на следующую модель">
+        🔄 Сменить
+      </button>
       <span class="model-badge" id="preferredBadge" style="display:none">⚡ <span id="preferredCount">0</span> в приоритете</span>
     </div>
 
@@ -91,17 +142,19 @@
 
     <div class="err" id="err" style="display:none"></div>
 
+    <!-- Видео с оверлеем кнопок -->
     <div class="video-container">
       <video id="vid" autoplay playsinline muted></video>
-      <canvas id="can" style="display:none"></canvas>
-    </div>
-
-    <div class="controls">      <button class="btn" onclick="startCam()" id="btnStart">Включить камеру</button>
-      <button class="btn" onclick="stopCam()" id="btnStop" disabled>Стоп</button>
-      <button class="btn" onclick="recognize()" id="btnRec" disabled>Распознать</button>
-      <button class="btn" onclick="switchToNextModel()" id="btnSwitch" disabled>🔄 Сменить модель</button>
-      <button class="btn" onclick="save()" id="btnSave" disabled>Сохранить</button>
-      <button class="btn btn-danger" onclick="clearHistory()" id="btnClear" disabled>Очистить</button>
+      <canvas id="can" style="display:none"></canvas>      <div class="camera-overlay" id="cameraOverlay">
+        <button class="btn btn-primary" onclick="startCam()" id="btnStart">▶ Включить камеру</button>
+        <button class="btn btn-danger" onclick="stopCam()" id="btnStop" disabled>⏹ Стоп камера</button>
+        <button class="btn btn-success btn-large" onclick="recognize()" id="btnRec" disabled>🔍 Распознать</button>
+        <button class="btn btn-ghost" onclick="save()" id="btnSave" disabled>💾 Сохранить</button>
+        <button class="btn btn-ghost" id="btnAiStatus" style="display:none">
+          <span class="spinner" style="width:14px;height:14px;border-width:2px;margin-right:6px"></span>
+          Анализ по AI...
+        </button>
+      </div>
     </div>
 
     <div class="stats">
@@ -119,10 +172,6 @@
       </div>
     </div>
 
-    <div class="loader" id="loader">
-      <span class="spinner"></span> Анализируем через AI...
-    </div>
-
     <div class="result-card" id="res" style="display:none">
       <div class="result-header">
         <span class="result-title">Результат</span>
@@ -136,6 +185,7 @@
     <div class="history">
       <div class="history-header">
         <h3>История операций (<span id="historyCount">0</span>)</h3>
+        <button class="btn btn-ghost" onclick="clearHistory()" id="btnClear" disabled style="font-size:12px;padding:6px 12px">Очистить</button>
       </div>
       <ul class="history-list" id="historyList"></ul>
     </div>
@@ -144,8 +194,8 @@
   <script>
     let stream, result, stats = { total: 0, rec: 0, w: 0 };
     let history = [];
-    let preferredModels = [];
-    let currentModel = "nex-agi/nex-n2-pro:free";    let expandedId = null;
+    let preferredModels = [];    let currentModel = "nex-agi/nex-n2-pro:free";
+    let expandedId = null;
 
     const MATERIAL_DENSITY = { plastic: 200, glass: 500, aluminum: 300, paper: 150, cardboard: 180, metal: 400, other: 250 };
     const SIZE_VOLUME = { small: 0.0008, medium: 0.002, large: 0.005, xlarge: 0.015 };
@@ -161,23 +211,12 @@
     function loadFromStorage() {
       try {
         const savedModels = localStorage.getItem("recognizer_preferred_models");
-        if (savedModels) {
-          preferredModels = JSON.parse(savedModels);
-          updatePreferredUI();
-        }
+        if (savedModels) { preferredModels = JSON.parse(savedModels); updatePreferredUI(); }
         const savedHistory = localStorage.getItem("recognizer_history");
-        if (savedHistory) {
-          history = JSON.parse(savedHistory);
-          renderHistory();
-        }
+        if (savedHistory) { history = JSON.parse(savedHistory); renderHistory(); }
         const savedStats = localStorage.getItem("recognizer_stats");
-        if (savedStats) {
-          stats = JSON.parse(savedStats);
-          updateStats();
-        }
-      } catch (e) {
-        console.error("Ошибка загрузки из localStorage:", e);
-      }
+        if (savedStats) { stats = JSON.parse(savedStats); updateStats(); }
+      } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }
     }
 
     function updatePreferredUI() {
@@ -194,39 +233,45 @@
       document.getElementById('sRec').textContent = stats.rec;
       document.getElementById('sW').textContent = stats.w + ' г';
     }
+
     function toggleTheme() {
       const html = document.documentElement;
       const isDark = html.getAttribute('data-theme') === 'dark';
       html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.getElementById('themeBtn').textContent = isDark ? ' Темная' : '☀️ Светлая';
+      document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
     }
 
     async function startCam() {
       try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-        document.getElementById('vid').srcObject = stream;
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });        document.getElementById('vid').srcObject = stream;
         document.getElementById('btnStart').disabled = true;
         document.getElementById('btnStop').disabled = false;
         document.getElementById('btnRec').disabled = false;
         document.getElementById('btnSwitch').disabled = false;
         document.getElementById('err').style.display = 'none';
-      } catch (e) {
-        showError("Ошибка камеры: " + e.message);
-      }
+      } catch (e) { showError("Ошибка камеры: " + e.message); }
     }
 
     function stopCam() {
-      if (stream) {
-        stream.getTracks().forEach(t => t.stop());
-        stream = null;
-      }
+      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
       document.getElementById('vid').srcObject = null;
       document.getElementById('btnStart').disabled = false;
       document.getElementById('btnStop').disabled = true;
       document.getElementById('btnRec').disabled = true;
       document.getElementById('btnSwitch').disabled = true;
-      document.getElementById('res').style.display = 'none';
       document.getElementById('btnSave').disabled = true;
+      document.getElementById('res').style.display = 'none';
+      hideAiStatus();
+    }
+
+    function showAiStatus() {
+      document.getElementById('btnAiStatus').style.display = 'inline-flex';
+      document.getElementById('btnRec').disabled = true; // Дизейблим кнопку Распознать
+    }
+
+    function hideAiStatus() {
+      document.getElementById('btnAiStatus').style.display = 'none';
+      if (stream) document.getElementById('btnRec').disabled = false;
     }
 
     async function recognize(specificModel) {
@@ -237,17 +282,17 @@
       can.getContext('2d').drawImage(vid, 0, 0);
       const img = can.toDataURL('image/jpeg', 0.8).split(',')[1];
 
-      document.getElementById('loader').classList.add('active');
+      showAiStatus();
       document.getElementById('res').style.display = 'none';
       document.getElementById('btnSave').disabled = true;
       document.getElementById('err').style.display = 'none';
 
       try {
-        const res = await fetch('/api/recognize', {          method: 'POST',
+        const res = await fetch('/api/recognize', {
+          method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            image: img,
-            mediaType: 'image/jpeg',
+            image: img,            mediaType: 'image/jpeg',
             preferredModels: preferredModels,
             useSpecificModel: specificModel
           })
@@ -267,108 +312,69 @@
 
         showResult(data);
         document.getElementById('btnSave').disabled = false;
-      } catch (e) {
-        showError(e.message);
-      } finally {
-        document.getElementById('loader').classList.remove('active');
-      }
+      } catch (e) { showError(e.message); }
+      finally { hideAiStatus(); }
     }
 
     async function switchToNextModel() {
-      if (!stream) {
-        showError("Сначала включите камеру");
-        return;
-      }
-
+      if (!stream) { showError("Сначала включите камеру"); return; }
       document.getElementById('btnSwitch').disabled = true;
       document.getElementById('err').style.display = 'none';
-
       try {
         const modelsRes = await fetch('/api/models');
         const modelsData = await modelsRes.json();
-        
-        if (!modelsData.models || modelsData.models.length === 0) {
-          throw new Error("Не удалось получить список моделей");
-        }
-
+        if (!modelsData.models || modelsData.models.length === 0) throw new Error("Не удалось получить список моделей");
         const currentIndex = modelsData.models.findIndex(m => m.id === currentModel);
-        const nextIndex = (currentIndex + 1) % modelsData.models.length;        const nextModel = modelsData.models[nextIndex].id;
-
+        const nextIndex = (currentIndex + 1) % modelsData.models.length;
+        const nextModel = modelsData.models[nextIndex].id;
         await recognize(nextModel);
-      } catch (e) {
-        showError(e.message);
-      } finally {
-        document.getElementById('btnSwitch').disabled = false;
-      }
+      } catch (e) { showError(e.message); }
+      finally { document.getElementById('btnSwitch').disabled = false; }
     }
 
     function showResult(r) {
       const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
       const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
-      
       document.getElementById('conf').textContent = `Точность: ${labels[r.confidence]}`;
       document.getElementById('conf').style.background = `${colors[r.confidence]}18`;
       document.getElementById('conf').style.color = colors[r.confidence];
       document.getElementById('conf').style.border = `1px solid ${colors[r.confidence]}40`;
-      
       document.getElementById('desc').textContent = r.description || '';
-      
       const fields = [
-        ['Название', r.product_name],
-        ['Производитель', r.manufacturer],
-        ['Бренд', r.brand],
-        ['Страна', r.country],
-        ['Категория', r.category],
+        ['Название', r.product_name], ['Производитель', r.manufacturer],        ['Бренд', r.brand], ['Страна', r.country], ['Категория', r.category],
         ['Материал', MATERIAL_LABELS[r.material_type || 'other']],
         ['Размер', SIZE_LABELS[r.size || 'medium']],
         ['Вес пустой тары', `${calculateEmptyWeight(r.material_type || 'other', r.size || 'medium')} г`],
         ['Указанный вес', r.weight || '—'],
         ['Переработка', r.recyclable ? '♻ Да' : '✗ Нет'],
-        ['Штрихкод', r.barcode || '—'],
-        ['Состав', r.ingredients || '—']
+        ['Штрихкод', r.barcode || '—'], ['Состав', r.ingredients || '—']
       ];
-      
       document.getElementById('fields').innerHTML = fields.map(([l, v]) => 
         `<div class="field"><span class="field-label">${l}</span><span class="field-value">${v || '—'}</span></div>`
       ).join('');
-      
       if (r._used_model) {
         document.getElementById('modelInfo').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
       }
-      
       document.getElementById('res').style.display = 'block';
     }
 
     function save() {
       if (!result) return;
       const calculatedWeight = calculateEmptyWeight(result.material_type || 'other', result.size || 'medium');
-
       const newItem = {
-        id: Date.now(),
-        product_name: result.product_name || 'Неизвестно',
-        brand: result.brand || 'No brand',
-        category: result.category || '—',
-        weight_label: result.weight,
-        calculated_weight: calculatedWeight,
-        material_type: result.material_type || 'other',
-        size: result.size || 'medium',
-        recyclable: result.recyclable,
-        timestamp: new Date().toLocaleString('ru-RU'),
+        id: Date.now(), product_name: result.product_name || 'Неизвестно',
+        brand: result.brand || 'No brand', category: result.category || '—',
+        weight_label: result.weight, calculated_weight: calculatedWeight,
+        material_type: result.material_type || 'other', size: result.size || 'medium',
+        recyclable: result.recyclable, timestamp: new Date().toLocaleString('ru-RU'),
         description: result.description
       };
-
-      stats = {
-        total: stats.total + 1,
-        rec: result.recyclable ? stats.rec + 1 : stats.rec,
-        w: stats.w + calculatedWeight
-      };
+      stats = { total: stats.total + 1, rec: result.recyclable ? stats.rec + 1 : stats.rec, w: stats.w + calculatedWeight };
       localStorage.setItem("recognizer_stats", JSON.stringify(stats));
       updateStats();
-
       history = [newItem, ...history].slice(0, 50);
       localStorage.setItem("recognizer_history", JSON.stringify(history));
       renderHistory();
-
       document.getElementById('res').style.display = 'none';
       document.getElementById('btnSave').disabled = true;
       result = null;
@@ -378,72 +384,47 @@
       const list = document.getElementById('historyList');
       document.getElementById('historyCount').textContent = history.length;
       document.getElementById('btnClear').disabled = history.length === 0;
-
       if (history.length === 0) {
         list.innerHTML = '<li style="text-align:center;color:var(--text-muted);padding:20px;font-size:14px">Пока пусто</li>';
         return;
       }
-
       list.innerHTML = history.map(item => `
         <li class="history-item">
-          <div class="history-item-header" onclick="toggleExpand(${item.id})">
-            <div>
+          <div class="history-item-header" onclick="toggleExpand(${item.id})">            <div>
               <div class="history-item-title">${item.recyclable ? '♻' : ''} ${item.product_name}</div>
               <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.calculated_weight} г</div>
-            </div>            <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>
+            </div>
+            <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>
           </div>
           <div class="history-item-details ${expandedId === item.id ? 'open' : ''}">
-            <div class="detail-row">
-              <span class="detail-label">Категория</span>
-              <span class="detail-value">${item.category}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Материал</span>
-              <span class="detail-value">${MATERIAL_LABELS[item.material_type] || item.material_type}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Размер упаковки</span>
-              <span class="detail-value">${SIZE_LABELS[item.size] || item.size}</span>
-            </div>
-            <div class="detail-row">
-              <span class="detail-label">Указанный вес</span>
-              <span class="detail-value">${item.weight_label || '—'}</span>
-            </div>
-            <div class="weight-calc">
-              ✅ Рассчитанный вес пустой тары: <strong>${item.calculated_weight} г</strong><br/>
-              (материал: ${MATERIAL_LABELS[item.material_type] || item.material_type}, объём: ${item.size})
-            </div>
+            <div class="detail-row"><span class="detail-label">Категория</span><span class="detail-value">${item.category}</span></div>
+            <div class="detail-row"><span class="detail-label">Материал</span><span class="detail-value">${MATERIAL_LABELS[item.material_type] || item.material_type}</span></div>
+            <div class="detail-row"><span class="detail-label">Размер упаковки</span><span class="detail-value">${SIZE_LABELS[item.size] || item.size}</span></div>
+            <div class="detail-row"><span class="detail-label">Указанный вес</span><span class="detail-value">${item.weight_label || '—'}</span></div>
+            <div class="weight-calc">✅ Рассчитанный вес пустой тары: <strong>${item.calculated_weight} г</strong><br/>(материал: ${MATERIAL_LABELS[item.material_type] || item.material_type}, объём: ${item.size})</div>
             ${item.description ? `<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">Описание</span><span class="detail-value">${item.description}</span></div>` : ''}
-            <div class="detail-row">
-              <span class="detail-label">Время</span>
-              <span class="detail-value">${item.timestamp}</span>
-            </div>
+            <div class="detail-row"><span class="detail-label">Время</span><span class="detail-value">${item.timestamp}</span></div>
           </div>
         </li>
       `).join('');
     }
 
-    function toggleExpand(id) {
-      expandedId = expandedId === id ? null : id;
-      renderHistory();
-    }
+    function toggleExpand(id) { expandedId = expandedId === id ? null : id; renderHistory(); }
 
     function clearHistory() {
       if (!confirm('Очистить всю историю и статистику?')) return;
-      history = [];
-      stats = { total: 0, rec: 0, w: 0 };
+      history = []; stats = { total: 0, rec: 0, w: 0 };
       localStorage.removeItem("recognizer_history");
       localStorage.removeItem("recognizer_stats");
-      updateStats();
-      renderHistory();
+      updateStats(); renderHistory();
     }
 
     function showError(msg) {
-      const el = document.getElementById('err');      el.textContent = '⚠ ' + msg;
+      const el = document.getElementById('err');
+      el.textContent = '⚠ ' + msg;
       el.style.display = 'block';
     }
 
-    // Инициализация
     loadFromStorage();
   </script>
 </body>

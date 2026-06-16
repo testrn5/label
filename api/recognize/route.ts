@@ -86,29 +86,42 @@ async function tryModel(model: string, image: string, mediaType: string, apiKey:
 }
 
 export async function POST(req: NextRequest) {
-  const { image, mediaType } = await req.json();
+  const { image, mediaType, preferredModels } = await req.json();
   const apiKey = process.env.OPENROUTER_API_KEY;
 
   if (!apiKey) return NextResponse.json({ error: 'OPENROUTER_API_KEY не настроен' }, { status: 500 });
   if (!image || !mediaType) return NextResponse.json({ error: 'Нет изображения' }, { status: 400 });
 
-  const models = await getFreeModels(apiKey);
-  if (models.length === 0) {
+  // Получаем все бесплатные модели
+  const allModels = await getFreeModels(apiKey);
+  if (allModels.length === 0) {
     return NextResponse.json({ error: 'Не удалось получить список бесплатных моделей' }, { status: 503 });
   }
+  // Формируем порядок: сначала preferredModels (из localStorage), потом остальные
+  const preferred = (preferredModels || []).filter((m: string) => allModels.includes(m));
+  const rest = allModels.filter((m: string) => !preferred.includes(m));
+  const orderedModels = [...preferred, ...rest];
+
   const tried: string[] = [];
   const skipped: string[] = [];
+  const preferredUsed: string[] = [];
 
-  for (const model of models) {
+  for (const model of orderedModels) {
     tried.push(model);
     try {
       const result = await tryModel(model, image, mediaType, apiKey);
       if (result.success) {
+        // Если модель из preferred — помечаем
+        const fromPreferred = preferred.includes(model);
+        if (fromPreferred) preferredUsed.push(model);
+        
         return NextResponse.json({
           ...result.result,
           _used_model: model,
+          _from_preferred: fromPreferred,
           _total_tried: tried.length,
           _total_skipped: skipped.length,
+          _preferred_count: preferred.length,
           _tried_models: tried,
           _skipped_models: skipped
         });

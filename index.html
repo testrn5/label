@@ -1,245 +1,163 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Распознавание этикеток и мусора v2.7</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: #0a0a0f; color: #e8e8f0; min-height: 100vh; padding: 20px; }
-        .container { max-width: 760px; margin: 0 auto; }
-        h1 { font-size: 28px; font-weight: 700; margin-bottom: 20px; background: linear-gradient(135deg, #e8e8f0, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .video-container { position: relative; background: #111118; border-radius: 16px; overflow: hidden; margin-bottom: 20px; border: 1px solid rgba(99,102,241,.2); }
-        video, canvas { width: 100%; display: block; max-height: 400px; object-fit: contain; }
-        
-        .controls { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px; }
-        button { padding: 10px 20px; border-radius: 10px; border: 1px solid rgba(99,102,241,.4); background: rgba(99,102,241,.15); color: #818cf8; font-weight: 600; cursor: pointer; transition: all .2s; font-size: 14px; }
-        button:hover:not(:disabled) { background: rgba(99,102,241,.25); }
-        button:disabled { opacity: 0.4; cursor: not-allowed; }
-        
-        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px; }
-        .stat-card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 12px; padding: 16px; text-align: center; }
-        .stat-value { font-size: 24px; font-weight: 700; color: #818cf8; }
-        .stat-label { font-size: 11px; color: #6b7280; text-transform: uppercase; letter-spacing: .08em; margin-top: 4px; }
-        
-        .loader { display: none; text-align: center; padding: 24px; color: #818cf8; font-size: 15px; }
-        .loader.active { display: block; }
-        .spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid rgba(99,102,241,.2); border-top-color: #818cf8; border-radius: 50%; animation: spin .8s linear infinite; vertical-align: middle; margin-right: 8px; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .result-card { background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.08); border-radius: 16px; overflow: hidden; display: none; margin-bottom: 24px; }
-        .result-card.active { display: block; }
-        .result-header { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,.06); display: flex; justify-content: space-between; align-items: center; }
-        .result-title { font-size: 13px; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: .08em; }
-        .confidence-badge { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
-        .result-desc { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,.06); font-size: 14px; color: #9ca3af; line-height: 1.5; }
-        .field { display: flex; padding: 12px 20px; border-bottom: 1px solid rgba(255,255,255,.04); transition: background .15s; }
-        .field:hover { background: rgba(99,102,241,.04); }
-        .field-label { min-width: 130px; color: #4b5563; font-size: 13px; font-weight: 500; }
-        .field-value { color: #d1d5db; font-size: 14px; flex: 1; }
-        
-        .history { margin-top: 20px; }
-        .history h3 { font-size: 16px; margin-bottom: 12px; color: #6b7280; }
-        .history-list { list-style: none; color: #9ca3af; font-size: 14px; }
-        .history-list li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.04); }
-        
-        .footer { margin-top: 30px; font-size: 12px; color: #4b5563; text-align: center; }
-    </style>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Распознавание мусора v2.7</title>
+  <style>
+    :root { --bg:#0a0a0f; --text:#e8e8f0; --muted:#6b7280; --card:rgba(255,255,255,.03); --border:rgba(255,255,255,.08); --accent:#818cf8; }
+    [data-theme="light"] { --bg:#f8fafc; --text:#0f172a; --muted:#64748b; --card:#fff; --border:#e2e8f0; --accent:#4f46e5; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; margin: 0; transition: .3s; }
+    .container { max-width: 600px; margin: 0 auto; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    h1 { font-size: 24px; margin: 0; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; font-weight: 600; }
+    .btn-primary { background: var(--accent); color: #fff; border: none; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .video-box { background: #111; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 16px; }
+    video, canvas { width: 100%; display: block; max-height: 350px; object-fit: contain; }
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+    .stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
+    .stat-val { font-size: 20px; font-weight: 700; color: var(--accent); }
+    .stat-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+    .loader { display: none; text-align: center; padding: 20px; color: var(--accent); }
+    .loader.on { display: block; }
+    .result { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: none; }
+    .result.on { display: block; }
+    .res-head { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--muted); }
+    .res-desc { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--muted); line-height: 1.5; }
+    .field { display: flex; padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+    .field:last-child { border: none; }
+    .f-label { min-width: 120px; color: var(--muted); font-weight: 500; }
+    .f-val { color: var(--text); flex: 1; }
+    .err { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3); color: #ef4444; padding: 12px; border-radius: 8px; margin-bottom: 16px; display: none; }
+  </style>
 </head>
-<body>    <div class="container">
-        <h1>♻ Распознавание этикеток v2.7</h1>
-        
-        <div class="video-container">
-            <video id="video" autoplay playsinline></video>
-            <canvas id="canvas" style="display:none;"></canvas>
-        </div>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>♻ Распознавание v2.7</h1>
+      <button class="btn" onclick="toggleTheme()" id="themeBtn">☀️ Светлая</button>
+    </div>
+    <div class="err" id="err"></div>
+    
+    <div class="video-box">
+      <video id="vid" autoplay playsinline muted></video>
+      <canvas id="can" style="display:none"></canvas>
+    </div>
 
-        <div class="controls">
-            <button id="btnStart">Включить камеру</button>
-            <button id="btnStop" disabled>Стоп камера</button>
-            <button id="btnRecognize" disabled>Распознать</button>
-            <button id="btnSave" disabled>Сохранить</button>
-            <button id="btnCancel">Отмена</button>
-        </div>
+    <div class="controls">      <button class="btn" onclick="startCam()" id="btnStart">Камера</button>
+      <button class="btn" onclick="stopCam()" id="btnStop" disabled>Стоп</button>
+      <button class="btn btn-primary" onclick="recognize()" id="btnRec" disabled>Распознать</button>
+      <button class="btn" onclick="save()" id="btnSave" disabled>Сохранить</button>
+    </div>
 
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-value" id="statTotal">0</div>
-                <div class="stat-label">Всего</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="statRecycled">0</div>
-                <div class="stat-label">♻ Перераб.</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value" id="statWeight">0 г</div>
-                <div class="stat-label">Общий вес</div>
-            </div>
-        </div>
+    <div class="stats">
+      <div class="stat"><div class="stat-val" id="sTotal">0</div><div class="stat-lbl">Всего</div></div>
+      <div class="stat"><div class="stat-val" id="sRec">0</div><div class="stat-lbl">♻ Перераб.</div></div>
+      <div class="stat"><div class="stat-val" id="sW">0 г</div><div class="stat-lbl">Вес</div></div>
+    </div>
 
-        <div class="loader" id="loader">
-            <span class="spinner"></span> Анализируем изображение через AI...
-        </div>
+    <div class="loader" id="loader"><span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(99,102,241,.2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px"></span> Анализ через AI...</div>
 
-        <div class="result-card" id="resultCard">
-            <div class="result-header">
-                <span class="result-title">Результат распознавания</span>
-                <span class="confidence-badge" id="confBadge">Точность: -</span>
-            </div>
-            <div class="result-desc" id="resDesc"></div>
-            <div id="resultFields"></div>
-        </div>
+    <div class="result" id="res">
+      <div class="res-head"><span>Результат</span><span id="conf"></span></div>
+      <div class="res-desc" id="desc"></div>
+      <div id="fields"></div>
+    </div>
+  </div>
 
-        <div class="history">
-            <h3>История операций ▼</h3>
-            <ul class="history-list" id="historyList"></ul>
-        </div>
-        
-        <div class="footer">Приложение запущено | Beta v2.7</div>    </div>
+  <script>
+    let stream, result, stats = { total: 0, rec: 0, w: 0 };
+    const vid = document.getElementById('vid'), can = document.getElementById('can');
+    
+    const toggleTheme = () => {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
+    };
 
-    <script>
-        // URL API из deploy.sh (замените на ваш Vercel URL после деплоя, например: 'https://your-app.vercel.app/api/recognize')
-        const API_URL = '/api/recognize'; 
+    const startCam = async () => {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        vid.srcObject = stream;
+        document.getElementById('btnStart').disabled = true;
+        document.getElementById('btnStop').disabled = false;
+        document.getElementById('btnRec').disabled = false;
+        document.getElementById('err').style.display = 'none';
+      } catch (e) { showError("Ошибка камеры: " + e.message); }
+    };
 
-        const video = document.getElementById('video');
-        const canvas = document.getElementById('canvas');
-        const btnStart = document.getElementById('btnStart');
-        const btnStop = document.getElementById('btnStop');
-        const btnRecognize = document.getElementById('btnRecognize');
-        const btnSave = document.getElementById('btnSave');
-        const btnCancel = document.getElementById('btnCancel');
-        const loader = document.getElementById('loader');
-        const resultCard = document.getElementById('resultCard');
-        
-        let stream = null;
-        let stats = { total: 0, recycled: 0, weight: 0 };
-        let lastResult = null;
+    const stopCam = () => {
+      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
+      vid.srcObject = null;
+      document.getElementById('btnStart').disabled = false;
+      document.getElementById('btnStop').disabled = true;
+      document.getElementById('btnRec').disabled = true;
+      document.getElementById('res').classList.remove('on');      document.getElementById('btnSave').disabled = true;
+    };
 
-        // 1. Управление камерой
-        btnStart.addEventListener('click', async () => {
-            try {
-                stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-                video.srcObject = stream;
-                btnStart.disabled = true;
-                btnStop.disabled = false;
-                btnRecognize.disabled = false;
-            } catch (err) {
-                alert("Ошибка доступа к камере: " + err.message);
-            }
+    const recognize = async () => {
+      can.width = vid.videoWidth; can.height = vid.videoHeight;
+      can.getContext('2d').drawImage(vid, 0, 0);
+      const img = can.toDataURL('image/jpeg', 0.8).split(',')[1];
+      
+      document.getElementById('loader').classList.add('on');
+      document.getElementById('res').classList.remove('on');
+      document.getElementById('btnSave').disabled = true;
+      
+      try {
+        const res = await fetch('/api/recognize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: img, mediaType: 'image/jpeg' })
         });
+        if (!res.ok) throw new Error();
+        result = await res.json();
+        showResult(result);
+        document.getElementById('btnSave').disabled = false;
+      } catch { showError("Ошибка распознавания. Проверьте API ключ."); }
+      finally { document.getElementById('loader').classList.remove('on'); }
+    };
 
-        btnStop.addEventListener('click', () => {
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-                stream = null;
-            }
-            video.srcObject = null;
-            btnStart.disabled = false;
-            btnStop.disabled = true;
-            btnRecognize.disabled = true;
-        });
+    const showResult = (r) => {
+      const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
+      const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
+      document.getElementById('conf').textContent = `Точность: ${labels[r.confidence]}`;
+      document.getElementById('conf').style.color = colors[r.confidence];
+      document.getElementById('desc').textContent = r.description || '';
+      
+      const fields = [
+        ['Название', r.product_name], ['Бренд', r.brand], ['Категория', r.category],
+        ['Переработка', r.recyclable ? '♻ Да' : '✗ Нет'], ['Вес', r.weight || '—'], ['Состав', r.ingredients || '—']
+      ];
+      document.getElementById('fields').innerHTML = fields.map(([l, v]) => 
+        `<div class="field"><div class="f-label">${l}</div><div class="f-val">${v || '—'}</div></div>`
+      ).join('');
+      document.getElementById('res').classList.add('on');
+    };
 
-        btnCancel.addEventListener('click', () => {
-            resultCard.classList.remove('active');
-            btnSave.disabled = true;
-            lastResult = null;
-        });
-        // 2. Распознавание (интеграция с логикой deploy.sh)
-        btnRecognize.addEventListener('click', async () => {
-            if (!stream) return;
-            
-            // Захват кадра
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            canvas.getContext('2d').drawImage(video, 0, 0);
-            
-            // Конвертация в base64 (удаляем префикс "data:image/jpeg;base64,", как требует deploy.sh)
-            const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
-            const base64Image = dataUrl.split(',')[1];
+    const save = () => {
+      if (!result) return;
+      stats.total++;
+      if (result.recyclable) stats.rec++;
+      if (result.weight) { const m = result.weight.match(/(\d+)/); if (m) stats.w += parseInt(m[1]); }
+      
+      document.getElementById('sTotal').textContent = stats.total;      document.getElementById('sRec').textContent = stats.rec;
+      document.getElementById('sW').textContent = stats.w + ' г';
+      
+      document.getElementById('res').classList.remove('on');
+      document.getElementById('btnSave').disabled = true;
+      result = null;
+    };
 
-            loader.classList.add('active');
-            resultCard.classList.remove('active');
-            btnSave.disabled = true;
-
-            try {
-                // Запрос к API, созданному в deploy.sh
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        image: base64Image,
-                        mediaType: 'image/jpeg'
-                    })
-                });
-
-                if (!response.ok) throw new Error('Ошибка сервера');
-                
-                lastResult = await response.json();
-                displayResult(lastResult);
-                btnSave.disabled = false;
-            } catch (err) {
-                alert("Не удалось распознать этикетку. Убедитесь, что API доступен.");
-                console.error(err);
-            } finally {
-                loader.classList.remove('active');
-            }
-        });
-
-        // 3. Отображение результатов
-        function displayResult(data) {
-            const confColors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
-            const confLabels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
-            
-            document.getElementById('confBadge').textContent = `Точность: ${confLabels[data.confidence] || 'Неизвестно'}`;
-            document.getElementById('confBadge').style.background = `${confColors[data.confidence] || '#6b7280'}18`;
-            document.getElementById('confBadge').style.color = confColors[data.confidence] || '#6b7280';
-            document.getElementById('confBadge').style.border = `1px solid ${confColors[data.confidence] || '#6b7280'}40`;            
-            document.getElementById('resDesc').textContent = data.description || 'Описание отсутствует';
-            
-            const fields = [
-                { label: 'Название', value: data.product_name },
-                { label: 'Производитель', value: data.manufacturer },
-                { label: 'Бренд', value: data.brand },
-                { label: 'Страна', value: data.country },
-                { label: 'Категория', value: data.category },
-                { label: 'Штрихкод', value: data.barcode || '—' },
-                { label: 'Вес / Объём', value: data.weight || '—' },
-                { label: 'Состав', value: data.ingredients || '—' }
-            ];
-
-            const fieldsContainer = document.getElementById('resultFields');
-            fieldsContainer.innerHTML = fields.map(f => `
-                <div class="field">
-                    <span class="field-label">${f.label}</span>
-                    <span class="field-value">${f.value}</span>
-                </div>
-            `).join('');
-
-            resultCard.classList.add('active');
-        }
-
-        // 4. Сохранение и статистика
-        btnSave.addEventListener('click', () => {
-            if (!lastResult) return;
-            
-            stats.total++;
-            stats.recycled++; // Упрощенная логика: все распознанное считаем перерабатываемым
-            if (lastResult.weight) {
-                const weightMatch = lastResult.weight.match(/(\d+)/);
-                if (weightMatch) stats.weight += parseInt(weightMatch[1]);
-            }
-
-            document.getElementById('statTotal').textContent = stats.total;
-            document.getElementById('statRecycled').textContent = stats.recycled;
-            document.getElementById('statWeight').textContent = stats.weight + ' г';
-
-            const li = document.createElement('li');
-            li.textContent = `✓ ${lastResult.product_name || 'Неизвестный товар'} (${lastResult.brand || 'No brand'})`;
-            document.getElementById('historyList').prepend(li);
-            
-            btnCancel.click(); // Сброс UI
-        });
-    </script>
+    const showError = (msg) => {
+      const el = document.getElementById('err');
+      el.textContent = '⚠ ' + msg;
+      el.style.display = 'block';
+    };
+  </script>
 </body>
 </html>

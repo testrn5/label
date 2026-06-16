@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="ru" data-theme="dark">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Распознавание мусора v2.7</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Распознавание мусора v2.8</title>
   <style>
-    :root { --bg:#0a0a0f; --text:#e8e8f0; --muted:#6b7280; --card:rgba(255,255,255,.03); --border:rgba(255,255,255,.08); --accent:#818cf8; }
+    :root { --bg:#0a0a0f; --text:#e8e8f0; --muted:#6b7280; --card:rgba(255,255,255,.03); --border:rgba(255,255,255,.08); --accent:#818cf8; --success:#22c55e; --warn:#f59e0b; }
     [data-theme="light"] { --bg:#f8fafc; --text:#0f172a; --muted:#64748b; --card:#fff; --border:#e2e8f0; --accent:#4f46e5; }
     * { box-sizing: border-box; }
     body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; margin: 0; transition: .3s; }
-    .container { max-width: 600px; margin: 0 auto; }
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .container { max-width: 700px; margin: 0 auto; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
     h1 { font-size: 24px; margin: 0; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; font-weight: 600; }
+    .btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border); background: var(--card); color: var(--text); cursor: pointer; font-weight: 600; font-size: 14px; }
     .btn-primary { background: var(--accent); color: #fff; border: none; }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .video-box { background: #111; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); margin-bottom: 16px; }
@@ -21,23 +22,34 @@
     .stat { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px; text-align: center; }
     .stat-val { font-size: 20px; font-weight: 700; color: var(--accent); }
     .stat-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
-    .loader { display: none; text-align: center; padding: 20px; color: var(--accent); }
+    .loader { display: none; background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 20px; }
     .loader.on { display: block; }
+    .loader-title { font-size: 14px; font-weight: 600; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(99,102,241,.2); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .progress-bar { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; margin-bottom: 12px; }
+    .progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--success)); width: 0%; transition: width .3s; }
+    .progress-text { font-size: 13px; color: var(--muted); margin-bottom: 12px; }
+    .model-list { max-height: 200px; overflow-y: auto; font-size: 12px; font-family: monospace; }
+    .model-item { padding: 4px 8px; border-radius: 4px; margin-bottom: 2px; display: flex; justify-content: space-between; align-items: center; }
+    .model-item.trying { background: rgba(99,102,241,.15); color: var(--accent); }
+    .model-item.success { background: rgba(34,197,94,.15); color: var(--success); }
+    .model-item.skipped { background: rgba(107,114,128,.1); color: var(--muted); text-decoration: line-through; }
     .result { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; display: none; }
     .result.on { display: block; }
-    .res-head { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--muted); }
+    .res-head { padding: 12px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; font-size: 13px; font-weight: 600; color: var(--muted); flex-wrap: wrap; gap: 8px; }
     .res-desc { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--muted); line-height: 1.5; }
     .field { display: flex; padding: 10px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
     .field:last-child { border: none; }
     .f-label { min-width: 120px; color: var(--muted); font-weight: 500; }
     .f-val { color: var(--text); flex: 1; }
     .err { background: rgba(239,68,68,.1); border: 1px solid rgba(239,68,68,.3); color: #ef4444; padding: 12px; border-radius: 8px; margin-bottom: 16px; display: none; }
+    .model-info { font-size: 11px; color: var(--muted); padding: 8px 16px; border-top: 1px solid var(--border); background: rgba(99,102,241,.05); }
   </style>
 </head>
-<body>
-  <div class="container">
+<body>  <div class="container">
     <div class="header">
-      <h1>♻ Распознавание v2.7</h1>
+      <h1>♻ Распознавание v2.8</h1>
       <button class="btn" onclick="toggleTheme()" id="themeBtn">☀️ Светлая</button>
     </div>
     <div class="err" id="err"></div>
@@ -47,7 +59,8 @@
       <canvas id="can" style="display:none"></canvas>
     </div>
 
-    <div class="controls">      <button class="btn" onclick="startCam()" id="btnStart">Камера</button>
+    <div class="controls">
+      <button class="btn" onclick="startCam()" id="btnStart">Камера</button>
       <button class="btn" onclick="stopCam()" id="btnStop" disabled>Стоп</button>
       <button class="btn btn-primary" onclick="recognize()" id="btnRec" disabled>Распознать</button>
       <button class="btn" onclick="save()" id="btnSave" disabled>Сохранить</button>
@@ -59,12 +72,18 @@
       <div class="stat"><div class="stat-val" id="sW">0 г</div><div class="stat-lbl">Вес</div></div>
     </div>
 
-    <div class="loader" id="loader"><span style="display:inline-block;width:16px;height:16px;border:2px solid rgba(99,102,241,.2);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;vertical-align:middle;margin-right:8px"></span> Анализ через AI...</div>
+    <div class="loader" id="loader">
+      <div class="loader-title"><span class="spinner"></span> Перебираем бесплатные модели...</div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-text" id="progressText">Подготовка...</div>
+      <div class="model-list" id="modelList"></div>
+    </div>
 
     <div class="result" id="res">
       <div class="res-head"><span>Результат</span><span id="conf"></span></div>
       <div class="res-desc" id="desc"></div>
       <div id="fields"></div>
+      <div class="model-info" id="modelInfo"></div>
     </div>
   </div>
 
@@ -78,7 +97,6 @@
       html.setAttribute('data-theme', isDark ? 'light' : 'dark');
       document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
     };
-
     const startCam = async () => {
       try {
         stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
@@ -96,7 +114,18 @@
       document.getElementById('btnStart').disabled = false;
       document.getElementById('btnStop').disabled = true;
       document.getElementById('btnRec').disabled = true;
-      document.getElementById('res').classList.remove('on');      document.getElementById('btnSave').disabled = true;
+      document.getElementById('res').classList.remove('on');
+      document.getElementById('btnSave').disabled = true;
+    };
+
+    const addModelItem = (model, status) => {
+      const list = document.getElementById('modelList');
+      const div = document.createElement('div');
+      div.className = `model-item ${status}`;
+      const icons = { trying: '🔄', success: '✅', skipped: '⏭️' };
+      div.innerHTML = `<span>${model}</span><span>${icons[status] || ''}</span>`;
+      list.appendChild(div);
+      list.scrollTop = list.scrollHeight;
     };
 
     const recognize = async () => {
@@ -104,26 +133,85 @@
       can.getContext('2d').drawImage(vid, 0, 0);
       const img = can.toDataURL('image/jpeg', 0.8).split(',')[1];
       
-      document.getElementById('loader').classList.add('on');
+      const loader = document.getElementById('loader');
+      const modelList = document.getElementById('modelList');
+      const progressFill = document.getElementById('progressFill');
+      const progressText = document.getElementById('progressText');
+      
+      loader.classList.add('on');
+      modelList.innerHTML = '';
+      progressFill.style.width = '0%';
+      progressText.textContent = 'Загрузка списка бесплатных моделей...';
       document.getElementById('res').classList.remove('on');
       document.getElementById('btnSave').disabled = true;
-      
-      try {
+      document.getElementById('err').style.display = 'none';
+            try {
+        // Сначала получаем список моделей
+        const modelsRes = await fetch('/api/models');
+        const modelsData = await modelsRes.json();
+        
+        if (!modelsRes.ok) throw new Error(modelsData.error || 'Ошибка загрузки моделей');
+        
+        const totalModels = modelsData.models.length;
+        progressText.textContent = `Найдено ${totalModels} бесплатных моделей. Начинаем перебор...`;
+        
+        // Добавляем все модели в список как "skipped" (будут обновляться)
+        modelsData.models.forEach(m => addModelItem(m, 'skipped'));
+        
+        // Запускаем распознавание с перебором
         const res = await fetch('/api/recognize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ image: img, mediaType: 'image/jpeg' })
         });
+        
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Ошибка сервера");
+        
+        if (!res.ok) {
+          // Показываем все проверенные модели как skipped
+          if (data._tried_models) {
+            data._tried_models.forEach(m => {
+              const items = modelList.querySelectorAll('.model-item');
+              items.forEach(item => {
+                if (item.textContent.includes(m) && item.classList.contains('skipped')) {
+                  item.classList.remove('skipped');
+                  item.classList.add('trying');
+                  setTimeout(() => item.classList.remove('trying'), 500);
+                }
+              });
+            });
+          }
+          throw new Error(data.error || 'Ошибка распознавания');
+        }
+        
+        // Обновляем прогресс
+        const tried = data._tried_models || [];
+        const usedModel = data._used_model;
+        
+        tried.forEach((m, i) => {
+          const items = modelList.querySelectorAll('.model-item');
+          items.forEach(item => {
+            if (item.textContent.includes(m)) {
+              item.classList.remove('skipped');
+              if (m === usedModel) {
+                item.classList.add('success');              }
+            }
+          });
+          progressFill.style.width = `${((i + 1) / tried.length) * 100}%`;
+        });
+        
+        progressText.textContent = `✅ Успех! Использована модель: ${usedModel}`;
         
         result = data;
         showResult(result);
         document.getElementById('btnSave').disabled = false;
+        
       } catch (e) { 
-        showError(e.message); // Показывает реальную ошибку
+        showError(e.message); 
       }
-      finally { document.getElementById('loader').classList.remove('on'); }
+      finally { 
+        setTimeout(() => loader.classList.remove('on'), 2000); 
+      }
     };
 
     const showResult = (r) => {
@@ -140,6 +228,13 @@
       document.getElementById('fields').innerHTML = fields.map(([l, v]) => 
         `<div class="field"><div class="f-label">${l}</div><div class="f-val">${v || '—'}</div></div>`
       ).join('');
+      
+      // Информация о моделях
+      const modelInfo = document.getElementById('modelInfo');
+      if (r._used_model) {
+        modelInfo.textContent = ` Использована: ${r._used_model} | Проверено моделей: ${r._total_tried || 0} | Пропущено: ${r._total_skipped || 0}`;
+      }
+      
       document.getElementById('res').classList.add('on');
     };
 
@@ -148,10 +243,8 @@
       stats.total++;
       if (result.recyclable) stats.rec++;
       if (result.weight) { const m = result.weight.match(/(\d+)/); if (m) stats.w += parseInt(m[1]); }
-      
       document.getElementById('sTotal').textContent = stats.total;      document.getElementById('sRec').textContent = stats.rec;
       document.getElementById('sW').textContent = stats.w + ' г';
-      
       document.getElementById('res').classList.remove('on');
       document.getElementById('btnSave').disabled = true;
       result = null;

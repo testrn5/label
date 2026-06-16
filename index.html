@@ -89,18 +89,19 @@
     .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .old-version-notice { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); border-radius: 12px; padding: 12px 16px; color: #f59e0b; font-size: 14px; margin-bottom: 16px; }
+    .cloud-badge { background: rgba(139,92,246,0.15); color: #8b5cf6; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; margin-left: 8px; }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h1>♻ Распознавание v2.9<span class="free-badge">FREE</span></h1>
-      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 Темная</button>
-    </div>
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 Темная</button>    </div>
+
     <!-- Переключатель версий -->
     <div class="version-switcher">
       <button class="version-btn active" onclick="switchVersion('new')" id="btnNewVersion">✨ Новая версия</button>
-      <button class="version-btn" onclick="switchVersion('old')" id="btnOldVersion">📦 Старая версия</button>
+      <button class="version-btn" onclick="switchVersion('old')" id="btnOldVersion">📦 Старая версия (v2.7)</button>
     </div>
 
     <!-- НОВАЯ ВЕРСИЯ (v2.9) -->
@@ -113,7 +114,7 @@
       </div>
 
       <div class="preferred-info" id="preferredInfo" style="display:none">
-        ⚡ Ускорение: <span id="preferredInfoCount">0</span> моделей в приоритете
+         Ускорение: <span id="preferredInfoCount">0</span> моделей в приоритете
       </div>
 
       <div class="err" id="err" style="display:none"></div>
@@ -123,8 +124,8 @@
         <canvas id="can" style="display:none"></canvas>
         <div class="camera-overlay" id="cameraOverlay">
           <button class="btn btn-primary" onclick="toggleCamera()" id="btnCamera">▶ Включить камеру</button>
-          <button class="btn btn-success btn-large" onclick="handleAction()" id="btnAction" disabled> Распознать</button>
-          <button class="btn btn-ghost" onclick="cancelResult()" id="btnCancel" style="display:none"> Отменить</button>
+          <button class="btn btn-success btn-large" onclick="handleAction()" id="btnAction" disabled>🔍 Распознать</button>
+          <button class="btn btn-ghost" onclick="cancelResult()" id="btnCancel" style="display:none">✕ Отменить</button>
         </div>
       </div>
 
@@ -144,8 +145,8 @@
         <div class="model-info" id="modelInfo"></div>
       </div>
 
-      <div class="history">
-        <div class="history-header">          <h3>История операций (<span id="historyCount">0</span>)</h3>
+      <div class="history">        <div class="history-header">
+          <h3>История операций (<span id="historyCount">0</span>)</h3>
           <button class="btn btn-ghost" onclick="clearHistory()" id="btnClear" disabled style="font-size:12px;padding:6px 12px">Очистить</button>
         </div>
         <ul class="history-list" id="historyList"></ul>
@@ -155,7 +156,7 @@
     <!-- СТАРАЯ ВЕРСИЯ (v2.7) -->
     <div class="view" id="viewOld">
       <div class="old-version-notice">
-        ⚠️ Это упрощённая версия интерфейса. Использует тот же AI через бесплатные модели.
+        ⚠️ Старая версия работает локально. Нажмите "Распознать по этикетке" для подключения облачного AI.
       </div>
 
       <div class="err" id="errOld" style="display:none"></div>
@@ -165,11 +166,12 @@
         <canvas id="canOld" style="display:none"></canvas>
       </div>
 
-      <div class="controls" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;">
+      <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 24px;">
         <button class="btn btn-primary" onclick="toggleCameraOld()" id="btnCameraOld">▶ Включить камеру</button>
         <button class="btn btn-danger" onclick="stopCameraOld()" id="btnStopOld" disabled>⏹ Стоп камера</button>
         <button class="btn btn-success" onclick="recognizeOld()" id="btnRecOld" disabled>🔍 Распознать</button>
-        <button class="btn btn-ghost" onclick="saveOld()" id="btnSaveOld" disabled> Сохранить</button>
+        <button class="btn btn-primary" onclick="recognizeLabelOld()" id="btnLabelOld" disabled>🏷️ Распознать по этикетке<span class="cloud-badge">CLOUD</span></button>
+        <button class="btn btn-ghost" onclick="saveOld()" id="btnSaveOld" disabled>💾 Сохранить</button>
         <button class="btn btn-ghost" onclick="cancelOld()" id="btnCancelOld" disabled>✕ Отмена</button>
       </div>
 
@@ -186,14 +188,15 @@
         </div>
         <div class="result-desc" id="descOld"></div>
         <div id="fieldsOld"></div>
+        <div class="model-info" id="modelInfoOld"></div>
       </div>
 
       <div class="history">
         <div class="history-header">
           <h3>История операций ▼</h3>
-        </div>
-        <ul class="history-list" id="historyListOld"></ul>
+        </div>        <ul class="history-list" id="historyListOld"></ul>
       </div>
+
       <div style="margin-top: 30px; font-size: 12px; color: var(--text-muted); text-align: center;">
         Приложение запущено | Beta v2.7
       </div>
@@ -240,10 +243,10 @@
     function loadFromStorage() {
       try {
         const savedModels = localStorage.getItem("recognizer_preferred_models");
-        if (savedModels) { preferredModels = JSON.parse(savedModels); updatePreferredUI(); }
-        const savedHistory = localStorage.getItem("recognizer_history");
+        if (savedModels) { preferredModels = JSON.parse(savedModels); updatePreferredUI(); }        const savedHistory = localStorage.getItem("recognizer_history");
         if (savedHistory) { history = JSON.parse(savedHistory); renderHistory(); }
-        const savedStats = localStorage.getItem("recognizer_stats");        if (savedStats) { stats = JSON.parse(savedStats); updateStats(); }
+        const savedStats = localStorage.getItem("recognizer_stats");
+        if (savedStats) { stats = JSON.parse(savedStats); updateStats(); }
       } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }
     }
 
@@ -289,10 +292,10 @@
 
     async function handleAction() {
       if (actionState === 'recognize') await doRecognize();
-      else if (actionState === 'saving') doSave();
-    }
+      else if (actionState === 'saving') doSave();    }
 
-    async function doRecognize(specificModel) {      const vid = document.getElementById('vid');
+    async function doRecognize(specificModel) {
+      const vid = document.getElementById('vid');
       const can = document.getElementById('can');
       const maxDim = 1024;
       const scale = Math.min(maxDim / vid.videoWidth, maxDim / vid.videoHeight, 1);
@@ -338,10 +341,10 @@
         showError(e.message);
         actionState = 'recognize';
         btnAction.disabled = false;
-        btnAction.innerHTML = '🔍 Распознать';
-        btnAction.classList.remove('btn-primary');
+        btnAction.innerHTML = ' Распознать';        btnAction.classList.remove('btn-primary');
         btnAction.classList.add('btn-success');
-      }    }
+      }
+    }
 
     function doSave() {
       if (!result) return;
@@ -362,7 +365,7 @@
       renderHistory();
       actionState = 'recognize';
       const btnAction = document.getElementById('btnAction');
-      btnAction.innerHTML = ' Распознать';
+      btnAction.innerHTML = '🔍 Распознать';
       btnAction.classList.remove('btn-primary');
       btnAction.classList.add('btn-success');
       document.getElementById('btnCancel').style.display = 'none';
@@ -387,10 +390,10 @@
       document.getElementById('btnSwitch').disabled = true;
       document.getElementById('err').style.display = 'none';
       try {
-        const modelsRes = await fetch('/api/models');
-        const modelsData = await modelsRes.json();
+        const modelsRes = await fetch('/api/models');        const modelsData = await modelsRes.json();
         if (!modelsData.models || modelsData.models.length === 0) throw new Error("Не удалось получить список моделей");
-        const currentIndex = modelsData.models.findIndex(m => m.id === currentModel);        const nextIndex = (currentIndex + 1) % modelsData.models.length;
+        const currentIndex = modelsData.models.findIndex(m => m.id === currentModel);
+        const nextIndex = (currentIndex + 1) % modelsData.models.length;
         const nextModel = modelsData.models[nextIndex].id;
         await doRecognize(nextModel);
       } catch (e) { showError(e.message); }
@@ -436,10 +439,10 @@
         <li class="history-item">
           <div class="history-item-header" onclick="toggleExpand(${item.id})">
             <div>
-              <div class="history-item-title">${item.recyclable ? '♻' : ''} ${item.product_name}</div>
-              <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.calculated_weight} г</div>
+              <div class="history-item-title">${item.recyclable ? '♻' : ''} ${item.product_name}</div>              <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.calculated_weight} г</div>
             </div>
-            <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>          </div>
+            <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>
+          </div>
           <div class="history-item-details ${expandedId === item.id ? 'open' : ''}">
             <div class="detail-row"><span class="detail-label">Категория</span><span class="detail-value">${item.category}</span></div>
             <div class="detail-row"><span class="detail-label">Материал</span><span class="detail-value">${MATERIAL_LABELS[item.material_type] || item.material_type}</span></div>
@@ -465,11 +468,11 @@
 
     function showError(msg) {
       const el = document.getElementById('err');
-      el.textContent = ' ' + msg;
+      el.textContent = '⚠ ' + msg;
       el.style.display = 'block';
     }
 
-    // ==================== СТАРАЯ ВЕРСИЯ ====================
+    // ==================== СТАРАЯ ВЕРСИЯ (v2.7) ====================
     let streamOld, resultOld, statsOld = { total: 0, rec: 0, w: 0 };
     let historyOld = [];
 
@@ -485,17 +488,18 @@
     function updateStatsOld() {
       document.getElementById('sTotalOld').textContent = statsOld.total;
       document.getElementById('sRecOld').textContent = statsOld.rec;
-      document.getElementById('sWOld').textContent = statsOld.w + ' г';
-    }
+      document.getElementById('sWOld').textContent = statsOld.w + ' г';    }
 
-    async function toggleCameraOld() {      try {
+    async function toggleCameraOld() {
+      try {
         streamOld = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
         document.getElementById('vidOld').srcObject = streamOld;
-        document.getElementById('btnCameraOld').innerHTML = ' Выключить камеру';
+        document.getElementById('btnCameraOld').innerHTML = '⏹ Выключить камеру';
         document.getElementById('btnCameraOld').classList.remove('btn-primary');
         document.getElementById('btnCameraOld').classList.add('btn-danger');
         document.getElementById('btnStopOld').disabled = false;
         document.getElementById('btnRecOld').disabled = false;
+        document.getElementById('btnLabelOld').disabled = false;
         document.getElementById('errOld').style.display = 'none';
       } catch (e) { showErrorOld("Ошибка камеры: " + e.message); }
     }
@@ -508,12 +512,45 @@
       document.getElementById('btnCameraOld').classList.add('btn-primary');
       document.getElementById('btnStopOld').disabled = true;
       document.getElementById('btnRecOld').disabled = true;
+      document.getElementById('btnLabelOld').disabled = true;
       document.getElementById('btnSaveOld').disabled = true;
       document.getElementById('btnCancelOld').disabled = true;
       document.getElementById('resOld').style.display = 'none';
     }
 
-    async function recognizeOld() {
+    // Локальное распознавание (без AI)
+    function recognizeOld() {
+      const vid = document.getElementById('vidOld');
+      const can = document.getElementById('canOld');
+      can.width = vid.videoWidth;
+      can.height = vid.videoHeight;
+      can.getContext('2d').drawImage(vid, 0, 0);
+      
+      // Локальная логика: просто сохраняем кадр
+      resultOld = {
+        product_name: 'Локальное распознавание',
+        manufacturer: 'Неизвестно',
+        brand: 'Неизвестно',
+        country: 'Неизвестно',
+        category: 'Неизвестно',
+        description: 'Локальное распознавание без AI. Используйте кнопку "Распознать по этикетке" для облачного AI.',
+        barcode: null,
+        weight: null,
+        ingredients: null,
+        recyclable: true,        material_type: 'other',
+        size: 'medium',
+        confidence: 'low',
+        _used_model: 'local',
+        _total_tried: 0
+      };
+      
+      showResultOld(resultOld);
+      document.getElementById('btnSaveOld').disabled = false;
+      document.getElementById('btnCancelOld').disabled = false;
+    }
+
+    // Облачное распознавание по этикетке
+    async function recognizeLabelOld() {
       const vid = document.getElementById('vidOld');
       const can = document.getElementById('canOld');
       const maxDim = 1024;
@@ -523,8 +560,8 @@
       can.getContext('2d').drawImage(vid, 0, 0, can.width, can.height);
       const img = can.toDataURL('image/jpeg', 0.6).split(',')[1];
 
-      document.getElementById('btnRecOld').disabled = true;
-      document.getElementById('btnRecOld').innerHTML = '<span class="spinner"></span> Анализ...';
+      document.getElementById('btnLabelOld').disabled = true;
+      document.getElementById('btnLabelOld').innerHTML = '<span class="spinner"></span> Анализ этикетки...';
       document.getElementById('resOld').style.display = 'none';
       document.getElementById('errOld').style.display = 'none';
 
@@ -537,19 +574,19 @@
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
         resultOld = data;
-        showResultOld(data);        document.getElementById('btnSaveOld').disabled = false;
+        showResultOld(data);
+        document.getElementById('btnSaveOld').disabled = false;
         document.getElementById('btnCancelOld').disabled = false;
       } catch (e) { showErrorOld(e.message); }
       finally {
-        document.getElementById('btnRecOld').disabled = false;
-        document.getElementById('btnRecOld').innerHTML = '🔍 Распознать';
+        document.getElementById('btnLabelOld').disabled = false;
+        document.getElementById('btnLabelOld').innerHTML = '🏷️ Распознать по этикетке<span class="cloud-badge">CLOUD</span>';
       }
     }
 
     function showResultOld(r) {
       const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
-      const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
-      document.getElementById('confOld').textContent = `Точность: ${labels[r.confidence]}`;
+      const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };      document.getElementById('confOld').textContent = `Точность: ${labels[r.confidence]}`;
       document.getElementById('confOld').style.background = `${colors[r.confidence]}18`;
       document.getElementById('confOld').style.color = colors[r.confidence];
       document.getElementById('confOld').style.border = `1px solid ${colors[r.confidence]}40`;
@@ -563,6 +600,9 @@
       document.getElementById('fieldsOld').innerHTML = fields.map(([l, v]) => 
         `<div class="field"><span class="field-label">${l}</span><span class="field-value">${v || '—'}</span></div>`
       ).join('');
+      if (r._used_model) {
+        document.getElementById('modelInfoOld').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
+      }
       document.getElementById('resOld').style.display = 'block';
     }
 
@@ -586,6 +626,7 @@
       document.getElementById('btnCancelOld').disabled = true;
       resultOld = null;
     }
+
     function cancelOld() {
       document.getElementById('resOld').style.display = 'none';
       document.getElementById('btnSaveOld').disabled = true;
@@ -594,8 +635,7 @@
     }
 
     function renderHistoryOld() {
-      const list = document.getElementById('historyListOld');
-      if (historyOld.length === 0) {
+      const list = document.getElementById('historyListOld');      if (historyOld.length === 0) {
         list.innerHTML = '<li style="text-align:center;color:var(--text-muted);padding:20px;font-size:14px">Пока пусто</li>';
         return;
       }
@@ -608,7 +648,7 @@
 
     function showErrorOld(msg) {
       const el = document.getElementById('errOld');
-      el.textContent = '⚠ ' + msg;
+      el.textContent = ' ' + msg;
       el.style.display = 'block';
     }
 

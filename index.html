@@ -11,7 +11,6 @@
       --accent: #818cf8; --accent-bg: rgba(99,102,241,0.15);
       --success: #22c55e; --success-bg: rgba(34,197,94,0.15);
       --danger: #ef4444; --danger-bg: rgba(239,68,68,0.15);
-      --warn: #f59e0b; --warn-bg: rgba(245,158,11,0.15);
     }
     [data-theme="light"] {
       --bg: #f8fafc; --text: #0f172a; --text-muted: #64748b;
@@ -19,7 +18,6 @@
       --accent: #4f46e5; --accent-bg: rgba(79, 70, 229, 0.1);
       --success: #16a34a; --success-bg: rgba(22,163,74,0.1);
       --danger: #dc2626; --danger-bg: rgba(220,38,38,0.1);
-      --warn: #d97706; --warn-bg: rgba(217,119,6,0.1);
     }
     * { box-sizing: border-box; }
     body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; margin: 0; transition: background 0.3s, color 0.3s; }
@@ -41,14 +39,15 @@
     .camera-overlay { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 14px; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.9) 100%); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; }
     .btn { padding: 10px 18px; border-radius: 10px; border: 1px solid transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(0.3); }
+    .btn.hidden { display: none !important; }
     .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
     .btn-primary:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
     .btn-danger { background: var(--danger-bg); color: var(--danger); border-color: rgba(239,68,68,0.3); }
     .btn-danger:hover:not(:disabled) { background: var(--danger); color: #fff; }
     .btn-success { background: var(--success-bg); color: var(--success); border-color: rgba(34,197,94,0.3); }
     .btn-success:hover:not(:disabled) { background: var(--success); color: #fff; }
-    .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--card-border); }    .btn-ghost:hover:not(:disabled) { color: var(--text); background: var(--card-bg); }
-    .btn-large { padding: 12px 24px; font-size: 15px; }
+    .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--card-border); }
+    .btn-ghost:hover:not(:disabled) { color: var(--text); background: var(--card-bg); }    .btn-large { padding: 12px 24px; font-size: 15px; }
     .btn-small { padding: 6px 12px; font-size: 12px; }
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px; }
     .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; text-align: center; }
@@ -96,8 +95,8 @@
     .detail-value { color: var(--text); flex: 1; }
     .weight-calc { background: var(--success-bg); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 8px 12px; margin-top: 8px; font-size: 12px; color: var(--success); }
     .err { background: var(--danger-bg); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 12px 16px; color: var(--danger); font-size: 14px; margin-bottom: 16px; }
-    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }    @keyframes spin { to { transform: rotate(360deg); } }
-    
+    .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }    
     .loading-overlay {
       position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.85);
@@ -124,7 +123,7 @@
     <div class="model-status">
       <span class="model-label">📡 Модель:</span>
       <span class="model-name" id="currentModel">nex-agi/nex-n2-pro:free</span>
-      <button class="btn-switch" onclick="switchToNextModel()" id="btnSwitch" disabled>🔄 Сменить</button>
+      <button class="btn-switch hidden" onclick="switchToNextModel()" id="btnSwitch"> Сменить</button>
       <span class="model-badge" id="preferredBadge" style="display:none">⚡ <span id="preferredCount">0</span> в приоритете</span>
     </div>
 
@@ -144,9 +143,9 @@
       </div>
       <div class="camera-overlay" id="cameraOverlay">
         <button class="btn btn-primary" onclick="toggleCamera()" id="btnCamera">▶ Включить камеру</button>
-        <button class="btn btn-success btn-large" onclick="handleAction()" id="btnAction" disabled>🔍 Распознать</button>
-      </div>    </div>
-
+        <button class="btn btn-success btn-large hidden" onclick="handleAction()" id="btnAction"> Распознать</button>
+      </div>
+    </div>
     <div class="stats">
       <div class="stat-card"><div class="stat-value" id="sTotal">0</div><div class="stat-label">Всего</div></div>
       <div class="stat-card"><div class="stat-value" id="sRec">0</div><div class="stat-label">♻ Перераб.</div></div>
@@ -161,7 +160,7 @@
       <div class="bulk-actions">
         <button class="btn btn-success btn-small" onclick="saveSelected()" id="btnSaveSelected" disabled>💾 Сохранить выбранные</button>
         <button class="btn btn-ghost btn-small" onclick="selectAll()">✅ Выбрать все</button>
-        <button class="btn btn-ghost btn-small" onclick="deselectAll()"> Снять все</button>
+        <button class="btn btn-ghost btn-small" onclick="deselectAll()">⬜ Снять все</button>
         <button class="btn btn-danger btn-small" onclick="cancelResults()">✕ Отменить</button>
       </div>
       <div id="resultsList"></div>
@@ -194,8 +193,8 @@
       metal_can_small: 40, metal_can_medium: 60, metal_can_large: 80,
       paper_bag_small: 8, paper_bag_medium: 15, paper_bag_large: 25,
       cardboard_box_small: 20, cardboard_box_medium: 40, cardboard_box_large: 70, cardboard_box_xlarge: 120,
-      paper_cup: 10, paper_container: 12,      metal_knife: 60, metal_fork: 40, metal_spoon: 30,
-      ceramic_plate: 350, ceramic_cup: 200, glass_cup: 220,
+      paper_cup: 10, paper_container: 12,
+      metal_knife: 60, metal_fork: 40, metal_spoon: 30,      ceramic_plate: 350, ceramic_cup: 200, glass_cup: 220,
       default_small: 30, default_medium: 60, default_large: 120, default_xlarge: 250
     };
 
@@ -243,8 +242,8 @@
       }
       if ((mat === 'paper' || mat === 'cardboard') && (cat.includes('пакет') || cat.includes('bag'))) {
         if (sz === 'small') return EMPTY_WEIGHTS.paper_bag_small;
-        if (sz === 'large') return EMPTY_WEIGHTS.paper_bag_large;        return EMPTY_WEIGHTS.paper_bag_medium;
-      }
+        if (sz === 'large') return EMPTY_WEIGHTS.paper_bag_large;
+        return EMPTY_WEIGHTS.paper_bag_medium;      }
       if (mat === 'paper' && (cat.includes('стакан') || cat.includes('cup'))) return EMPTY_WEIGHTS.paper_cup;
       if (mat === 'paper' && (cat.includes('контейнер') || cat.includes('упаковк'))) return EMPTY_WEIGHTS.paper_container;
       if (mat === 'ceramic' && (cat.includes('тарелк') || cat.includes('plate'))) return EMPTY_WEIGHTS.ceramic_plate;
@@ -256,7 +255,7 @@
       const html = document.documentElement;
       const isDark = html.getAttribute('data-theme') === 'dark';
       html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.getElementById('themeBtn').textContent = isDark ? ' Темная' : '☀️ Светлая';
+      document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
     }
 
     function showLoadingOverlay(subtext) {
@@ -293,29 +292,48 @@
       document.getElementById('sRec').textContent = stats.rec;
       document.getElementById('sW').textContent = stats.w + ' г';
     }
+    // Скрытие/показ кнопок в зависимости от состояния камеры
+    function setCameraButtonsState(isCameraOn) {
+      const btnAction = document.getElementById('btnAction');
+      const btnSwitch = document.getElementById('btnSwitch');
+      
+      if (isCameraOn) {
+        btnAction.classList.remove('hidden');
+        btnSwitch.classList.remove('hidden');
+      } else {
+        btnAction.classList.add('hidden');
+        btnSwitch.classList.add('hidden');
+      }
+    }
+
     async function toggleCamera() {
       if (stream) {
+        // Выключаем камеру
         stream.getTracks().forEach(t => t.stop());
         stream = null;
         document.getElementById('vid').srcObject = null;
+        
         const btnCamera = document.getElementById('btnCamera');
         btnCamera.innerHTML = '▶ Включить камеру';
         btnCamera.classList.remove('btn-danger');
         btnCamera.classList.add('btn-primary');
-        btnCamera.disabled = false;
-        document.getElementById('btnAction').disabled = true;
-        document.getElementById('btnSwitch').disabled = true;
+        
+        // Скрываем кнопки "Распознать" и "Сменить модель"
+        setCameraButtonsState(false);
         cancelResults();
       } else {
+        // Включаем камеру
         try {
           stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
           document.getElementById('vid').srcObject = stream;
+          
           const btnCamera = document.getElementById('btnCamera');
           btnCamera.innerHTML = '⏹ Выключить камеру';
           btnCamera.classList.remove('btn-primary');
           btnCamera.classList.add('btn-danger');
-          document.getElementById('btnAction').disabled = false;
-          document.getElementById('btnSwitch').disabled = false;
+          
+          // Показываем кнопки "Распознать" и "Сменить модель"
+          setCameraButtonsState(true);
           document.getElementById('err').style.display = 'none';
         } catch (e) { showError("Ошибка камеры: " + e.message); }
       }
@@ -324,7 +342,6 @@
     async function handleAction() {
       if (actionState === 'recognize') await doRecognize();
     }
-
     async function doRecognize(specificModel) {
       const vid = document.getElementById('vid');
       const can = document.getElementById('can');
@@ -335,20 +352,21 @@
       can.getContext('2d').drawImage(vid, 0, 0, can.width, can.height);
       const img = can.toDataURL('image/jpeg', 0.6).split(',')[1];
 
-      // Автоматически выключить камеру и вернуть кнопку в исходное состояние
+      // Автоматически выключить камеру
       if (stream) {
         stream.getTracks().forEach(t => t.stop());
         stream = null;
         document.getElementById('vid').srcObject = null;
         
-        const btnCamera = document.getElementById('btnCamera');        btnCamera.innerHTML = '▶ Включить камеру';
+        // Возвращаем кнопку камеры в исходное состояние
+        const btnCamera = document.getElementById('btnCamera');
+        btnCamera.innerHTML = '▶ Включить камеру';
         btnCamera.classList.remove('btn-danger');
         btnCamera.classList.add('btn-primary');
-        btnCamera.disabled = false;
+        
+        // Скрываем кнопки "Распознать" и "Сменить модель"
+        setCameraButtonsState(false);
       }
-
-      document.getElementById('btnAction').disabled = true;
-      document.getElementById('btnSwitch').disabled = true;
 
       actionState = 'analyzing';
       showLoadingOverlay('Анализ через AI...');
@@ -372,8 +390,7 @@
           updatePreferredUI();
         }
 
-        let items = [];
-        if (data.items && Array.isArray(data.items)) {
+        let items = [];        if (data.items && Array.isArray(data.items)) {
           items = data.items;
         } else if (data.product_name) {
           items = [data];
@@ -390,11 +407,8 @@
         
         renderResults();
         actionState = 'results';
-                document.getElementById('btnAction').disabled = false;
-        document.getElementById('btnAction').innerHTML = ' Распознать';
-        document.getElementById('btnAction').classList.remove('btn-primary');
-        document.getElementById('btnAction').classList.add('btn-success');
 
+        // Автоскролл к результатам
         setTimeout(() => {
           document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
@@ -402,10 +416,6 @@
       } catch (e) {
         showError(e.message);
         actionState = 'recognize';
-        document.getElementById('btnAction').disabled = false;
-        document.getElementById('btnAction').innerHTML = ' Распознать';
-        document.getElementById('btnAction').classList.remove('btn-primary');
-        document.getElementById('btnAction').classList.add('btn-success');
       } finally {
         hideLoadingOverlay();
       }
@@ -429,8 +439,7 @@
       saveBtn.disabled = selectedIds.size === 0;
 
       list.innerHTML = recognizedItems.map(item => {
-        const isSelected = selectedIds.has(item._id);
-        const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
+        const isSelected = selectedIds.has(item._id);        const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
         const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
         const confColor = colors[item._confidence] || colors.medium;
         const confLabel = labels[item._confidence] || labels.medium;
@@ -439,7 +448,8 @@
           ['Производитель', item.manufacturer],
           ['Бренд', item.brand],
           ['Страна', item.country],
-          ['Категория', item.category],          ['Материал', MATERIAL_LABELS[item.material_type || 'other']],
+          ['Категория', item.category],
+          ['Материал', MATERIAL_LABELS[item.material_type || 'other']],
           ['Размер', SIZE_LABELS[item.size || 'medium']],
           ['Вес пустой тары', `${item._empty_weight} г`],
           ['Указанный вес', item.weight || '—'],
@@ -478,7 +488,6 @@
       else selectedIds.add(id);
       renderResults();
     }
-
     function selectAll() {
       recognizedItems.forEach(it => selectedIds.add(it._id));
       renderResults();
@@ -488,6 +497,7 @@
       selectedIds.clear();
       renderResults();
     }
+
     function removeItem(id) {
       recognizedItems = recognizedItems.filter(it => it._id !== id);
       selectedIds.delete(id);
@@ -527,8 +537,7 @@
           description: item.description
         };
         stats = {
-          total: stats.total + 1,
-          rec: item.recyclable ? stats.rec + 1 : stats.rec,
+          total: stats.total + 1,          rec: item.recyclable ? stats.rec + 1 : stats.rec,
           w: stats.w + item._empty_weight
         };
         history = [newItem, ...history].slice(0, 50);
@@ -538,6 +547,7 @@
       updateStats();
       renderHistory();
     }
+
     function cancelResults() {
       recognizedItems = [];
       selectedIds.clear();
@@ -576,8 +586,7 @@
               <div class="history-item-title">${item.recyclable ? '♻' : ''} ${item.product_name}</div>
               <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.empty_weight} г</div>
             </div>
-            <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>
-          </div>
+            <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>          </div>
           <div class="history-item-details ${expandedId === item.id ? 'open' : ''}">
             <div class="detail-row"><span class="detail-label">Категория</span><span class="detail-value">${item.category}</span></div>
             <div class="detail-row"><span class="detail-label">Материал</span><span class="detail-value">${MATERIAL_LABELS[item.material_type] || item.material_type}</span></div>
@@ -586,7 +595,8 @@
             <div class="weight-calc">✅ Для переработки: <strong>${item.empty_weight} г</strong> (пустая тара)</div>
             ${item.description ? `<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">Описание</span><span class="detail-value">${item.description}</span></div>` : ''}
             <div class="detail-row"><span class="detail-label">Время</span><span class="detail-value">${item.timestamp}</span></div>
-          </div>        </li>
+          </div>
+        </li>
       `).join('');
     }
 

@@ -11,6 +11,7 @@
       --accent: #818cf8; --accent-bg: rgba(99,102,241,0.15);
       --success: #22c55e; --success-bg: rgba(34,197,94,0.15);
       --danger: #ef4444; --danger-bg: rgba(239,68,68,0.15);
+      --warn: #f59e0b; --warn-bg: rgba(245,158,11,0.15);
     }
     [data-theme="light"] {
       --bg: #f8fafc; --text: #0f172a; --text-muted: #64748b;
@@ -18,6 +19,7 @@
       --accent: #4f46e5; --accent-bg: rgba(79, 70, 229, 0.1);
       --success: #16a34a; --success-bg: rgba(22,163,74,0.1);
       --danger: #dc2626; --danger-bg: rgba(220,38,38,0.1);
+      --warn: #d97706; --warn-bg: rgba(217,119,6,0.1);
     }
     * { box-sizing: border-box; }
     body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; margin: 0; transition: background 0.3s, color 0.3s; }
@@ -45,22 +47,40 @@
     .btn-danger:hover:not(:disabled) { background: var(--danger); color: #fff; }
     .btn-success { background: var(--success-bg); color: var(--success); border-color: rgba(34,197,94,0.3); }
     .btn-success:hover:not(:disabled) { background: var(--success); color: #fff; }
-    .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--card-border); }
-    .btn-ghost:hover:not(:disabled) { color: var(--text); background: var(--card-bg); }
-    .btn-large { padding: 12px 24px; font-size: 15px; }    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px; }
+    .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--card-border); }    .btn-ghost:hover:not(:disabled) { color: var(--text); background: var(--card-bg); }
+    .btn-large { padding: 12px 24px; font-size: 15px; }
+    .btn-small { padding: 6px 12px; font-size: 12px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px; }
     .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; text-align: center; }
     .stat-value { font-size: 24px; font-weight: 700; color: var(--accent); }
     .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
-    .result-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
-    .result-header { padding: 16px 20px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
-    .result-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
-    .confidence-badge { font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 20px; }
-    .result-desc { padding: 16px 20px; border-bottom: 1px solid var(--card-border); font-size: 14px; color: var(--text-muted); line-height: 1.5; }
-    .field { display: flex; padding: 12px 20px; border-bottom: 1px solid var(--card-border); }
-    .field:last-child { border-bottom: none; }
-    .field-label { min-width: 130px; color: var(--text-muted); font-size: 13px; font-weight: 500; }
-    .field-value { color: var(--text); font-size: 14px; flex: 1; }
-    .model-info { padding: 12px 20px; background: rgba(99,102,241,0.05); font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--card-border); }
+    
+    /* Карточки результатов */
+    .results-section { margin-bottom: 24px; }
+    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .results-header h3 { font-size: 16px; margin: 0; color: var(--text-muted); }
+    .selection-info { font-size: 13px; color: var(--accent); font-weight: 600; }
+    .bulk-actions { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    
+    .item-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; margin-bottom: 12px; transition: border-color 0.2s; }
+    .item-card.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-bg); }
+    .item-card-header { padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px; border-bottom: 1px solid var(--card-border); }
+    .item-checkbox { 
+      width: 20px; height: 20px; margin-top: 2px; cursor: pointer; 
+      accent-color: var(--accent); flex-shrink: 0;
+    }
+    .item-title { flex: 1; font-weight: 600; font-size: 15px; color: var(--text); }
+    .item-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .item-confidence { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 12px; flex-shrink: 0; }
+    
+    .item-desc { padding: 12px 16px; font-size: 13px; color: var(--text-muted); line-height: 1.5; border-bottom: 1px solid var(--card-border); }
+    .item-fields { padding: 8px 0; }
+    .item-field { display: flex; padding: 8px 16px; font-size: 13px; border-bottom: 1px solid var(--card-border); }
+    .item-field:last-child { border-bottom: none; }
+    .item-field-label { min-width: 120px; color: var(--text-muted); font-weight: 500; }
+    .item-field-value { color: var(--text); flex: 1; }
+    .item-actions { padding: 12px 16px; background: rgba(99,102,241,0.03); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+    
     .history { margin-top: 20px; }
     .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .history h3 { font-size: 16px; margin: 0; color: var(--text-muted); }
@@ -76,65 +96,28 @@
     .history-item-details.open { display: block; padding-top: 12px; }
     .detail-row { display: flex; padding: 6px 0; font-size: 13px; border-bottom: 1px solid var(--card-border); }
     .detail-row:last-child { border-bottom: none; }
-    .detail-label { min-width: 120px; color: var(--text-muted); font-weight: 500; }
-    .detail-value { color: var(--text); flex: 1; }
+    .detail-label { min-width: 120px; color: var(--text-muted); font-weight: 500; }    .detail-value { color: var(--text); flex: 1; }
     .weight-calc { background: var(--success-bg); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 8px 12px; margin-top: 8px; font-size: 12px; color: var(--success); }
     .err { background: var(--danger-bg); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 12px 16px; color: var(--danger); font-size: 14px; margin-bottom: 16px; }
     .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
     
-    /* Toast уведомление */
-    .toast {
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%) translateY(-100px);
-      background: var(--accent);
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 10px;
-      font-size: 14px;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      z-index: 1000;      transition: transform 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .toast.show { transform: translateX(-50%) translateY(0); }
-    
-    /* Оверлей загрузки */
     .loading-overlay {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
       background: rgba(0,0,0,0.85);
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      border-radius: 16px;
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 10; border-radius: 16px;
     }
     .loading-overlay.active { display: flex; }
     .loading-overlay .spinner-large {
-      width: 48px;
-      height: 48px;
-      border: 4px solid rgba(129,140,248,0.2);
-      border-top-color: var(--accent);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin-bottom: 16px;
+      width: 48px; height: 48px;
+      border: 4px solid rgba(129,140,248,0.2); border-top-color: var(--accent);
+      border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px;
     }
-    .loading-overlay .loading-text {
-      color: #fff;
-      font-size: 16px;
-      font-weight: 600;
-    }
-    .loading-overlay .loading-subtext {
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-top: 8px;
-    }
+    .loading-overlay .loading-text { color: #fff; font-size: 16px; font-weight: 600; }
+    .loading-overlay .loading-subtext { color: var(--text-muted); font-size: 13px; margin-top: 8px; }
+    
+    .empty-results { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px; }
   </style>
 </head>
 <body>
@@ -145,13 +128,14 @@
     </div>
 
     <div class="model-status">
-      <span class="model-label">📡 Модель:</span>      <span class="model-name" id="currentModel">nex-agi/nex-n2-pro:free</span>
-      <button class="btn-switch" onclick="switchToNextModel()" id="btnSwitch" disabled title="Переключиться на следующую модель">🔄 Сменить</button>
+      <span class="model-label">📡 Модель:</span>
+      <span class="model-name" id="currentModel">nex-agi/nex-n2-pro:free</span>
+      <button class="btn-switch" onclick="switchToNextModel()" id="btnSwitch" disabled>🔄 Сменить</button>
       <span class="model-badge" id="preferredBadge" style="display:none"> <span id="preferredCount">0</span> в приоритете</span>
     </div>
 
     <div class="preferred-info" id="preferredInfo" style="display:none">
-       Ускорение: <span id="preferredInfoCount">0</span> моделей в приоритете
+      ⚡ Ускорение: <span id="preferredInfoCount">0</span> моделей в приоритете
     </div>
 
     <div class="err" id="err" style="display:none"></div>
@@ -159,18 +143,13 @@
     <div class="video-container">
       <video id="vid" autoplay playsinline muted></video>
       <canvas id="can" style="display:none"></canvas>
-      
-      <!-- Оверлей загрузки -->
       <div class="loading-overlay" id="loadingOverlay">
         <div class="spinner-large"></div>
-        <div class="loading-text"> Анализ изображения...</div>
-        <div class="loading-subtext" id="loadingSubtext">Обработка через AI</div>
+        <div class="loading-text"> Изображение захвачено</div>        <div class="loading-subtext" id="loadingSubtext">Анализ через AI...</div>
       </div>
-      
       <div class="camera-overlay" id="cameraOverlay">
         <button class="btn btn-primary" onclick="toggleCamera()" id="btnCamera">▶ Включить камеру</button>
         <button class="btn btn-success btn-large" onclick="handleAction()" id="btnAction" disabled>🔍 Распознать</button>
-        <button class="btn btn-ghost" onclick="cancelResult()" id="btnCancel" style="display:none">✕ Отменить</button>
       </div>
     </div>
 
@@ -180,131 +159,115 @@
       <div class="stat-card"><div class="stat-value" id="sW">0 г</div><div class="stat-label">Вес пустой тары</div></div>
     </div>
 
-    <div class="result-card" id="res" style="display:none">
-      <div class="result-header">
-        <span class="result-title">Результат</span>
-        <span class="confidence-badge" id="conf"></span>
+    <!-- Секция результатов с чекбоксами -->
+    <div class="results-section" id="resultsSection" style="display:none">
+      <div class="results-header">
+        <h3> Распознанные предметы (<span id="resultsCount">0</span>)</h3>
+        <span class="selection-info" id="selectionInfo">Выбрано: 0</span>
       </div>
-      <div class="result-desc" id="desc"></div>
-      <div id="fields"></div>
-      <div class="model-info" id="modelInfo"></div>
+      <div class="bulk-actions">
+        <button class="btn btn-success btn-small" onclick="saveSelected()" id="btnSaveSelected" disabled>💾 Сохранить выбранные</button>
+        <button class="btn btn-ghost btn-small" onclick="selectAll()">✅ Выбрать все</button>
+        <button class="btn btn-ghost btn-small" onclick="deselectAll()">⬜ Снять все</button>
+        <button class="btn btn-danger btn-small" onclick="cancelResults()">✕ Отменить</button>
+      </div>
+      <div id="resultsList"></div>
     </div>
 
     <div class="history">
       <div class="history-header">
         <h3>История операций (<span id="historyCount">0</span>)</h3>
         <button class="btn btn-ghost" onclick="clearHistory()" id="btnClear" disabled style="font-size:12px;padding:6px 12px">Очистить</button>
-      </div>      <ul class="history-list" id="historyList"></ul>
+      </div>
+      <ul class="history-list" id="historyList"></ul>
     </div>
   </div>
 
-  <!-- Toast уведомление -->
-  <div class="toast" id="toast">
-    <span>📸</span>
-    <span id="toastText">Изображение захвачено</span>
-  </div>
-
   <script>
-    let stream, result, stats = { total: 0, rec: 0, w: 0 };
+    let stream, stats = { total: 0, rec: 0, w: 0 };
     let history = [];
     let preferredModels = [];
     let currentModel = "nex-agi/nex-n2-pro:free";
     let expandedId = null;
     let actionState = 'recognize';
+    let recognizedItems = []; // Массив распознанных предметов
+    let selectedIds = new Set(); // ID выбранных для сохранения
 
-    // Стандартные веса для разных типов предметов (в граммах)
-    const ITEM_WEIGHTS = {
-      // Упаковка
-      'plastic_bottle_small': { full: 550, empty: 25 },   // Пластиковая бутылка 0.5л
-      'plastic_bottle_medium': { full: 1050, empty: 35 },  // Пластиковая бутылка 1л
-      'plastic_bottle_large': { full: 2050, empty: 50 },   // Пластиковая бутылка 2л
-      'glass_bottle_small': { full: 700, empty: 300 },     // Стеклянная бутылка 0.33л
-      'glass_bottle_medium': { full: 1200, empty: 400 },   // Стеклянная бутылка 0.7л
-      'glass_bottle_large': { full: 1500, empty: 500 },    // Стеклянная бутылка 1л
-      'aluminum_can': { full: 350, empty: 15 },            // Алюминиевая банка 0.33л
-      'metal_can': { full: 450, empty: 50 },               // Металлическая банка (консервы)
-      'cardboard_box_small': { full: 550, empty: 30 },     // Картонная коробка 0.5л
-      'cardboard_box_medium': { full: 1050, empty: 50 },   // Картонная коробка 1л
-      'cardboard_box_large': { full: 2050, empty: 80 },    // Картонная коробка 2л
-      'paper_bag': { full: 1050, empty: 20 },              // Бумажный пакет
-      
-      // Посуда и утварь
-      'metal_knife': { full: 80, empty: 80 },              // Металлический нож
-      'metal_fork': { full: 50, empty: 50 },               // Металлическая вилка
-      'metal_spoon': { full: 40, empty: 40 },              // Металлическая ложка
-      'glass_cup': { full: 250, empty: 250 },              // Стеклянная чашка
-      'plastic_cup': { full: 230, empty: 30 },             // Пластиковая чашка
-      'ceramic_plate': { full: 400, empty: 400 },          // Керамическая тарелка
-      
-      // Электроника
-      'phone': { full: 200, empty: 200 },                  // Телефон
-      'laptop': { full: 2000, empty: 2000 },               // Ноутбук
-      
-      // Другое
-      'default_small': { full: 500, empty: 100 },
-      'default_medium': { full: 1000, empty: 200 },
-      'default_large': { full: 2000, empty: 400 }    };
+    const EMPTY_WEIGHTS = {
+      plastic_bottle_033: 12, plastic_bottle_05: 18, plastic_bottle_1: 28, plastic_bottle_15: 38, plastic_bottle_2: 48,      plastic_cup: 8, plastic_container: 15, plastic_bag: 4,
+      glass_bottle_033: 180, glass_bottle_05: 250, glass_bottle_07: 350, glass_bottle_1: 450, glass_jar: 200,
+      aluminum_can_033: 13, aluminum_can_05: 18,
+      metal_can_small: 40, metal_can_medium: 60, metal_can_large: 80,
+      paper_bag_small: 8, paper_bag_medium: 15, paper_bag_large: 25,
+      cardboard_box_small: 20, cardboard_box_medium: 40, cardboard_box_large: 70, cardboard_box_xlarge: 120,
+      paper_cup: 10, paper_container: 12,
+      metal_knife: 60, metal_fork: 40, metal_spoon: 30,
+      ceramic_plate: 350, ceramic_cup: 200, glass_cup: 220,
+      default_small: 30, default_medium: 60, default_large: 120, default_xlarge: 250
+    };
 
     const MATERIAL_LABELS = { plastic: "Пластик", glass: "Стекло", aluminum: "Алюминий", paper: "Бумага", cardboard: "Картон", metal: "Металл", ceramic: "Керамика", other: "Другое" };
     const SIZE_LABELS = { small: "Маленький", medium: "Средний", large: "Большой", xlarge: "Очень большой" };
 
-    // Определение типа предмета для расчёта веса
-    function getItemType(material, category, size) {
-      const cat = (category || '').toLowerCase();
+    function getEmptyWeight(material, category, size, productName) {
       const mat = (material || '').toLowerCase();
-      
-      // Посуда и утварь
-      if (cat.includes('нож') || cat.includes('knife')) return 'metal_knife';
-      if (cat.includes('вилк') || cat.includes('fork')) return 'metal_fork';
-      if (cat.includes('ложк') || cat.includes('spoon')) return 'metal_spoon';
-      if (cat.includes('чашк') || cat.includes('cup') || cat.includes('стакан')) return mat === 'plastic' ? 'plastic_cup' : 'glass_cup';
-      if (cat.includes('тарелк') || cat.includes('plate')) return 'ceramic_plate';
-      
-      // Упаковка
-      if (cat.includes('бутылк') || cat.includes('bottle')) {
-        if (mat === 'glass') return size === 'small' ? 'glass_bottle_small' : size === 'large' ? 'glass_bottle_large' : 'glass_bottle_medium';
-        return size === 'small' ? 'plastic_bottle_small' : size === 'large' ? 'plastic_bottle_large' : 'plastic_bottle_medium';
-      }
-      if (cat.includes('банк') || cat.includes('can')) {
-        return mat === 'aluminum' ? 'aluminum_can' : 'metal_can';
-      }
-      if (cat.includes('коробк') || cat.includes('box') || cat.includes('упаковк')) {
-        return size === 'small' ? 'cardboard_box_small' : size === 'large' ? 'cardboard_box_large' : 'cardboard_box_medium';
-      }
-      if (cat.includes('пакет') || cat.includes('bag')) return 'paper_bag';
-      
-      // Электроника
-      if (cat.includes('телефон') || cat.includes('phone')) return 'phone';
-      if (cat.includes('ноутбук') || cat.includes('laptop')) return 'laptop';
-      
-      // По умолчанию
-      return `default_${size || 'medium'}`;
-    }
+      const cat = (category || '').toLowerCase();
+      const name = (productName || '').toLowerCase();
+      const sz = size || 'medium';
 
-    function calculateWeights(material, category, size) {
-      const itemType = getItemType(material, category, size);
-      const weights = ITEM_WEIGHTS[itemType] || ITEM_WEIGHTS[`default_${size || 'medium'}`];
-      return {
-        full: weights.full,
-        empty: weights.empty
-      };
+      if (mat === 'plastic' && (cat.includes('бутылк') || cat.includes('bottle') || name.includes('бутылк'))) {
+        if (sz === 'small') return EMPTY_WEIGHTS.plastic_bottle_05;
+        if (sz === 'large') return EMPTY_WEIGHTS.plastic_bottle_2;
+        return EMPTY_WEIGHTS.plastic_bottle_1;
+      }
+      if (mat === 'plastic' && (cat.includes('стакан') || cat.includes('cup') || cat.includes('контейнер'))) {
+        return cat.includes('контейнер') ? EMPTY_WEIGHTS.plastic_container : EMPTY_WEIGHTS.plastic_cup;
+      }
+      if (mat === 'plastic' && (cat.includes('пакет') || cat.includes('bag') || cat.includes('плёнк'))) return 5;
+      if (mat === 'glass' && (cat.includes('бутылк') || cat.includes('bottle'))) {
+        if (sz === 'small') return EMPTY_WEIGHTS.glass_bottle_033;
+        if (sz === 'large') return EMPTY_WEIGHTS.glass_bottle_1;
+        return EMPTY_WEIGHTS.glass_bottle_07;
+      }
+      if (mat === 'glass' && (cat.includes('банк') || cat.includes('jar') || cat.includes('банка'))) return EMPTY_WEIGHTS.glass_jar;
+      if (mat === 'glass' && (cat.includes('стакан') || cat.includes('чашк') || cat.includes('cup'))) return EMPTY_WEIGHTS.glass_cup;
+      if (mat === 'aluminum' && (cat.includes('банк') || cat.includes('can'))) {
+        return sz === 'small' ? EMPTY_WEIGHTS.aluminum_can_033 : EMPTY_WEIGHTS.aluminum_can_05;
+      }
+      if (mat === 'metal' && (cat.includes('банк') || cat.includes('консерв') || cat.includes('can'))) {
+        if (sz === 'small') return EMPTY_WEIGHTS.metal_can_small;
+        if (sz === 'large') return EMPTY_WEIGHTS.metal_can_large;
+        return EMPTY_WEIGHTS.metal_can_medium;
+      }
+      if (mat === 'metal' && (cat.includes('нож') || cat.includes('knife') || name.includes('нож'))) return EMPTY_WEIGHTS.metal_knife;
+      if (mat === 'metal' && (cat.includes('вилк') || cat.includes('fork') || name.includes('вилк'))) return EMPTY_WEIGHTS.metal_fork;
+      if (mat === 'metal' && (cat.includes('ложк') || cat.includes('spoon') || name.includes('ложк'))) return EMPTY_WEIGHTS.metal_spoon;
+      if (mat === 'cardboard' && (cat.includes('коробк') || cat.includes('box') || cat.includes('упаковк'))) {
+        if (sz === 'small') return EMPTY_WEIGHTS.cardboard_box_small;        if (sz === 'large') return EMPTY_WEIGHTS.cardboard_box_large;
+        if (sz === 'xlarge') return EMPTY_WEIGHTS.cardboard_box_xlarge;
+        return EMPTY_WEIGHTS.cardboard_box_medium;
+      }
+      if ((mat === 'paper' || mat === 'cardboard') && (cat.includes('пакет') || cat.includes('bag'))) {
+        if (sz === 'small') return EMPTY_WEIGHTS.paper_bag_small;
+        if (sz === 'large') return EMPTY_WEIGHTS.paper_bag_large;
+        return EMPTY_WEIGHTS.paper_bag_medium;
+      }
+      if (mat === 'paper' && (cat.includes('стакан') || cat.includes('cup'))) return EMPTY_WEIGHTS.paper_cup;
+      if (mat === 'paper' && (cat.includes('контейнер') || cat.includes('упаковк'))) return EMPTY_WEIGHTS.paper_container;
+      if (mat === 'ceramic' && (cat.includes('тарелк') || cat.includes('plate'))) return EMPTY_WEIGHTS.ceramic_plate;
+      if (mat === 'ceramic' && (cat.includes('чашк') || cat.includes('cup'))) return EMPTY_WEIGHTS.ceramic_cup;
+      return EMPTY_WEIGHTS[`default_${sz}`] || EMPTY_WEIGHTS.default_medium;
     }
 
     function toggleTheme() {
       const html = document.documentElement;
-      const isDark = html.getAttribute('data-theme') === 'dark';      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
       document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
     }
 
-    function showToast(text) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toastText').textContent = text;
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 3000);
-    }
-
     function showLoadingOverlay(subtext) {
-      document.getElementById('loadingSubtext').textContent = subtext || 'Обработка через AI';
+      document.getElementById('loadingSubtext').textContent = subtext || 'Анализ через AI...';
       document.getElementById('loadingOverlay').classList.add('active');
     }
 
@@ -329,8 +292,7 @@
         document.getElementById('preferredCount').textContent = preferredModels.length;
         document.getElementById('preferredInfo').style.display = 'block';
         document.getElementById('preferredInfoCount').textContent = preferredModels.length;
-      }
-    }
+      }    }
 
     function updateStats() {
       document.getElementById('sTotal').textContent = stats.total;
@@ -341,18 +303,19 @@
     async function toggleCamera() {
       if (stream) {
         stream.getTracks().forEach(t => t.stop());
-        stream = null;        document.getElementById('vid').srcObject = null;
+        stream = null;
+        document.getElementById('vid').srcObject = null;
         document.getElementById('btnCamera').innerHTML = '▶ Включить камеру';
         document.getElementById('btnCamera').classList.remove('btn-danger');
         document.getElementById('btnCamera').classList.add('btn-primary');
         document.getElementById('btnAction').disabled = true;
         document.getElementById('btnSwitch').disabled = true;
-        cancelResult();
+        cancelResults();
       } else {
         try {
           stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
           document.getElementById('vid').srcObject = stream;
-          document.getElementById('btnCamera').innerHTML = ' Выключить камеру';
+          document.getElementById('btnCamera').innerHTML = '⏹ Выключить камеру';
           document.getElementById('btnCamera').classList.remove('btn-primary');
           document.getElementById('btnCamera').classList.add('btn-danger');
           document.getElementById('btnAction').disabled = false;
@@ -364,7 +327,6 @@
 
     async function handleAction() {
       if (actionState === 'recognize') await doRecognize();
-      else if (actionState === 'saving') doSave();
     }
 
     async function doRecognize(specificModel) {
@@ -377,30 +339,21 @@
       can.getContext('2d').drawImage(vid, 0, 0, can.width, can.height);
       const img = can.toDataURL('image/jpeg', 0.6).split(',')[1];
 
-      // Показать toast
-      showToast('📸 Изображение предмета захвачено для обработки');
-
-      // Автоматически выключить камеру
       if (stream) {
         stream.getTracks().forEach(t => t.stop());
-        stream = null;
-        document.getElementById('vid').srcObject = null;
+        stream = null;        document.getElementById('vid').srcObject = null;
       }
 
-      // Задизейблить все кнопки
       document.getElementById('btnCamera').disabled = true;
       document.getElementById('btnAction').disabled = true;
-      document.getElementById('btnSwitch').disabled = true;      document.getElementById('btnCancel').disabled = true;
+      document.getElementById('btnSwitch').disabled = true;
 
-      // Показать оверлей загрузки
       actionState = 'analyzing';
-      showLoadingOverlay('Отправка изображения на сервер...');
-      document.getElementById('res').style.display = 'none';
-      document.getElementById('btnCancel').style.display = 'none';
+      showLoadingOverlay('Анализ через AI...');
+      document.getElementById('resultsSection').style.display = 'none';
       document.getElementById('err').style.display = 'none';
 
       try {
-        showLoadingOverlay('Анализ через AI...');
         const res = await fetch('/api/recognize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -408,7 +361,7 @@
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
-        result = data;
+        
         currentModel = data._used_model || currentModel;
         document.getElementById('currentModel').textContent = currentModel;
         if (data._used_model && !preferredModels.includes(data._used_model)) {
@@ -416,14 +369,40 @@
           localStorage.setItem("recognizer_preferred_models", JSON.stringify(preferredModels));
           updatePreferredUI();
         }
-        showResult(data);
-        actionState = 'saving';
+
+        // Обрабатываем ответ: может быть один объект или массив items
+        let items = [];
+        if (data.items && Array.isArray(data.items)) {
+          items = data.items;
+        } else if (data.product_name) {
+          items = [data];
+        }
+        
+        // Добавляем ID и вес к каждому предмету
+        recognizedItems = items.map((item, idx) => ({
+          ...item,
+          _id: Date.now() + idx,
+          _empty_weight: getEmptyWeight(item.material_type, item.category, item.size, item.product_name),
+          _confidence: item.confidence || data.confidence || 'medium'
+        }));
+
+        // По умолчанию все выбраны
+        selectedIds = new Set(recognizedItems.map(it => it._id));
+        
+        renderResults();
+        actionState = 'results';        
+        // Возвращаем кнопку в режим "Распознать" для нового скана
         document.getElementById('btnAction').disabled = false;
-        document.getElementById('btnAction').innerHTML = ' Сохранить';
+        document.getElementById('btnAction').innerHTML = '🔍 Распознать';
         document.getElementById('btnAction').classList.remove('btn-primary');
         document.getElementById('btnAction').classList.add('btn-success');
-        document.getElementById('btnCancel').style.display = 'inline-flex';
-        document.getElementById('btnCancel').disabled = false;
+        document.getElementById('btnCamera').disabled = false;
+
+        // Автоскролл к результатам
+        setTimeout(() => {
+          document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+
       } catch (e) {
         showError(e.message);
         actionState = 'recognize';
@@ -437,43 +416,138 @@
       }
     }
 
-    function doSave() {
-      if (!result) return;
-      const weights = calculateWeights(result.material_type, result.category, result.size);      const newItem = {
-        id: Date.now(), product_name: result.product_name || 'Неизвестно',
-        brand: result.brand || 'No brand', category: result.category || '—',
-        full_weight: weights.full, empty_weight: weights.empty,
-        material_type: result.material_type || 'other', size: result.size || 'medium',
-        recyclable: result.recyclable, timestamp: new Date().toLocaleString('ru-RU'),
-        description: result.description
-      };
-      stats = { total: stats.total + 1, rec: result.recyclable ? stats.rec + 1 : stats.rec, w: stats.w + weights.empty };
-      localStorage.setItem("recognizer_stats", JSON.stringify(stats));
-      updateStats();
-      history = [newItem, ...history].slice(0, 50);
-      localStorage.setItem("recognizer_history", JSON.stringify(history));
-      renderHistory();
-      actionState = 'recognize';
-      const btnAction = document.getElementById('btnAction');
-      btnAction.innerHTML = ' Распознать';
-      btnAction.classList.remove('btn-primary');
-      btnAction.classList.add('btn-success');
-      document.getElementById('btnCancel').style.display = 'none';
-      document.getElementById('res').style.display = 'none';
-      result = null;
+    function renderResults() {
+      const section = document.getElementById('resultsSection');
+      const list = document.getElementById('resultsList');
+      const countEl = document.getElementById('resultsCount');
+      const infoEl = document.getElementById('selectionInfo');
+      const saveBtn = document.getElementById('btnSaveSelected');
+
+      if (recognizedItems.length === 0) {
+        section.style.display = 'none';
+        return;
+      }
+
+      section.style.display = 'block';
+      countEl.textContent = recognizedItems.length;
+      infoEl.textContent = `Выбрано: ${selectedIds.size} из ${recognizedItems.length}`;
+      saveBtn.disabled = selectedIds.size === 0;
+
+      list.innerHTML = recognizedItems.map(item => {
+        const isSelected = selectedIds.has(item._id);
+        const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
+        const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
+        const confColor = colors[item._confidence] || colors.medium;
+        const confLabel = labels[item._confidence] || labels.medium;
+        const fields = [
+          ['Производитель', item.manufacturer],
+          ['Бренд', item.brand],
+          ['Страна', item.country],
+          ['Категория', item.category],
+          ['Материал', MATERIAL_LABELS[item.material_type || 'other']],
+          ['Размер', SIZE_LABELS[item.size || 'medium']],
+          ['Вес пустой тары', `${item._empty_weight} г`],
+          ['Указанный вес', item.weight || '—'],
+          ['Переработка', item.recyclable ? '♻ Да' : '✗ Нет'],
+          ['Штрихкод', item.barcode || '—'],
+          ['Состав', item.ingredients || '—']
+        ];
+
+        return `
+          <div class="item-card ${isSelected ? 'selected' : ''}" data-id="${item._id}">
+            <div class="item-card-header">
+              <input type="checkbox" class="item-checkbox" ${isSelected ? 'checked' : ''} onchange="toggleItem(${item._id})">
+              <div style="flex:1">
+                <div class="item-title">${item.product_name || 'Неизвестный предмет'}</div>
+                <div class="item-subtitle">${item.brand || 'No brand'} · ${MATERIAL_LABELS[item.material_type || 'other']} · ${item._empty_weight} г</div>
+              </div>
+              <span class="item-confidence" style="background:${confColor}18;color:${confColor};border:1px solid ${confColor}40">
+                ${confLabel}
+              </span>
+            </div>
+            ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
+            <div class="item-fields">
+              ${fields.map(([l, v]) => v ? `<div class="item-field"><span class="item-field-label">${l}</span><span class="item-field-value">${v}</span></div>` : '').join('')}
+            </div>
+            <div class="item-actions">
+              <button class="btn btn-success btn-small" onclick="saveSingle(${item._id})">💾 Сохранить</button>
+              <button class="btn btn-ghost btn-small" onclick="removeItem(${item._id})">✕ Убрать</button>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
-    function cancelResult() {
+    function toggleItem(id) {
+      if (selectedIds.has(id)) selectedIds.delete(id);
+      else selectedIds.add(id);
+      renderResults();
+    }
+
+    function selectAll() {
+      recognizedItems.forEach(it => selectedIds.add(it._id));
+      renderResults();
+    }
+    function deselectAll() {
+      selectedIds.clear();
+      renderResults();
+    }
+
+    function removeItem(id) {
+      recognizedItems = recognizedItems.filter(it => it._id !== id);
+      selectedIds.delete(id);
+      if (recognizedItems.length === 0) {
+        cancelResults();
+      } else {
+        renderResults();
+      }
+    }
+
+    function saveSingle(id) {
+      const item = recognizedItems.find(it => it._id === id);
+      if (!item) return;
+      saveItems([item]);
+      removeItem(id);
+    }
+
+    function saveSelected() {
+      const toSave = recognizedItems.filter(it => selectedIds.has(it._id));
+      if (toSave.length === 0) return;
+      saveItems(toSave);
+      toSave.forEach(it => removeItem(it._id));
+    }
+
+    function saveItems(items) {
+      items.forEach(item => {
+        const newItem = {
+          id: Date.now() + Math.random(),
+          product_name: item.product_name || 'Неизвестно',
+          brand: item.brand || 'No brand',
+          category: item.category || '—',
+          empty_weight: item._empty_weight,
+          material_type: item.material_type || 'other',
+          size: item.size || 'medium',
+          recyclable: item.recyclable,
+          timestamp: new Date().toLocaleString('ru-RU'),
+          description: item.description
+        };
+        stats = {
+          total: stats.total + 1,
+          rec: item.recyclable ? stats.rec + 1 : stats.rec,
+          w: stats.w + item._empty_weight
+        };
+        history = [newItem, ...history].slice(0, 50);
+      });      localStorage.setItem("recognizer_stats", JSON.stringify(stats));
+      localStorage.setItem("recognizer_history", JSON.stringify(history));
+      updateStats();
+      renderHistory();
+    }
+
+    function cancelResults() {
+      recognizedItems = [];
+      selectedIds.clear();
       actionState = 'recognize';
-      const btnAction = document.getElementById('btnAction');
-      btnAction.innerHTML = '🔍 Распознать';
-      btnAction.classList.remove('btn-primary');
-      btnAction.classList.add('btn-success');
-      btnAction.disabled = !stream;
-      document.getElementById('btnCamera').disabled = false;
-      document.getElementById('btnCancel').style.display = 'none';
-      document.getElementById('res').style.display = 'none';
-      result = null;
+      document.getElementById('resultsSection').style.display = 'none';
     }
 
     async function switchToNextModel() {
@@ -488,38 +562,8 @@
         const nextIndex = (currentIndex + 1) % modelsData.models.length;
         const nextModel = modelsData.models[nextIndex].id;
         await doRecognize(nextModel);
-      } catch (e) { showError(e.message); }      finally { document.getElementById('btnSwitch').disabled = false; }
-    }
-
-    function showResult(r) {
-      const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
-      const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
-      document.getElementById('conf').textContent = `Точность: ${labels[r.confidence]}`;
-      document.getElementById('conf').style.background = `${colors[r.confidence]}18`;
-      document.getElementById('conf').style.color = colors[r.confidence];
-      document.getElementById('conf').style.border = `1px solid ${colors[r.confidence]}40`;
-      document.getElementById('desc').textContent = r.description || '';
-      
-      const weights = calculateWeights(r.material_type, r.category, r.size);
-      
-      const fields = [
-        ['Название', r.product_name], ['Производитель', r.manufacturer],
-        ['Бренд', r.brand], ['Страна', r.country], ['Категория', r.category],
-        ['Материал', MATERIAL_LABELS[r.material_type || 'other']],
-        ['Размер', SIZE_LABELS[r.size || 'medium']],
-        ['Вес полной тары', `${weights.full} г`],
-        ['Вес пустой тары (переработка)', `${weights.empty} г`],
-        ['Указанный вес', r.weight || '—'],
-        ['Переработка', r.recyclable ? '♻ Да' : '✗ Нет'],
-        ['Штрихкод', r.barcode || '—'], ['Состав', r.ingredients || '—']
-      ];
-      document.getElementById('fields').innerHTML = fields.map(([l, v]) => 
-        `<div class="field"><span class="field-label">${l}</span><span class="field-value">${v || '—'}</span></div>`
-      ).join('');
-      if (r._used_model) {
-        document.getElementById('modelInfo').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
-      }
-      document.getElementById('res').style.display = 'block';
+      } catch (e) { showError(e.message); }
+      finally { document.getElementById('btnSwitch').disabled = false; }
     }
 
     function renderHistory() {
@@ -535,16 +579,15 @@
           <div class="history-item-header" onclick="toggleExpand(${item.id})">
             <div>
               <div class="history-item-title">${item.recyclable ? '♻' : ''} ${item.product_name}</div>
-              <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.empty_weight} г (пустая)</div>
+              <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.empty_weight} г</div>
             </div>
-            <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>          </div>
+            <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>
+          </div>
           <div class="history-item-details ${expandedId === item.id ? 'open' : ''}">
             <div class="detail-row"><span class="detail-label">Категория</span><span class="detail-value">${item.category}</span></div>
             <div class="detail-row"><span class="detail-label">Материал</span><span class="detail-value">${MATERIAL_LABELS[item.material_type] || item.material_type}</span></div>
-            <div class="detail-row"><span class="detail-label">Размер</span><span class="detail-value">${SIZE_LABELS[item.size] || item.size}</span></div>
-            <div class="detail-row"><span class="detail-label">Вес полной тары</span><span class="detail-value">${item.full_weight} г</span></div>
-            <div class="detail-row"><span class="detail-label">Вес пустой тары</span><span class="detail-value">${item.empty_weight} г</span></div>
-            <div class="weight-calc">✅ Для переработки: <strong>${item.empty_weight} г</strong> (пустая тара)<br/>Полная тара: ${item.full_weight} г</div>
+            <div class="detail-row"><span class="detail-label">Размер</span><span class="detail-value">${SIZE_LABELS[item.size] || item.size}</span></div>            <div class="detail-row"><span class="detail-label">Вес пустой тары</span><span class="detail-value">${item.empty_weight} г</span></div>
+            <div class="weight-calc">✅ Для переработки: <strong>${item.empty_weight} г</strong> (пустая тара)</div>
             ${item.description ? `<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">Описание</span><span class="detail-value">${item.description}</span></div>` : ''}
             <div class="detail-row"><span class="detail-label">Время</span><span class="detail-value">${item.timestamp}</span></div>
           </div>

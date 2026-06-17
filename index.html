@@ -26,7 +26,6 @@
     h1 { font-size: 28px; font-weight: 700; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
     .free-badge { display: inline-block; font-size: 10px; font-weight: 700; background: var(--success); color: #fff; padding: 3px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; -webkit-text-fill-color: #fff; }
     .theme-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text); cursor: pointer; font-weight: 600; }
-
     .model-status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; padding: 10px 14px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; font-size: 13px; }
     .model-label { color: var(--text-muted); font-weight: 500; }
     .model-name { color: var(--accent); font-weight: 600; font-family: monospace; font-size: 12px; }
@@ -34,22 +33,10 @@
     .btn-switch { padding: 4px 10px; border-radius: 6px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-muted); cursor: pointer; font-size: 11px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px; }
     .btn-switch:hover:not(:disabled) { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
     .btn-switch:disabled { opacity: 0.4; cursor: not-allowed; }
-
     .preferred-info { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; padding: 8px 12px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--card-border); }
-
     .video-container { position: relative; background: #111; border-radius: 16px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--card-border); }
     video, canvas { width: 100%; display: block; max-height: 420px; object-fit: contain; }
-    .camera-overlay {
-      position: absolute;
-      left: 0; right: 0; bottom: 0;
-      padding: 12px 14px;
-      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.9) 100%);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;      justify-content: center;
-    }
-
+    .camera-overlay { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 14px; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.9) 100%); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; }
     .btn { padding: 10px 18px; border-radius: 10px; border: 1px solid transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(0.3); }
     .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -60,13 +47,10 @@
     .btn-success:hover:not(:disabled) { background: var(--success); color: #fff; }
     .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--card-border); }
     .btn-ghost:hover:not(:disabled) { color: var(--text); background: var(--card-bg); }
-    .btn-large { padding: 12px 24px; font-size: 15px; }
-
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px; }
+    .btn-large { padding: 12px 24px; font-size: 15px; }    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px; }
     .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; text-align: center; }
     .stat-value { font-size: 24px; font-weight: 700; color: var(--accent); }
     .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
-
     .result-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; margin-bottom: 24px; }
     .result-header { padding: 16px 20px; border-bottom: 1px solid var(--card-border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; }
     .result-title { font-size: 13px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
@@ -77,7 +61,6 @@
     .field-label { min-width: 130px; color: var(--text-muted); font-size: 13px; font-weight: 500; }
     .field-value { color: var(--text); font-size: 14px; flex: 1; }
     .model-info { padding: 12px 20px; background: rgba(99,102,241,0.05); font-size: 12px; color: var(--text-muted); border-top: 1px solid var(--card-border); }
-
     .history { margin-top: 20px; }
     .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
     .history h3 { font-size: 16px; margin: 0; color: var(--text-muted); }
@@ -97,29 +80,78 @@
     .detail-value { color: var(--text); flex: 1; }
     .weight-calc { background: var(--success-bg); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 8px 12px; margin-top: 8px; font-size: 12px; color: var(--success); }
     .err { background: var(--danger-bg); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 12px 16px; color: var(--danger); font-size: 14px; margin-bottom: 16px; }
-
     .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
     @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* Toast уведомление */
+    .toast {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-100px);
+      background: var(--accent);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      z-index: 1000;      transition: transform 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+    
+    /* Оверлей загрузки */
+    .loading-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+      border-radius: 16px;
+    }
+    .loading-overlay.active { display: flex; }
+    .loading-overlay .spinner-large {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(129,140,248,0.2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 16px;
+    }
+    .loading-overlay .loading-text {
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+    }
+    .loading-overlay .loading-subtext {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-top: 8px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
       <h1>♻ Распознавание v2.9<span class="free-badge">FREE</span></h1>
-      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn"> Темная</button>
+      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 Темная</button>
     </div>
 
     <div class="model-status">
-      <span class="model-label">📡 Модель:</span>
-      <span class="model-name" id="currentModel">nex-agi/nex-n2-pro:free</span>
-      <button class="btn-switch" onclick="switchToNextModel()" id="btnSwitch" disabled title="Переключиться на следующую модель">
-        🔄 Сменить
-      </button>
-      <span class="model-badge" id="preferredBadge" style="display:none">⚡ <span id="preferredCount">0</span> в приоритете</span>
+      <span class="model-label">📡 Модель:</span>      <span class="model-name" id="currentModel">nex-agi/nex-n2-pro:free</span>
+      <button class="btn-switch" onclick="switchToNextModel()" id="btnSwitch" disabled title="Переключиться на следующую модель">🔄 Сменить</button>
+      <span class="model-badge" id="preferredBadge" style="display:none"> <span id="preferredCount">0</span> в приоритете</span>
     </div>
 
     <div class="preferred-info" id="preferredInfo" style="display:none">
-      ⚡ Ускорение: <span id="preferredInfoCount">0</span> моделей в приоритете
+       Ускорение: <span id="preferredInfoCount">0</span> моделей в приоритете
     </div>
 
     <div class="err" id="err" style="display:none"></div>
@@ -127,6 +159,14 @@
     <div class="video-container">
       <video id="vid" autoplay playsinline muted></video>
       <canvas id="can" style="display:none"></canvas>
+      
+      <!-- Оверлей загрузки -->
+      <div class="loading-overlay" id="loadingOverlay">
+        <div class="spinner-large"></div>
+        <div class="loading-text"> Анализ изображения...</div>
+        <div class="loading-subtext" id="loadingSubtext">Обработка через AI</div>
+      </div>
+      
       <div class="camera-overlay" id="cameraOverlay">
         <button class="btn btn-primary" onclick="toggleCamera()" id="btnCamera">▶ Включить камеру</button>
         <button class="btn btn-success btn-large" onclick="handleAction()" id="btnAction" disabled>🔍 Распознать</button>
@@ -135,17 +175,9 @@
     </div>
 
     <div class="stats">
-      <div class="stat-card">
-        <div class="stat-value" id="sTotal">0</div>
-        <div class="stat-label">Всего</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" id="sRec">0</div>
-        <div class="stat-label">♻ Перераб.</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-value" id="sW">0 г</div>
-        <div class="stat-label">Вес пустой тары</div>      </div>
+      <div class="stat-card"><div class="stat-value" id="sTotal">0</div><div class="stat-label">Всего</div></div>
+      <div class="stat-card"><div class="stat-value" id="sRec">0</div><div class="stat-label">♻ Перераб.</div></div>
+      <div class="stat-card"><div class="stat-value" id="sW">0 г</div><div class="stat-label">Вес пустой тары</div></div>
     </div>
 
     <div class="result-card" id="res" style="display:none">
@@ -162,9 +194,14 @@
       <div class="history-header">
         <h3>История операций (<span id="historyCount">0</span>)</h3>
         <button class="btn btn-ghost" onclick="clearHistory()" id="btnClear" disabled style="font-size:12px;padding:6px 12px">Очистить</button>
-      </div>
-      <ul class="history-list" id="historyList"></ul>
+      </div>      <ul class="history-list" id="historyList"></ul>
     </div>
+  </div>
+
+  <!-- Toast уведомление -->
+  <div class="toast" id="toast">
+    <span>📸</span>
+    <span id="toastText">Изображение захвачено</span>
   </div>
 
   <script>
@@ -175,15 +212,104 @@
     let expandedId = null;
     let actionState = 'recognize';
 
-    const MATERIAL_DENSITY = { plastic: 200, glass: 500, aluminum: 300, paper: 150, cardboard: 180, metal: 400, other: 250 };
-    const SIZE_VOLUME = { small: 0.0008, medium: 0.002, large: 0.005, xlarge: 0.015 };
-    const MATERIAL_LABELS = { plastic: "Пластик", glass: "Стекло", aluminum: "Алюминий", paper: "Бумага", cardboard: "Картон", metal: "Металл", other: "Другое" };
-    const SIZE_LABELS = { small: "Маленький (≤0.5л)", medium: "Средний (~1л)", large: "Большой (1.5-2л)", xlarge: "Очень большой (5л+)" };
+    // Стандартные веса для разных типов предметов (в граммах)
+    const ITEM_WEIGHTS = {
+      // Упаковка
+      'plastic_bottle_small': { full: 550, empty: 25 },   // Пластиковая бутылка 0.5л
+      'plastic_bottle_medium': { full: 1050, empty: 35 },  // Пластиковая бутылка 1л
+      'plastic_bottle_large': { full: 2050, empty: 50 },   // Пластиковая бутылка 2л
+      'glass_bottle_small': { full: 700, empty: 300 },     // Стеклянная бутылка 0.33л
+      'glass_bottle_medium': { full: 1200, empty: 400 },   // Стеклянная бутылка 0.7л
+      'glass_bottle_large': { full: 1500, empty: 500 },    // Стеклянная бутылка 1л
+      'aluminum_can': { full: 350, empty: 15 },            // Алюминиевая банка 0.33л
+      'metal_can': { full: 450, empty: 50 },               // Металлическая банка (консервы)
+      'cardboard_box_small': { full: 550, empty: 30 },     // Картонная коробка 0.5л
+      'cardboard_box_medium': { full: 1050, empty: 50 },   // Картонная коробка 1л
+      'cardboard_box_large': { full: 2050, empty: 80 },    // Картонная коробка 2л
+      'paper_bag': { full: 1050, empty: 20 },              // Бумажный пакет
+      
+      // Посуда и утварь
+      'metal_knife': { full: 80, empty: 80 },              // Металлический нож
+      'metal_fork': { full: 50, empty: 50 },               // Металлическая вилка
+      'metal_spoon': { full: 40, empty: 40 },              // Металлическая ложка
+      'glass_cup': { full: 250, empty: 250 },              // Стеклянная чашка
+      'plastic_cup': { full: 230, empty: 30 },             // Пластиковая чашка
+      'ceramic_plate': { full: 400, empty: 400 },          // Керамическая тарелка
+      
+      // Электроника
+      'phone': { full: 200, empty: 200 },                  // Телефон
+      'laptop': { full: 2000, empty: 2000 },               // Ноутбук
+      
+      // Другое
+      'default_small': { full: 500, empty: 100 },
+      'default_medium': { full: 1000, empty: 200 },
+      'default_large': { full: 2000, empty: 400 }    };
 
-    function calculateEmptyWeight(material, size) {
-      const density = MATERIAL_DENSITY[material] || MATERIAL_DENSITY.other;
-      const volume = SIZE_VOLUME[size] || SIZE_VOLUME.medium;
-      return Math.round(density * volume);
+    const MATERIAL_LABELS = { plastic: "Пластик", glass: "Стекло", aluminum: "Алюминий", paper: "Бумага", cardboard: "Картон", metal: "Металл", ceramic: "Керамика", other: "Другое" };
+    const SIZE_LABELS = { small: "Маленький", medium: "Средний", large: "Большой", xlarge: "Очень большой" };
+
+    // Определение типа предмета для расчёта веса
+    function getItemType(material, category, size) {
+      const cat = (category || '').toLowerCase();
+      const mat = (material || '').toLowerCase();
+      
+      // Посуда и утварь
+      if (cat.includes('нож') || cat.includes('knife')) return 'metal_knife';
+      if (cat.includes('вилк') || cat.includes('fork')) return 'metal_fork';
+      if (cat.includes('ложк') || cat.includes('spoon')) return 'metal_spoon';
+      if (cat.includes('чашк') || cat.includes('cup') || cat.includes('стакан')) return mat === 'plastic' ? 'plastic_cup' : 'glass_cup';
+      if (cat.includes('тарелк') || cat.includes('plate')) return 'ceramic_plate';
+      
+      // Упаковка
+      if (cat.includes('бутылк') || cat.includes('bottle')) {
+        if (mat === 'glass') return size === 'small' ? 'glass_bottle_small' : size === 'large' ? 'glass_bottle_large' : 'glass_bottle_medium';
+        return size === 'small' ? 'plastic_bottle_small' : size === 'large' ? 'plastic_bottle_large' : 'plastic_bottle_medium';
+      }
+      if (cat.includes('банк') || cat.includes('can')) {
+        return mat === 'aluminum' ? 'aluminum_can' : 'metal_can';
+      }
+      if (cat.includes('коробк') || cat.includes('box') || cat.includes('упаковк')) {
+        return size === 'small' ? 'cardboard_box_small' : size === 'large' ? 'cardboard_box_large' : 'cardboard_box_medium';
+      }
+      if (cat.includes('пакет') || cat.includes('bag')) return 'paper_bag';
+      
+      // Электроника
+      if (cat.includes('телефон') || cat.includes('phone')) return 'phone';
+      if (cat.includes('ноутбук') || cat.includes('laptop')) return 'laptop';
+      
+      // По умолчанию
+      return `default_${size || 'medium'}`;
+    }
+
+    function calculateWeights(material, category, size) {
+      const itemType = getItemType(material, category, size);
+      const weights = ITEM_WEIGHTS[itemType] || ITEM_WEIGHTS[`default_${size || 'medium'}`];
+      return {
+        full: weights.full,
+        empty: weights.empty
+      };
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastText').textContent = text;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function showLoadingOverlay(subtext) {
+      document.getElementById('loadingSubtext').textContent = subtext || 'Обработка через AI';
+      document.getElementById('loadingOverlay').classList.add('active');
+    }
+
+    function hideLoadingOverlay() {
+      document.getElementById('loadingOverlay').classList.remove('active');
     }
 
     function loadFromStorage() {
@@ -194,7 +320,8 @@
         if (savedHistory) { history = JSON.parse(savedHistory); renderHistory(); }
         const savedStats = localStorage.getItem("recognizer_stats");
         if (savedStats) { stats = JSON.parse(savedStats); updateStats(); }
-      } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }    }
+      } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }
+    }
 
     function updatePreferredUI() {
       if (preferredModels.length > 0) {
@@ -211,18 +338,10 @@
       document.getElementById('sW').textContent = stats.w + ' г';
     }
 
-    function toggleTheme() {
-      const html = document.documentElement;
-      const isDark = html.getAttribute('data-theme') === 'dark';
-      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
-    }
-
     async function toggleCamera() {
       if (stream) {
         stream.getTracks().forEach(t => t.stop());
-        stream = null;
-        document.getElementById('vid').srcObject = null;
+        stream = null;        document.getElementById('vid').srcObject = null;
         document.getElementById('btnCamera').innerHTML = '▶ Включить камеру';
         document.getElementById('btnCamera').classList.remove('btn-danger');
         document.getElementById('btnCamera').classList.add('btn-primary');
@@ -233,7 +352,7 @@
         try {
           stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
           document.getElementById('vid').srcObject = stream;
-          document.getElementById('btnCamera').innerHTML = '⏹ Выключить камеру';
+          document.getElementById('btnCamera').innerHTML = ' Выключить камеру';
           document.getElementById('btnCamera').classList.remove('btn-primary');
           document.getElementById('btnCamera').classList.add('btn-danger');
           document.getElementById('btnAction').disabled = false;
@@ -243,104 +362,107 @@
       }
     }
 
-    async function handleAction() {      if (actionState === 'recognize') {
-        await doRecognize();
-      } else if (actionState === 'saving') {
-        doSave();
-      }
+    async function handleAction() {
+      if (actionState === 'recognize') await doRecognize();
+      else if (actionState === 'saving') doSave();
     }
 
     async function doRecognize(specificModel) {
       const vid = document.getElementById('vid');
       const can = document.getElementById('can');
-      
       const maxDim = 1024;
       const scale = Math.min(maxDim / vid.videoWidth, maxDim / vid.videoHeight, 1);
       can.width = vid.videoWidth * scale;
       can.height = vid.videoHeight * scale;
-      
       can.getContext('2d').drawImage(vid, 0, 0, can.width, can.height);
       const img = can.toDataURL('image/jpeg', 0.6).split(',')[1];
 
+      // Показать toast
+      showToast('📸 Изображение предмета захвачено для обработки');
+
+      // Автоматически выключить камеру
+      if (stream) {
+        stream.getTracks().forEach(t => t.stop());
+        stream = null;
+        document.getElementById('vid').srcObject = null;
+      }
+
+      // Задизейблить все кнопки
+      document.getElementById('btnCamera').disabled = true;
+      document.getElementById('btnAction').disabled = true;
+      document.getElementById('btnSwitch').disabled = true;      document.getElementById('btnCancel').disabled = true;
+
+      // Показать оверлей загрузки
       actionState = 'analyzing';
-      const btnAction = document.getElementById('btnAction');
-      btnAction.disabled = true;
-      btnAction.innerHTML = '<span class="spinner"></span> Анализ по AI...';
-      btnAction.classList.remove('btn-success');
-      btnAction.classList.add('btn-primary');
+      showLoadingOverlay('Отправка изображения на сервер...');
       document.getElementById('res').style.display = 'none';
       document.getElementById('btnCancel').style.display = 'none';
       document.getElementById('err').style.display = 'none';
 
       try {
+        showLoadingOverlay('Анализ через AI...');
         const res = await fetch('/api/recognize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            image: img,
-            mediaType: 'image/jpeg',
-            preferredModels: preferredModels,
-            useSpecificModel: specificModel
-          })
+          body: JSON.stringify({ image: img, mediaType: 'image/jpeg', preferredModels: preferredModels, useSpecificModel: specificModel })
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
-        
         result = data;
         currentModel = data._used_model || currentModel;
         document.getElementById('currentModel').textContent = currentModel;
-
         if (data._used_model && !preferredModels.includes(data._used_model)) {
           preferredModels = [data._used_model, ...preferredModels].slice(0, 5);
-          localStorage.setItem("recognizer_preferred_models", JSON.stringify(preferredModels));          updatePreferredUI();
+          localStorage.setItem("recognizer_preferred_models", JSON.stringify(preferredModels));
+          updatePreferredUI();
         }
-
         showResult(data);
-
         actionState = 'saving';
-        btnAction.disabled = false;
-        btnAction.innerHTML = '💾 Сохранить';
-        btnAction.classList.remove('btn-primary');
-        btnAction.classList.add('btn-success');
+        document.getElementById('btnAction').disabled = false;
+        document.getElementById('btnAction').innerHTML = ' Сохранить';
+        document.getElementById('btnAction').classList.remove('btn-primary');
+        document.getElementById('btnAction').classList.add('btn-success');
         document.getElementById('btnCancel').style.display = 'inline-flex';
-
+        document.getElementById('btnCancel').disabled = false;
       } catch (e) {
         showError(e.message);
         actionState = 'recognize';
-        btnAction.disabled = false;
-        btnAction.innerHTML = '🔍 Распознать';
-        btnAction.classList.remove('btn-primary');
-        btnAction.classList.add('btn-success');
+        document.getElementById('btnAction').disabled = false;
+        document.getElementById('btnAction').innerHTML = '🔍 Распознать';
+        document.getElementById('btnAction').classList.remove('btn-primary');
+        document.getElementById('btnAction').classList.add('btn-success');
+        document.getElementById('btnCamera').disabled = false;
+      } finally {
+        hideLoadingOverlay();
       }
     }
 
     function doSave() {
       if (!result) return;
-      const calculatedWeight = calculateEmptyWeight(result.material_type || 'other', result.size || 'medium');
-      const newItem = {
+      const weights = calculateWeights(result.material_type, result.category, result.size);      const newItem = {
         id: Date.now(), product_name: result.product_name || 'Неизвестно',
         brand: result.brand || 'No brand', category: result.category || '—',
-        weight_label: result.weight, calculated_weight: calculatedWeight,
+        full_weight: weights.full, empty_weight: weights.empty,
         material_type: result.material_type || 'other', size: result.size || 'medium',
         recyclable: result.recyclable, timestamp: new Date().toLocaleString('ru-RU'),
         description: result.description
       };
-      stats = { total: stats.total + 1, rec: result.recyclable ? stats.rec + 1 : stats.rec, w: stats.w + calculatedWeight };
+      stats = { total: stats.total + 1, rec: result.recyclable ? stats.rec + 1 : stats.rec, w: stats.w + weights.empty };
       localStorage.setItem("recognizer_stats", JSON.stringify(stats));
       updateStats();
       history = [newItem, ...history].slice(0, 50);
       localStorage.setItem("recognizer_history", JSON.stringify(history));
       renderHistory();
-
       actionState = 'recognize';
       const btnAction = document.getElementById('btnAction');
-      btnAction.innerHTML = '🔍 Распознать';
+      btnAction.innerHTML = ' Распознать';
       btnAction.classList.remove('btn-primary');
       btnAction.classList.add('btn-success');
       document.getElementById('btnCancel').style.display = 'none';
       document.getElementById('res').style.display = 'none';
       result = null;
     }
+
     function cancelResult() {
       actionState = 'recognize';
       const btnAction = document.getElementById('btnAction');
@@ -348,6 +470,7 @@
       btnAction.classList.remove('btn-primary');
       btnAction.classList.add('btn-success');
       btnAction.disabled = !stream;
+      document.getElementById('btnCamera').disabled = false;
       document.getElementById('btnCancel').style.display = 'none';
       document.getElementById('res').style.display = 'none';
       result = null;
@@ -365,8 +488,7 @@
         const nextIndex = (currentIndex + 1) % modelsData.models.length;
         const nextModel = modelsData.models[nextIndex].id;
         await doRecognize(nextModel);
-      } catch (e) { showError(e.message); }
-      finally { document.getElementById('btnSwitch').disabled = false; }
+      } catch (e) { showError(e.message); }      finally { document.getElementById('btnSwitch').disabled = false; }
     }
 
     function showResult(r) {
@@ -377,12 +499,16 @@
       document.getElementById('conf').style.color = colors[r.confidence];
       document.getElementById('conf').style.border = `1px solid ${colors[r.confidence]}40`;
       document.getElementById('desc').textContent = r.description || '';
+      
+      const weights = calculateWeights(r.material_type, r.category, r.size);
+      
       const fields = [
         ['Название', r.product_name], ['Производитель', r.manufacturer],
         ['Бренд', r.brand], ['Страна', r.country], ['Категория', r.category],
         ['Материал', MATERIAL_LABELS[r.material_type || 'other']],
         ['Размер', SIZE_LABELS[r.size || 'medium']],
-        ['Вес пустой тары', `${calculateEmptyWeight(r.material_type || 'other', r.size || 'medium')} г`],
+        ['Вес полной тары', `${weights.full} г`],
+        ['Вес пустой тары (переработка)', `${weights.empty} г`],
         ['Указанный вес', r.weight || '—'],
         ['Переработка', r.recyclable ? '♻ Да' : '✗ Нет'],
         ['Штрихкод', r.barcode || '—'], ['Состав', r.ingredients || '—']
@@ -390,7 +516,8 @@
       document.getElementById('fields').innerHTML = fields.map(([l, v]) => 
         `<div class="field"><span class="field-label">${l}</span><span class="field-value">${v || '—'}</span></div>`
       ).join('');
-      if (r._used_model) {        document.getElementById('modelInfo').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
+      if (r._used_model) {
+        document.getElementById('modelInfo').textContent = `Модель: ${r._used_model} | Проверено: ${r._total_tried}`;
       }
       document.getElementById('res').style.display = 'block';
     }
@@ -408,16 +535,16 @@
           <div class="history-item-header" onclick="toggleExpand(${item.id})">
             <div>
               <div class="history-item-title">${item.recyclable ? '♻' : ''} ${item.product_name}</div>
-              <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.calculated_weight} г</div>
+              <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.empty_weight} г (пустая)</div>
             </div>
-            <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>
-          </div>
+            <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>          </div>
           <div class="history-item-details ${expandedId === item.id ? 'open' : ''}">
             <div class="detail-row"><span class="detail-label">Категория</span><span class="detail-value">${item.category}</span></div>
             <div class="detail-row"><span class="detail-label">Материал</span><span class="detail-value">${MATERIAL_LABELS[item.material_type] || item.material_type}</span></div>
-            <div class="detail-row"><span class="detail-label">Размер упаковки</span><span class="detail-value">${SIZE_LABELS[item.size] || item.size}</span></div>
-            <div class="detail-row"><span class="detail-label">Указанный вес</span><span class="detail-value">${item.weight_label || '—'}</span></div>
-            <div class="weight-calc">✅ Рассчитанный вес пустой тары: <strong>${item.calculated_weight} г</strong><br/>(материал: ${MATERIAL_LABELS[item.material_type] || item.material_type}, объём: ${item.size})</div>
+            <div class="detail-row"><span class="detail-label">Размер</span><span class="detail-value">${SIZE_LABELS[item.size] || item.size}</span></div>
+            <div class="detail-row"><span class="detail-label">Вес полной тары</span><span class="detail-value">${item.full_weight} г</span></div>
+            <div class="detail-row"><span class="detail-label">Вес пустой тары</span><span class="detail-value">${item.empty_weight} г</span></div>
+            <div class="weight-calc">✅ Для переработки: <strong>${item.empty_weight} г</strong> (пустая тара)<br/>Полная тара: ${item.full_weight} г</div>
             ${item.description ? `<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">Описание</span><span class="detail-value">${item.description}</span></div>` : ''}
             <div class="detail-row"><span class="detail-label">Время</span><span class="detail-value">${item.timestamp}</span></div>
           </div>
@@ -437,9 +564,10 @@
 
     function showError(msg) {
       const el = document.getElementById('err');
-      el.textContent = ' ' + msg;
+      el.textContent = '⚠ ' + msg;
       el.style.display = 'block';
     }
+
     loadFromStorage();
   </script>
 </body>

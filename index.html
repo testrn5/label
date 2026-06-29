@@ -12,7 +12,6 @@
       --success: #22c55e; --success-bg: rgba(34,197,94,0.12); --success-border: rgba(34,197,94,0.35);
       --danger: #ef4444; --danger-bg: rgba(239,68,68,0.12); --danger-border: rgba(239,68,68,0.35);
       --gold: #fbbf24; --gold-bg: rgba(251,191,36,0.12); --gold-border: rgba(251,191,36,0.35);
-      --button-bg: rgba(255,255,255,0.08); --button-text: #e8e8f0; --button-border: rgba(255,255,255,0.15);
     }
     [data-theme="light"] {
       --bg: #f8fafc; --text: #0f172a; --text-muted: #64748b;
@@ -21,18 +20,15 @@
       --success: #16a34a; --success-bg: rgba(22,163,74,0.08); --success-border: rgba(22,163,74,0.25);
       --danger: #dc2626; --danger-bg: rgba(220,38,38,0.08); --danger-border: rgba(220,38,38,0.25);
       --gold: #d97706; --gold-bg: rgba(217,119,6,0.08); --gold-border: rgba(217,119,6,0.25);
-      --button-bg: rgba(15,23,42,0.06); --button-text: #0f172a; --button-border: rgba(15,23,42,0.12);
     }
     * { box-sizing: border-box; }
-    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; margin: 0; transition: background 0.3s, color 0.3s; }
+    body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 16px; margin: 0; transition: background 0.3s, color 0.3s; }
     .container { max-width: 900px; margin: 0 auto; }
     
-    /* Header */
-    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
-    h1 { font-size: 24px; font-weight: 700; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
-    .free-badge { display: inline-block; font-size: 10px; font-weight: 700; background: var(--success); color: #fff; padding: 3px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; -webkit-text-fill-color: #fff; }
+    .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
+    h1 { font-size: 20px; font-weight: 700; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
+    .free-badge { display: inline-block; font-size: 9px; font-weight: 700; background: var(--success); color: #fff; padding: 2px 6px; border-radius: 8px; margin-left: 6px; vertical-align: middle; -webkit-text-fill-color: #fff; }
     
-    /* Coin Badge - Compact */
     .coin-balance {
       display: inline-flex; align-items: center; gap: 6px;
       padding: 6px 12px; border-radius: 20px;
@@ -45,24 +41,44 @@
     .coin-icon { font-size: 16px; }
     .coin-limit { font-size: 11px; opacity: 0.8; font-weight: 400; }
     
-    /* Theme Button */
+    .coin-tooltip {
+      position: absolute; 
+      top: calc(100% + 8px); 
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--card-bg); 
+      border: 1px solid var(--card-border);      padding: 10px 14px; 
+      border-radius: 10px;
+      font-size: 12px; 
+      color: var(--text);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+      white-space: nowrap; 
+      z-index: 1000;
+      display: none; 
+      animation: fadeIn 0.2s ease;
+      min-width: 180px;
+      text-align: center;
+    }
+    .coin-tooltip.show { display: block; }
+    @keyframes fadeIn { from { opacity: 0; transform: translate(-50%, -10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+    
     .theme-btn { 
-      padding: 8px 16px; border-radius: 10px;       border: 1px solid var(--button-border); 
-      background: var(--button-bg); 
-      color: var(--button-text); 
-      cursor: pointer; font-weight: 500; font-size: 14px;
+      padding: 8px 14px; border-radius: 10px; 
+      border: 1px solid var(--card-border); 
+      background: var(--card-bg); 
+      color: var(--text); 
+      cursor: pointer; font-weight: 500; font-size: 13px;
       transition: all 0.2s;
     }
     .theme-btn:hover { transform: translateY(-1px); }
     
-    /* Tabs - Better Layout */
-    .tabs { display: flex; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
+    .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
     .tab { 
-      padding: 12px 20px; border-radius: 12px; 
+      padding: 10px 16px; border-radius: 10px; 
       border: 1px solid var(--card-border); 
       background: var(--card-bg); 
       color: var(--text-muted); 
-      cursor: pointer; font-weight: 500; font-size: 14px; 
+      cursor: pointer; font-weight: 500; font-size: 13px; 
       transition: all 0.2s;
     }
     .tab:hover { color: var(--text); background: var(--accent-bg); transform: translateY(-1px); }
@@ -70,156 +86,151 @@
     .tab-view { display: none; }
     .tab-view.active { display: block; }
 
-    /* Model Status */
     .model-status { 
-      display: flex; align-items: center; gap: 12px; 
-      margin-bottom: 16px; padding: 14px 16px; 
+      display: flex; align-items: center; gap: 10px; 
+      margin-bottom: 12px; padding: 12px 14px; 
       background: var(--card-bg); border: 1px solid var(--card-border); 
-      border-radius: 12px; font-size: 13px;
+      border-radius: 10px; font-size: 13px;
+      flex-wrap: wrap;
     }
     .model-label { color: var(--text-muted); font-weight: 500; }
-    .model-name { color: var(--accent); font-weight: 600; font-family: monospace; font-size: 12px; }
+    .model-name { color: var(--accent); font-weight: 600; font-family: monospace; font-size: 12px; word-break: break-all; }
     .model-badge { 
-      background: var(--success-bg); color: var(--success); 
-      padding: 4px 10px; border-radius: 10px; 
+      background: var(--success-bg); color: var(--success);       padding: 4px 10px; border-radius: 10px; 
       font-size: 11px; font-weight: 600;
     }
     .preferred-info { 
       font-size: 12px; color: var(--text-muted); 
-      margin-bottom: 16px; padding: 10px 14px; 
+      margin-bottom: 12px; padding: 10px 14px; 
       background: var(--card-bg); border-radius: 10px; 
       border: 1px solid var(--card-border);
     }
     
-    /* Video Container */
     .video-container { 
-      position: relative; background: var(--card-bg); 
-      border-radius: 16px; overflow: hidden; 
-      margin-bottom: 24px; border: 2px solid var(--card-border);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);    }
+      position: relative; 
+      background: #000; 
+      border-radius: 16px; 
+      overflow: hidden; 
+      margin-bottom: 20px; 
+      border: 2px solid var(--card-border);
+    }
     video, canvas { width: 100%; display: block; max-height: 420px; object-fit: contain; }
     
-    /* Camera Overlay - Better Button Layout */
     .camera-overlay { 
       position: absolute; left: 0; right: 0; bottom: 0; 
       padding: 16px; 
-      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.6) 40%, rgba(0,0,0,0.8) 100%);
+      background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.7) 50%, rgba(0,0,0,0.9) 100%);
       display: flex; flex-wrap: wrap; gap: 10px; 
       align-items: center; justify-content: center;
     }
     
-    /* Unified Button Style */
     .btn { 
-      padding: 12px 24px; border-radius: 12px; 
-      border: 1px solid var(--button-border); 
-      background: var(--button-bg); 
-      color: var(--button-text); 
+      padding: 10px 18px; border-radius: 10px; 
+      border: 1px solid rgba(255,255,255,0.3); 
+      background: rgba(255,255,255,0.15); 
+      color: #fff; 
       font-weight: 600; cursor: pointer; 
       transition: all 0.2s ease; 
-      font-size: 14px; 
-      display: inline-flex; align-items: center; gap: 8px;
-      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-size: 13px; 
+      display: inline-flex; align-items: center; gap: 6px;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
     }
     .btn:hover:not(:disabled) { 
+      background: rgba(255,255,255,0.25); 
       transform: translateY(-2px); 
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
     }
     .btn:active:not(:disabled) { transform: translateY(0); }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(0.3); }
     .btn.hidden { display: none !important; }
     
-    .btn-accent { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .btn-accent:hover:not(:disabled) { background: var(--accent); box-shadow: 0 6px 16px rgba(129,140,248,0.4); }
+    .btn-accent { background: rgba(129,140,248,0.6); border-color: rgba(129,140,248,0.8); }
+    .btn-accent:hover:not(:disabled) { background: rgba(129,140,248,0.8); }    
+    .btn-success { background: rgba(34,197,94,0.6); border-color: rgba(34,197,94,0.8); }
+    .btn-success:hover:not(:disabled) { background: rgba(34,197,94,0.8); }
     
-    .btn-success { background: var(--success); color: #fff; border-color: var(--success); }
-    .btn-success:hover:not(:disabled) { box-shadow: 0 6px 16px rgba(34,197,94,0.4); }
+    .btn-danger { background: rgba(239,68,68,0.6); border-color: rgba(239,68,68,0.8); }
+    .btn-danger:hover:not(:disabled) { background: rgba(239,68,68,0.8); }
     
-    .btn-danger { background: var(--danger); color: #fff; border-color: var(--danger); }
-    .btn-danger:hover:not(:disabled) { box-shadow: 0 6px 16px rgba(239,68,68,0.4); }
+    .btn-gold { background: rgba(251,191,36,0.6); border-color: rgba(251,191,36,0.8); color: #000; font-weight: 700; }
+    .btn-gold:hover:not(:disabled) { background: rgba(251,191,36,0.8); }
     
-    .btn-gold { background: var(--gold); color: #000; border-color: var(--gold); font-weight: 700; }
-    .btn-gold:hover:not(:disabled) { box-shadow: 0 6px 16px rgba(251,191,36,0.4); }
-    
-    /* Stats */
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px; }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
     .stat-card { 
       background: var(--card-bg); border: 1px solid var(--card-border); 
-      border-radius: 14px; padding: 20px; text-align: center;      transition: transform 0.2s;
+      border-radius: 12px; padding: 14px 10px; text-align: center;
+      min-width: 0;
     }
-    .stat-card:hover { transform: translateY(-2px); }
-    .stat-value { font-size: 28px; font-weight: 700; color: var(--accent); }
-    .stat-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 6px; }
+    .stat-value { font-size: 24px; font-weight: 700; color: var(--accent); line-height: 1.2; }
+    .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 4px; line-height: 1.3; }
     
-    /* Results Section */
-    .results-section { margin-bottom: 24px; }
-    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
-    .results-header h3 { font-size: 16px; margin: 0; color: var(--text-muted); }
+    .results-section { margin-bottom: 20px; }
+    .results-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .results-header h3 { font-size: 15px; margin: 0; color: var(--text-muted); }
     .selection-info { font-size: 13px; color: var(--accent); font-weight: 600; }
-    .bulk-actions { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .bulk-actions { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
     
-    /* Item Card */
     .item-card { 
       background: var(--card-bg); border: 1px solid var(--card-border); 
-      border-radius: 16px; overflow: hidden; margin-bottom: 14px; 
+      border-radius: 14px; overflow: hidden; margin-bottom: 12px; 
       transition: all 0.2s;
     }
     .item-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
     .item-card.selected { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-bg); }
-    .item-card-header { padding: 16px; display: flex; align-items: flex-start; gap: 12px; border-bottom: 1px solid var(--card-border); }
-    .item-checkbox { width: 20px; height: 20px; margin-top: 2px; cursor: pointer; accent-color: var(--accent); flex-shrink: 0; }
-    .item-title { flex: 1; font-weight: 600; font-size: 15px; color: var(--text); }
-    .item-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-    .item-confidence { font-size: 11px; font-weight: 600; padding: 4px 12px; border-radius: 12px; flex-shrink: 0; }
-    .item-desc { padding: 14px 16px; font-size: 13px; color: var(--text-muted); line-height: 1.6; border-bottom: 1px solid var(--card-border); }
-    .item-fields { padding: 8px 0; }
-    .item-field { display: flex; padding: 10px 16px; font-size: 13px; border-bottom: 1px solid var(--card-border); }
+    .item-card-header { padding: 14px; display: flex; align-items: flex-start; gap: 10px; border-bottom: 1px solid var(--card-border); }
+    .item-checkbox { width: 18px; height: 18px; margin-top: 2px; cursor: pointer; accent-color: var(--accent); flex-shrink: 0; }
+    .item-title { flex: 1; font-weight: 600; font-size: 14px; color: var(--text); }
+    .item-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+    .item-confidence { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 12px; flex-shrink: 0; }
+    .item-desc { padding: 12px 14px; font-size: 13px; color: var(--text-muted); line-height: 1.5; border-bottom: 1px solid var(--card-border); }
+    .item-fields { padding: 6px 0; }
+    .item-field { display: flex; padding: 8px 14px; font-size: 13px; border-bottom: 1px solid var(--card-border); }
     .item-field:last-child { border-bottom: none; }
-    .item-field-label { min-width: 130px; color: var(--text-muted); font-weight: 500; }
+    .item-field-label { min-width: 120px; color: var(--text-muted); font-weight: 500; }
     .item-field-value { color: var(--text); flex: 1; }
-    .item-actions { padding: 14px 16px; background: rgba(99,102,241,0.03); display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap; }
-    .coin-reward { display: inline-flex; align-items: center; gap: 4px; color: var(--gold); font-weight: 600; font-size: 13px; margin-right: auto; }
+    .item-actions { padding: 12px 14px; background: rgba(99,102,241,0.03); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+    .coin-reward { display: inline-flex; align-items: center; gap: 4px; color: var(--gold); font-weight: 600; font-size: 12px; margin-right: auto; }
     
-    /* Toast Notifications */
     .toast-container {
-      position: fixed; top: 20px; right: 20px; z-index: 10000;
-      display: flex; flex-direction: column; gap: 10px;
-      max-width: 400px;
+      position: fixed; 
+      top: 50%; 
+      left: 50%;       transform: translate(-50%, -50%);
+      z-index: 10000;
+      display: flex; 
+      flex-direction: column; 
+      gap: 10px;
+      max-width: 90%;
+      width: 380px;
+      pointer-events: none;
     }
     .toast {
-      padding: 14px 18px; border-radius: 12px;
-      background: var(--card-bg); border: 1px solid var(--card-border);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-      display: flex; align-items: center; gap: 12px;
-      animation: slideIn 0.3s ease;
+      padding: 14px 18px; 
+      border-radius: 12px;
+      background: var(--card-bg); 
+      border: 1px solid var(--card-border);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+      display: flex; 
+      align-items: center; 
+      gap: 12px;
+      animation: toastSlideIn 0.3s ease;
       font-size: 14px;
+      pointer-events: auto;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
-    .toast.success { border-left: 4px solid var(--success); }    .toast.error { border-left: 4px solid var(--danger); }
+    .toast.success { border-left: 4px solid var(--success); }
+    .toast.error { border-left: 4px solid var(--danger); }
     .toast.info { border-left: 4px solid var(--accent); }
     .toast.warning { border-left: 4px solid var(--gold); }
-    @keyframes slideIn {
-      from { transform: translateX(400px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
+    @keyframes toastSlideIn {
+      from { transform: translateY(-20px) scale(0.9); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
     }
-    @keyframes slideOut {
-      from { transform: translateX(0); opacity: 1; }
-      to { transform: translateX(400px); opacity: 0; }
+    @keyframes toastSlideOut {
+      from { transform: translateY(0) scale(1); opacity: 1; }
+      to { transform: translateY(-20px) scale(0.9); opacity: 0; }
     }
     
-    /* Coin Limit Tooltip */
-    .coin-tooltip {
-      position: absolute; top: 120%; right: 0;
-      background: var(--card-bg); border: 1px solid var(--card-border);
-      padding: 12px 16px; border-radius: 12px;
-      font-size: 12px; color: var(--text);
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-      white-space: nowrap; z-index: 1000;
-      display: none; animation: fadeIn 0.2s ease;
-    }
-    .coin-tooltip.show { display: block; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    
-    /* Loading Overlay */
     .loading-overlay { 
       position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
       background: rgba(0,0,0,0.85); 
@@ -232,8 +243,7 @@
     .loading-overlay .spinner-large { 
       width: 56px; height: 56px; 
       border: 4px solid rgba(129,140,248,0.2); 
-      border-top-color: var(--accent); 
-      border-radius: 50%; 
+      border-top-color: var(--accent);       border-radius: 50%; 
       animation: spin 1s linear infinite; 
       margin-bottom: 16px; 
     }
@@ -241,9 +251,8 @@
     .loading-overlay .loading-subtext { color: var(--text-muted); font-size: 13px; margin-top: 8px; }
     @keyframes spin { to { transform: rotate(360deg); } }
     
-    /* Empty State */
-    .empty-state { text-align: center; padding: 60px 20px; color: var(--text-muted); font-size: 14px; }
-        /* Coin Animation */
+    .empty-state { text-align: center; padding: 50px 20px; color: var(--text-muted); font-size: 14px; }
+    
     .coin-animation { 
       position: fixed; top: 50%; left: 50%; 
       transform: translate(-50%, -50%); 
@@ -258,78 +267,81 @@
       100% { opacity: 0; transform: translate(-50%, -200%) scale(1); } 
     }
     
-    /* History Grouped */
-    .history-group { margin-bottom: 20px; }
+    .history-group { margin-bottom: 16px; }
     .history-group-header { 
-      display: flex; align-items: center; gap: 12px; 
-      padding: 14px 16px; 
+      display: flex; align-items: center; gap: 10px; 
+      padding: 12px 14px; 
       background: var(--card-bg); border: 1px solid var(--card-border); 
-      border-radius: 12px; margin-bottom: 10px; 
+      border-radius: 10px; margin-bottom: 8px; 
       cursor: pointer; transition: all 0.2s;
     }
-    .history-group-header:hover { background: var(--accent-bg); transform: translateX(4px); }
-    .history-group-icon { font-size: 24px; }
+    .history-group-header:hover { background: var(--accent-bg); transform: translateX(3px); }
+    .history-group-icon { font-size: 22px; }
     .history-group-name { font-weight: 600; font-size: 14px; flex: 1; }
-    .history-group-count { background: var(--accent-bg); color: var(--accent); padding: 4px 12px; border-radius: 10px; font-size: 12px; font-weight: 600; }
+    .history-group-count { background: var(--accent-bg); color: var(--accent); padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; }
     .history-group-weight { font-size: 12px; color: var(--text-muted); }
-    .history-group-items { padding-left: 24px; display: none; }
+    .history-group-items { padding-left: 20px; display: none; }
     .history-group-items.open { display: block; }
-    .history-item { border: 1px solid var(--card-border); border-radius: 12px; margin-bottom: 8px; overflow: hidden; background: var(--card-bg); }
-    .history-item-header { padding: 12px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; font-size: 13px; }
+    .history-item { border: 1px solid var(--card-border); border-radius: 10px; margin-bottom: 6px; overflow: hidden; background: var(--card-bg); }
+    .history-item-header { padding: 10px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; font-size: 13px; }
     .history-item-header:hover { background: var(--accent-bg); }
     .history-item-title { font-weight: 600; color: var(--text); }
-    .history-item-sub { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .history-item-sub { font-size: 11px; color: var(--text-muted); margin-top: 3px; }
     .history-item-arrow { font-size: 11px; color: var(--text-muted); transition: transform 0.2s; }
     .history-item-arrow.open { transform: rotate(180deg); }
-    .history-item-details { padding: 0 16px 12px; display: none; border-top: 1px solid var(--card-border); font-size: 12px; }
-    .history-item-details.open { display: block; padding-top: 12px; }
-    .detail-row { display: flex; padding: 6px 0; border-bottom: 1px solid var(--card-border); }
-    .detail-row:last-child { border-bottom: none; }
-    .detail-label { min-width: 120px; color: var(--text-muted); font-weight: 500; }
+    .history-item-details { padding: 0 14px 10px; display: none; border-top: 1px solid var(--card-border); font-size: 12px; }
+    .history-item-details.open { display: block; padding-top: 10px; }
+    .detail-row { display: flex; padding: 5px 0; border-bottom: 1px solid var(--card-border); }
+    .detail-row:last-child { border-bottom: none; }    .detail-label { min-width: 110px; color: var(--text-muted); font-weight: 500; }
     .detail-value { color: var(--text); flex: 1; }
-    .weight-calc { background: var(--success-bg); border: 1px solid var(--success-border); border-radius: 8px; padding: 8px 12px; margin-top: 8px; font-size: 11px; color: var(--success); }
+    .weight-calc { background: var(--success-bg); border: 1px solid var(--success-border); border-radius: 8px; padding: 7px 10px; margin-top: 6px; font-size: 11px; color: var(--success); }
     
-    /* Settings */
-    .settings-section { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; padding: 24px; margin-bottom: 20px; }
-    .settings-section h3 { font-size: 16px; margin: 0 0 20px 0; color: var(--text); }
-    .setting-row { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }    .setting-row label { font-size: 13px; color: var(--text-muted); min-width: 200px; font-weight: 500; }
-    .setting-input { padding: 10px 14px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--bg); color: var(--text); font-size: 14px; flex: 1; min-width: 140px; transition: border-color 0.2s; }
+    .settings-section { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+    .settings-section h3 { font-size: 15px; margin: 0 0 16px 0; color: var(--text); }
+    .setting-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+    .setting-row label { font-size: 13px; color: var(--text-muted); min-width: 180px; font-weight: 500; }
+    .setting-input { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--bg); color: var(--text); font-size: 13px; flex: 1; min-width: 120px; transition: border-color 0.2s; }
     .setting-input:focus { outline: none; border-color: var(--accent); }
-    .setting-info { font-size: 12px; color: var(--text-muted); margin-top: 6px; line-height: 1.5; }
-    .secret-code-status { padding: 10px 14px; border-radius: 10px; font-size: 13px; margin-top: 12px; }
+    .setting-info { font-size: 12px; color: var(--text-muted); margin-top: 4px; line-height: 1.5; }
+    .secret-code-status { padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-top: 10px; }
     .secret-code-status.active { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-border); }
     .secret-code-status.inactive { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-border); }
     
-    /* Shop */
-    .shop-section { margin-bottom: 24px; }
-    .shop-category { margin-bottom: 28px; }
-    .shop-category h3 { font-size: 16px; margin: 0 0 16px 0; color: var(--text-muted); padding-bottom: 10px; border-bottom: 1px solid var(--card-border); }
-    .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 14px; }
+    .shop-section { margin-bottom: 20px; }
+    .shop-category { margin-bottom: 24px; }
+    .shop-category h3 { font-size: 15px; margin: 0 0 14px 0; color: var(--text-muted); padding-bottom: 8px; border-bottom: 1px solid var(--card-border); }
+    .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
     .shop-item { 
       background: var(--card-bg); border: 1px solid var(--card-border); 
-      border-radius: 14px; padding: 18px; 
+      border-radius: 12px; padding: 16px; 
       transition: all 0.2s; display: flex; flex-direction: column;
     }
-    .shop-item:hover { border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.1); }
-    .shop-item.owned { border-color: var(--success); opacity: 0.8; }
+    .shop-item:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+    .shop-item.owned { border-color: var(--success); opacity: 0.85; }
     .shop-item.equipped { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-bg); }
-    .shop-item-icon { font-size: 56px; text-align: center; margin-bottom: 12px; }
-    .shop-item-name { font-weight: 600; font-size: 14px; margin-bottom: 6px; }
-    .shop-item-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; flex: 1; line-height: 1.5; }
-    .shop-item-footer { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-    .shop-item-price { color: var(--gold); font-weight: 700; font-size: 14px; }
-    .shop-item-btn { padding: 8px 16px; font-size: 12px; }
-    .nft-badge { display: inline-block; font-size: 9px; font-weight: 700; background: linear-gradient(135deg, #8b5cf6, #ec4899); color: #fff; padding: 3px 8px; border-radius: 6px; margin-left: 6px; vertical-align: middle; }
+    .shop-item-icon { font-size: 48px; text-align: center; margin-bottom: 10px; }
+    .shop-item-name { font-weight: 600; font-size: 14px; margin-bottom: 5px; }
+    .shop-item-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; flex: 1; line-height: 1.4; }
+    .shop-item-footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .shop-item-price { color: var(--gold); font-weight: 700; font-size: 13px; }
+    .shop-item-btn { padding: 6px 12px; font-size: 12px; }
+    .nft-badge { display: inline-block; font-size: 9px; font-weight: 700; background: linear-gradient(135deg, #8b5cf6, #ec4899); color: #fff; padding: 2px 6px; border-radius: 6px; margin-left: 6px; vertical-align: middle; }
+    
+    @media (max-width: 640px) {
+      .stats { gap: 8px; }
+      .stat-value { font-size: 20px; }
+      .stat-label { font-size: 9px; }
+      .btn { padding: 8px 14px; font-size: 12px; }
+      h1 { font-size: 18px; }
+    }
   </style>
 </head>
 <body>
-  <!-- Toast Container -->
   <div class="toast-container" id="toastContainer"></div>
 
   <div class="container">
     <div class="header">
-      <h1>Распознавание v3.0<span class="free-badge">FREE</span></h1>
-      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <h1>Распознавание v3.0<span class="free-badge">FREE</span></h1>      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <div class="coin-balance" onclick="toggleCoinTooltip()" style="position:relative">
           <span class="coin-icon">🪙</span>
           <span id="coinBalance">0</span>
@@ -341,7 +353,8 @@
           </div>
         </div>
         <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">Темная тема</button>
-      </div>    </div>
+      </div>
+    </div>
 
     <div class="tabs">
       <button class="tab active" onclick="switchTab('recognize')">Распознавание</button>
@@ -350,7 +363,6 @@
       <button class="tab" onclick="switchTab('settings')">Настройки</button>
     </div>
 
-    <!-- ВКЛАДКА: РАСПОЗНАВАНИЕ -->
     <div class="tab-view active" id="tab-recognize">
       <div class="model-status">
         <span class="model-label">Модель:</span>
@@ -379,7 +391,6 @@
         <div class="stat-card"><div class="stat-value" id="sRec">0</div><div class="stat-label">Переработано</div></div>
         <div class="stat-card"><div class="stat-value" id="sW">0 г</div><div class="stat-label">Вес пустой тары</div></div>
       </div>
-
       <div class="results-section" id="resultsSection" style="display:none">
         <div class="results-header">
           <h3>Распознанные предметы (<span id="resultsCount">0</span>)</h3>
@@ -390,57 +401,35 @@
           <button class="btn" onclick="selectAll()">Выбрать все</button>
           <button class="btn" onclick="deselectAll()">Снять все</button>
           <button class="btn btn-danger" onclick="cancelResults()">Отменить</button>
-        </div>        <div id="resultsList"></div>
+        </div>
+        <div id="resultsList"></div>
       </div>
     </div>
 
-    <!-- ВКЛАДКА: МАГАЗИН -->
     <div class="tab-view" id="tab-shop">
       <div class="shop-section">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
-          <h2 style="margin:0;font-size:20px">Магазин</h2>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+          <h2 style="margin:0;font-size:18px">Магазин</h2>
           <div class="coin-balance"><span class="coin-icon"></span><span id="shopCoinBalance">0</span></div>
         </div>
-
-        <div class="shop-category">
-          <h3>Персонажи</h3>
-          <div class="shop-grid" id="shopCharacters"></div>
-        </div>
-
-        <div class="shop-category">
-          <h3>Уровни</h3>
-          <div class="shop-grid" id="shopLevels"></div>
-        </div>
-
-        <div class="shop-category">
-          <h3>Приспособления для сбора</h3>
-          <div class="shop-grid" id="shopTools"></div>
-        </div>
-
-        <div class="shop-category">
-          <h3>NFT-картинки <span class="nft-badge">NFT</span></h3>
-          <div class="shop-grid" id="shopNFT"></div>
-        </div>
-
-        <div class="shop-category">
-          <h3>Моя коллекция</h3>
-          <div id="myCollection"></div>
-        </div>
+        <div class="shop-category"><h3>Персонажи</h3><div class="shop-grid" id="shopCharacters"></div></div>
+        <div class="shop-category"><h3>Уровни</h3><div class="shop-grid" id="shopLevels"></div></div>
+        <div class="shop-category"><h3>Приспособления для сбора</h3><div class="shop-grid" id="shopTools"></div></div>
+        <div class="shop-category"><h3>NFT-картинки <span class="nft-badge">NFT</span></h3><div class="shop-grid" id="shopNFT"></div></div>
+        <div class="shop-category"><h3>Моя коллекция</h3><div id="myCollection"></div></div>
       </div>
     </div>
 
-    <!-- ВКЛАДКА: ИСТОРИЯ -->
     <div class="tab-view" id="tab-history">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px">
-        <h2 style="margin:0;font-size:20px">История операций</h2>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+        <h2 style="margin:0;font-size:18px">История операций</h2>
         <button class="btn btn-danger" onclick="clearHistory()" id="btnClear" disabled>Очистить</button>
       </div>
       <div id="historyGrouped"></div>
     </div>
 
-    <!-- ВКЛАДКА: НАСТРОЙКИ -->
-    <div class="tab-view" id="tab-settings">      <h2 style="margin:0 0 20px 0;font-size:20px">Настройки геймификации</h2>
-
+    <div class="tab-view" id="tab-settings">
+      <h2 style="margin:0 0 16px 0;font-size:18px">Настройки геймификации</h2>
       <div class="settings-section">
         <h3>Лимит монет в сутки</h3>
         <div class="setting-row">
@@ -450,9 +439,7 @@
         </div>
         <div class="setting-info">По умолчанию 5 монет за первые 5 предметов в сутки. Счётчик сбрасывается каждые 24 часа.</div>
         <div class="setting-info" id="resetTimerInfo">Следующий сброс через: --</div>
-      </div>
-
-      <div class="settings-section">
+      </div>      <div class="settings-section">
         <h3>Секретный код</h3>
         <div class="setting-row">
           <label>Введите код для расширения лимита:</label>
@@ -462,50 +449,33 @@
         <div class="setting-info">Секретный код увеличивает дневной лимит монет. Попробуйте: ECO2026</div>
         <div id="secretCodeStatus"></div>
       </div>
-
       <div class="settings-section">
         <h3>Статистика монет</h3>
-        <div class="setting-row">
-          <label>Всего заработано:</label>
-          <span style="color:var(--gold);font-weight:600" id="totalEarned">0 </span>
-        </div>
-        <div class="setting-row">
-          <label>Потрачено в магазине:</label>
-          <span style="color:var(--danger);font-weight:600" id="totalSpent">0 </span>
-        </div>
-        <div class="setting-row">
-          <label>Текущий баланс:</label>
-          <span style="color:var(--gold);font-weight:600" id="currentBalance">0 </span>
-        </div>
-        <div class="setting-row">
-          <label>Сегодня заработано:</label>
-          <span style="color:var(--accent);font-weight:600" id="todayEarned">0 / 5 🪙</span>
-        </div>
+        <div class="setting-row"><label>Всего заработано:</label><span style="color:var(--gold);font-weight:600" id="totalEarned">0 </span></div>
+        <div class="setting-row"><label>Потрачено в магазине:</label><span style="color:var(--danger);font-weight:600" id="totalSpent">0 🪙</span></div>
+        <div class="setting-row"><label>Текущий баланс:</label><span style="color:var(--gold);font-weight:600" id="currentBalance">0 🪙</span></div>
+        <div class="setting-row"><label>Сегодня заработано:</label><span style="color:var(--accent);font-weight:600" id="todayEarned">0 / 5 🪙</span></div>
       </div>
-
       <div class="settings-section">
         <h3>Сброс данных</h3>
         <div class="setting-row">
           <label>Сбросить все данные геймификации:</label>
           <button class="btn btn-danger" onclick="resetGamification()">Сбросить монеты и покупки</button>
-        </div>      </div>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
-    // ==================== TOAST NOTIFICATIONS ====================
     function showToast(message, type = 'info', duration = 3000) {
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      
-      const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+      const icons = { success: '✅', error: '❌', warning: '⚠️', info: '️' };
       toast.innerHTML = `<span>${icons[type] || icons.info}</span><span>${message}</span>`;
-      
       container.appendChild(toast);
-      
       setTimeout(() => {
-        toast.style.animation = 'slideOut 0.3s ease';
+        toast.style.animation = 'toastSlideOut 0.3s ease';
         setTimeout(() => toast.remove(), 300);
       }, duration);
     }
@@ -516,30 +486,22 @@
       setTimeout(() => tooltip.classList.remove('show'), 5000);
     }
 
-    // ==================== ОСНОВНЫЕ ДАННЫЕ ====================
     let stream, stats = { total: 0, rec: 0, w: 0 };
     let history = [];
-    let preferredModels = [];
-    let currentModel = "nex-agi/nex-n2-pro:free";
+    let preferredModels = [];    let currentModel = "nex-agi/nex-n2-pro:free";
     let expandedId = null;
     let actionState = 'recognize';
     let recognizedItems = [];
     let selectedIds = new Set();
     let isDark = false;
 
-    // ==================== ГЕЙМИФИКАЦИЯ ====================
     const SECRET_CODE = "ECO2026";
     const SECRET_CODE_MULTIPLIER = 4;
 
     let gamification = {
-      coins: 0,
-      totalEarned: 0,
-      totalSpent: 0,
-      dailyLimit: 5,
-      todayEarned: 0,
-      lastResetDate: null,      secretCodeActive: false,
-      ownedItems: [],
-      equippedItems: {}
+      coins: 0, totalEarned: 0, totalSpent: 0,
+      dailyLimit: 5, todayEarned: 0, lastResetDate: null,
+      secretCodeActive: false, ownedItems: [], equippedItems: {}
     };
 
     const SHOP_ITEMS = {
@@ -552,12 +514,12 @@
       levels: [
         { id: 'lvl_1', name: 'Начинающий', desc: 'Уровень 1 — только начали путь', price: 0, icon: '🌱' },
         { id: 'lvl_2', name: 'Активист', desc: 'Уровень 5 — активная деятельность', price: 100, icon: '🌿' },
-        { id: 'lvl_3', name: 'Эксперт', desc: 'Уровень 15 — профессионал', price: 300, icon: '🌳' },
+        { id: 'lvl_3', name: 'Эксперт', desc: 'Уровень 15 — профессионал', price: 300, icon: '' },
         { id: 'lvl_4', name: 'Мастер', desc: 'Уровень 30 — мастер переработки', price: 700, icon: '🏆' },
         { id: 'lvl_5', name: 'Легенда', desc: 'Уровень 50 — легенда экологии', price: 2000, icon: '👑' }
       ],
       tools: [
-        { id: 'tool_1', name: 'Мешок', desc: 'Простой мешок для сбора', price: 20, icon: '🛍️' },
+        { id: 'tool_1', name: 'Мешок', desc: 'Простой мешок для сбора', price: 20, icon: '️' },
         { id: 'tool_2', name: 'Тачка', desc: 'Садовая тачка', price: 150, icon: '🛒' },
         { id: 'tool_3', name: 'Грузовик', desc: 'Маленький грузовик', price: 400, icon: '🚚' },
         { id: 'tool_4', name: 'Мусоровоз', desc: 'Специализированный транспорт', price: 800, icon: '🚛' },
@@ -572,12 +534,10 @@
       ]
     };
 
-    // ==================== ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ====================
     function getMaterialGroup(material) {
       const mat = (material || '').toLowerCase();
       if (mat === 'plastic') return { key: 'plastic', name: 'Пластик', icon: '♻️', color: '#3b82f6' };
-      if (mat === 'glass') return { key: 'glass', name: 'Стекло', icon: '🫙', color: '#10b981' };
-      if (mat === 'paper' || mat === 'cardboard') return { key: 'paper', name: 'Бумага и картон', icon: '📄', color: '#a855f7' };
+      if (mat === 'glass') return { key: 'glass', name: 'Стекло', icon: '🫙', color: '#10b981' };      if (mat === 'paper' || mat === 'cardboard') return { key: 'paper', name: 'Бумага и картон', icon: '📄', color: '#a855f7' };
       if (mat === 'metal' || mat === 'aluminum') return { key: 'metal', name: 'Металл', icon: '🥫', color: '#64748b' };
       return { key: 'other', name: 'Другое', icon: '📦', color: '#f59e0b' };
     }
@@ -586,7 +546,8 @@
       plastic_bottle_033: 12, plastic_bottle_05: 18, plastic_bottle_1: 28, plastic_bottle_15: 38, plastic_bottle_2: 48,
       plastic_cup: 8, plastic_container: 15, plastic_bag: 4,
       glass_bottle_033: 180, glass_bottle_05: 250, glass_bottle_07: 350, glass_bottle_1: 450, glass_jar: 200,
-      aluminum_can_033: 13, aluminum_can_05: 18,      metal_can_small: 40, metal_can_medium: 60, metal_can_large: 80,
+      aluminum_can_033: 13, aluminum_can_05: 18,
+      metal_can_small: 40, metal_can_medium: 60, metal_can_large: 80,
       paper_bag_small: 8, paper_bag_medium: 15, paper_bag_large: 25,
       cardboard_box_small: 20, cardboard_box_medium: 40, cardboard_box_large: 70, cardboard_box_xlarge: 120,
       paper_cup: 10, paper_container: 12,
@@ -603,7 +564,6 @@
       const cat = (category || '').toLowerCase();
       const name = (productName || '').toLowerCase();
       const sz = size || 'medium';
-
       if (mat === 'plastic' && (cat.includes('бутылк') || cat.includes('bottle') || name.includes('бутылк'))) {
         if (sz === 'small') return EMPTY_WEIGHTS.plastic_bottle_05;
         if (sz === 'large') return EMPTY_WEIGHTS.plastic_bottle_2;
@@ -626,8 +586,7 @@
       if (mat === 'metal' && (cat.includes('банк') || cat.includes('консерв') || cat.includes('can'))) {
         if (sz === 'small') return EMPTY_WEIGHTS.metal_can_small;
         if (sz === 'large') return EMPTY_WEIGHTS.metal_can_large;
-        return EMPTY_WEIGHTS.metal_can_medium;
-      }
+        return EMPTY_WEIGHTS.metal_can_medium;      }
       if (mat === 'metal' && (cat.includes('нож') || cat.includes('knife') || name.includes('нож'))) return EMPTY_WEIGHTS.metal_knife;
       if (mat === 'metal' && (cat.includes('вилк') || cat.includes('fork') || name.includes('вилк'))) return EMPTY_WEIGHTS.metal_fork;
       if (mat === 'metal' && (cat.includes('ложк') || cat.includes('spoon') || name.includes('ложк'))) return EMPTY_WEIGHTS.metal_spoon;
@@ -635,7 +594,8 @@
         if (sz === 'small') return EMPTY_WEIGHTS.cardboard_box_small;
         if (sz === 'large') return EMPTY_WEIGHTS.cardboard_box_large;
         if (sz === 'xlarge') return EMPTY_WEIGHTS.cardboard_box_xlarge;
-        return EMPTY_WEIGHTS.cardboard_box_medium;      }
+        return EMPTY_WEIGHTS.cardboard_box_medium;
+      }
       if ((mat === 'paper' || mat === 'cardboard') && (cat.includes('пакет') || cat.includes('bag'))) {
         if (sz === 'small') return EMPTY_WEIGHTS.paper_bag_small;
         if (sz === 'large') return EMPTY_WEIGHTS.paper_bag_large;
@@ -648,9 +608,7 @@
       return EMPTY_WEIGHTS[`default_${sz}`] || EMPTY_WEIGHTS.default_medium;
     }
 
-    function getTodayKey() {
-      return new Date().toISOString().split('T')[0];
-    }
+    function getTodayKey() { return new Date().toISOString().split('T')[0]; }
 
     function checkDailyReset() {
       const today = getTodayKey();
@@ -665,41 +623,24 @@
       return gamification.secretCodeActive ? gamification.dailyLimit * SECRET_CODE_MULTIPLIER : gamification.dailyLimit;
     }
 
-    function canEarnCoin() {
-      checkDailyReset();
-      return gamification.todayEarned < getEffectiveDailyLimit();
-    }
+    function canEarnCoin() { checkDailyReset(); return gamification.todayEarned < getEffectiveDailyLimit(); }
 
     function earnCoin() {
-      if (!canEarnCoin()) {
-        showToast('Дневной лимит монет исчерпан!', 'warning');
-        return 0;
-      }
-      gamification.coins += 1;
-      gamification.totalEarned += 1;
-      gamification.todayEarned += 1;
-      saveGamification();
-      updateCoinUI();
-      showCoinAnimation();
+      if (!canEarnCoin()) { showToast('Дневной лимит монет исчерпан!', 'warning'); return 0; }
+      gamification.coins += 1; gamification.totalEarned += 1; gamification.todayEarned += 1;
+      saveGamification(); updateCoinUI(); showCoinAnimation();
       showToast('+1 монета! 🪙', 'success');
       return 1;
     }
+
     function spendCoins(amount) {
-      if (gamification.coins < amount) {
-        showToast(`Недостаточно монет! Нужно: ${amount}, у вас: ${gamification.coins}`, 'error');
-        return false;
-      }
-      gamification.coins -= amount;
-      gamification.totalSpent += amount;
-      saveGamification();
-      updateCoinUI();
-      return true;
+      if (gamification.coins < amount) { showToast(`Недостаточно монет! Нужно: ${amount}, у вас: ${gamification.coins}`, 'error'); return false; }
+      gamification.coins -= amount; gamification.totalSpent += amount;      saveGamification(); updateCoinUI(); return true;
     }
 
     function showCoinAnimation() {
       const el = document.createElement('div');
-      el.className = 'coin-animation';
-      el.textContent = '+1 🪙';
+      el.className = 'coin-animation'; el.textContent = '+1 🪙';
       document.body.appendChild(el);
       setTimeout(() => el.remove(), 1500);
     }
@@ -708,21 +649,17 @@
       const input = document.getElementById('secretCodeInput');
       const code = input.value.trim().toUpperCase();
       const statusEl = document.getElementById('secretCodeStatus');
-      
       if (code === SECRET_CODE) {
         if (gamification.secretCodeActive) {
-          statusEl.innerHTML = '<div class="secret-code-status active">Код уже активирован. Лимит увеличен до ' + getEffectiveDailyLimit() + ' монет/сутки.</div>';
-          showToast('Код уже активирован!', 'info');
-          return;
+          statusEl.innerHTML = '<div class="secret-code-status active">Код уже активирован. Лимит: ' + getEffectiveDailyLimit() + ' монет/сутки.</div>';
+          showToast('Код уже активирован!', 'info'); return;
         }
-        gamification.secretCodeActive = true;
-        saveGamification();
-        statusEl.innerHTML = '<div class="secret-code-status active">Код активирован! Лимит увеличен до ' + getEffectiveDailyLimit() + ' монет/сутки.</div>';
-        input.value = '';
-        updateCoinUI();
+        gamification.secretCodeActive = true; saveGamification();
+        statusEl.innerHTML = '<div class="secret-code-status active">Код активирован! Лимит: ' + getEffectiveDailyLimit() + ' монет/сутки.</div>';
+        input.value = ''; updateCoinUI();
         showToast('Секретный код активирован! Лимит увеличен 🎉', 'success');
       } else {
-        statusEl.innerHTML = '<div class="secret-code-status inactive">Неверный код. Попробуйте ещё раз.</div>';
+        statusEl.innerHTML = '<div class="secret-code-status inactive">Неверный код.</div>';
         showToast('Неверный секретный код', 'error');
       }
     }
@@ -731,59 +668,39 @@
       const input = document.getElementById('dailyLimitInput');
       const val = parseInt(input.value);
       if (val >= 1 && val <= 100) {
-        gamification.dailyLimit = val;
-        saveGamification();
-        updateCoinUI();        showToast(`Лимит обновлён: ${val} монет/сутки${gamification.secretCodeActive ? ' (с кодом: ' + getEffectiveDailyLimit() + ')' : ''}`, 'success');
-      } else {
-        showToast('Лимит должен быть от 1 до 100', 'error');
-      }
+        gamification.dailyLimit = val; saveGamification(); updateCoinUI();
+        showToast(`Лимит обновлён: ${val} монет/сутки${gamification.secretCodeActive ? ' (с кодом: ' + getEffectiveDailyLimit() + ')' : ''}`, 'success');
+      } else { showToast('Лимит должен быть от 1 до 100', 'error'); }
     }
 
     function resetGamification() {
       if (!confirm('Сбросить все монеты, покупки и статистику?')) return;
-      gamification = {
-        coins: 0, totalEarned: 0, totalSpent: 0,
-        dailyLimit: 5, todayEarned: 0, lastResetDate: getTodayKey(),
-        secretCodeActive: false, ownedItems: [], equippedItems: {}
-      };
-      saveGamification();
-      updateCoinUI();
-      renderShop();
-      renderSettings();
+      gamification = { coins: 0, totalEarned: 0, totalSpent: 0, dailyLimit: 5, todayEarned: 0, lastResetDate: getTodayKey(), secretCodeActive: false, ownedItems: [], equippedItems: {} };
+      saveGamification(); updateCoinUI(); renderShop(); renderSettings();
       showToast('Все данные геймификации сброшены', 'info');
     }
 
     function buyItem(itemId) {
-      let item = null;
-      let category = null;
+      let item = null, category = null;
       for (const cat of Object.keys(SHOP_ITEMS)) {
         const found = SHOP_ITEMS[cat].find(i => i.id === itemId);
-        if (found) { item = found; category = cat; break; }
-      }
+        if (found) { item = found; category = cat; break; }      }
       if (!item) return;
-      if (gamification.ownedItems.includes(itemId)) {
-        showToast('Этот предмет уже в коллекции', 'info');
-        return;
-      }
+      if (gamification.ownedItems.includes(itemId)) { showToast('Этот предмет уже в коллекции', 'info'); return; }
       if (!spendCoins(item.price)) return;
-      gamification.ownedItems.push(itemId);
-      saveGamification();
-      renderShop();
-      updateCoinUI();
+      gamification.ownedItems.push(itemId); saveGamification(); renderShop(); updateCoinUI();
       showToast(`Куплено: ${item.name}!`, 'success');
     }
 
     function equipItem(itemId) {
       if (!gamification.ownedItems.includes(itemId)) return;
-      let item = null;
-      let category = null;
+      let item = null, category = null;
       for (const cat of Object.keys(SHOP_ITEMS)) {
         const found = SHOP_ITEMS[cat].find(i => i.id === itemId);
         if (found) { item = found; category = cat; break; }
       }
       if (!item) return;
-      gamification.equippedItems[category] = itemId;      saveGamification();
-      renderShop();
+      gamification.equippedItems[category] = itemId; saveGamification(); renderShop();
       showToast(`${item.name} экипировано!`, 'success');
     }
 
@@ -796,51 +713,38 @@
           const equipped = gamification.equippedItems[category] === item.id;
           const canAfford = gamification.coins >= item.price;
           let btnHtml = '';
-          if (equipped) {
-            btnHtml = '<button class="btn btn-gold shop-item-btn" disabled>Экипировано</button>';
-          } else if (owned) {
-            btnHtml = '<button class="btn btn-success shop-item-btn" onclick="equipItem(\'' + item.id + '\')">Экипировать</button>';
-          } else {
-            btnHtml = '<button class="btn btn-accent shop-item-btn" onclick="buyItem(\'' + item.id + '\')" ' + (!canAfford ? 'disabled' : '') + '>Купить</button>';
-          }
-          return `
-            <div class="shop-item ${owned ? 'owned' : ''} ${equipped ? 'equipped' : ''}">
-              <div class="shop-item-icon">${item.icon}</div>
-              <div class="shop-item-name">${item.name}${item.nft ? '<span class="nft-badge">NFT</span>' : ''}</div>
-              <div class="shop-item-desc">${item.desc}</div>
-              <div class="shop-item-footer">
-                <span class="shop-item-price">${item.price} 🪙</span>
-                ${btnHtml}
-              </div>
-            </div>
-          `;
+          if (equipped) btnHtml = '<button class="btn btn-gold shop-item-btn" disabled>Экипировано</button>';
+          else if (owned) btnHtml = '<button class="btn btn-success shop-item-btn" onclick="equipItem(\'' + item.id + '\')">Экипировать</button>';
+          else btnHtml = '<button class="btn btn-accent shop-item-btn" onclick="buyItem(\'' + item.id + '\')" ' + (!canAfford ? 'disabled' : '') + '>Купить</button>';
+          return `<div class="shop-item ${owned ? 'owned' : ''} ${equipped ? 'equipped' : ''}">
+            <div class="shop-item-icon">${item.icon}</div>
+            <div class="shop-item-name">${item.name}${item.nft ? '<span class="nft-badge">NFT</span>' : ''}</div>
+            <div class="shop-item-desc">${item.desc}</div>
+            <div class="shop-item-footer"><span class="shop-item-price">${item.price} 🪙</span>${btnHtml}</div>
+          </div>`;
         }).join('');
       }
-
       const collectionEl = document.getElementById('myCollection');
       if (gamification.ownedItems.length === 0) {
-        collectionEl.innerHTML = '<div class="empty-state">Пока ничего не куплено. Заработайте монеты и загляните в магазин!</div>';
+        collectionEl.innerHTML = '<div class="empty-state">Пока ничего не куплено. Заработайте монеты!</div>';
       } else {
         let html = '<div class="shop-grid">';
         for (const itemId of gamification.ownedItems) {
-          let item = null;
-          let category = null;
+          let item = null, category = null;
           for (const cat of Object.keys(SHOP_ITEMS)) {
             const found = SHOP_ITEMS[cat].find(i => i.id === itemId);
-            if (found) { item = found; category = cat; break; }
-          }
+            if (found) { item = found; category = cat; break; }          }
           if (!item) continue;
           const equipped = gamification.equippedItems[category] === item.id;
-          html += `            <div class="shop-item ${equipped ? 'equipped' : ''}">
-              <div class="shop-item-icon">${item.icon}</div>
-              <div class="shop-item-name">${item.name}${item.nft ? '<span class="nft-badge">NFT</span>' : ''}</div>
-              <div class="shop-item-desc">${item.desc}</div>
-              <div class="shop-item-footer">
-                <span style="font-size:11px;color:var(--text-muted)">${equipped ? 'Экипировано' : 'В коллекции'}</span>
-                ${!equipped ? `<button class="btn btn-success shop-item-btn" onclick="equipItem('${item.id}')">Экипировать</button>` : ''}
-              </div>
+          html += `<div class="shop-item ${equipped ? 'equipped' : ''}">
+            <div class="shop-item-icon">${item.icon}</div>
+            <div class="shop-item-name">${item.name}${item.nft ? '<span class="nft-badge">NFT</span>' : ''}</div>
+            <div class="shop-item-desc">${item.desc}</div>
+            <div class="shop-item-footer">
+              <span style="font-size:11px;color:var(--text-muted)">${equipped ? 'Экипировано' : 'В коллекции'}</span>
+              ${!equipped ? `<button class="btn btn-success shop-item-btn" onclick="equipItem('${item.id}')">Экипировать</button>` : ''}
             </div>
-          `;
+          </div>`;
         }
         html += '</div>';
         collectionEl.innerHTML = html;
@@ -853,25 +757,17 @@
       document.getElementById('totalSpent').textContent = gamification.totalSpent + ' 🪙';
       document.getElementById('currentBalance').textContent = gamification.coins + ' 🪙';
       const limit = getEffectiveDailyLimit();
-      document.getElementById('todayEarned').textContent = gamification.todayEarned + ' / ' + limit + ' 🪙';
-      
+      document.getElementById('todayEarned').textContent = gamification.todayEarned + ' / ' + limit + ' ';
       const statusEl = document.getElementById('secretCodeStatus');
-      if (gamification.secretCodeActive) {
-        statusEl.innerHTML = '<div class="secret-code-status active">Код активен. Лимит: ' + limit + ' монет/сутки.</div>';
-      } else {
-        statusEl.innerHTML = '<div class="secret-code-status inactive">Код не активирован. Лимит: ' + gamification.dailyLimit + ' монет/сутки.</div>';
-      }
-
+      if (gamification.secretCodeActive) statusEl.innerHTML = '<div class="secret-code-status active">Код активен. Лимит: ' + limit + ' монет/сутки.</div>';
+      else statusEl.innerHTML = '<div class="secret-code-status inactive">Код не активирован. Лимит: ' + gamification.dailyLimit + ' монет/сутки.</div>';
       const now = new Date();
       const tomorrow = new Date(now);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      tomorrow.setHours(0, 0, 0, 0);
+      tomorrow.setDate(tomorrow.getDate() + 1); tomorrow.setHours(0, 0, 0, 0);
       const diff = tomorrow - now;
       const hours = Math.floor(diff / 3600000);
       const minutes = Math.floor((diff % 3600000) / 60000);
       document.getElementById('resetTimerInfo').textContent = 'Следующий сброс через: ' + hours + ' ч ' + minutes + ' мин';
-      
-      // Update tooltip
       document.getElementById('tooltipToday').textContent = gamification.todayEarned;
       document.getElementById('tooltipLimit').textContent = limit;
       document.getElementById('tooltipReset').textContent = hours + ' ч ' + minutes + ' мин';
@@ -880,13 +776,13 @@
     function updateCoinUI() {
       const limit = getEffectiveDailyLimit();
       document.getElementById('coinBalance').textContent = gamification.coins;
-      document.getElementById('shopCoinBalance').textContent = gamification.coins;      document.getElementById('coinLimitInfo').textContent = '(' + gamification.todayEarned + '/' + limit + ')';
+      document.getElementById('shopCoinBalance').textContent = gamification.coins;
+      document.getElementById('coinLimitInfo').textContent = '(' + gamification.todayEarned + '/' + limit + ')';
       renderSettings();
     }
 
     function switchTab(tabName) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));      document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
       event.target.classList.add('active');
       document.getElementById('tab-' + tabName).classList.add('active');
       if (tabName === 'shop') renderShop();
@@ -905,57 +801,44 @@
     function setCameraButtonsState(isCameraOn) {
       const btnAction = document.getElementById('btnAction');
       const btnSwitch = document.getElementById('btnSwitch');
-      if (isCameraOn) {
-        btnAction.classList.remove('hidden');
-        btnSwitch.classList.remove('hidden');
-      } else {
-        btnAction.classList.add('hidden');
-        btnSwitch.classList.add('hidden');
-      }
+      if (isCameraOn) { btnAction.classList.remove('hidden'); btnSwitch.classList.remove('hidden'); }
+      else { btnAction.classList.add('hidden'); btnSwitch.classList.add('hidden'); }
     }
 
     async function toggleCamera() {
       if (stream) {
-        stream.getTracks().forEach(t => t.stop());
-        stream = null;
+        stream.getTracks().forEach(t => t.stop()); stream = null;
         document.getElementById('vid').srcObject = null;
         const btnCamera = document.getElementById('btnCamera');
         btnCamera.textContent = 'Включить камеру';
         btnCamera.className = 'btn btn-accent';
-        setCameraButtonsState(false);
-        cancelResults();
+        setCameraButtonsState(false); cancelResults();
         showToast('Камера выключена', 'info');
       } else {
         try {
           stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
           document.getElementById('vid').srcObject = stream;
-          const btnCamera = document.getElementById('btnCamera');          btnCamera.textContent = 'Выключить камеру';
+          const btnCamera = document.getElementById('btnCamera');
+          btnCamera.textContent = 'Выключить камеру';
           btnCamera.className = 'btn btn-danger';
           setCameraButtonsState(true);
           showToast('Камера включена', 'success');
-        } catch (e) { 
-          showToast("Ошибка камеры: " + e.message, 'error'); 
-        }
+        } catch (e) { showToast("Ошибка камеры: " + e.message, 'error'); }
       }
     }
 
-    async function handleAction() {
-      if (actionState === 'recognize') await doRecognize();
-    }
+    async function handleAction() { if (actionState === 'recognize') await doRecognize(); }
 
     async function doRecognize(specificModel) {
       const vid = document.getElementById('vid');
-      const can = document.getElementById('can');
-      const maxDim = 1024;
+      const can = document.getElementById('can');      const maxDim = 1024;
       const scale = Math.min(maxDim / vid.videoWidth, maxDim / vid.videoHeight, 1);
-      can.width = vid.videoWidth * scale;
-      can.height = vid.videoHeight * scale;
+      can.width = vid.videoWidth * scale; can.height = vid.videoHeight * scale;
       can.getContext('2d').drawImage(vid, 0, 0, can.width, can.height);
       const img = can.toDataURL('image/jpeg', 0.6).split(',')[1];
 
       if (stream) {
-        stream.getTracks().forEach(t => t.stop());
-        stream = null;
+        stream.getTracks().forEach(t => t.stop()); stream = null;
         document.getElementById('vid').srcObject = null;
         const btnCamera = document.getElementById('btnCamera');
         btnCamera.textContent = 'Включить камеру';
@@ -976,44 +859,28 @@
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
-        
         currentModel = data._used_model || currentModel;
-        document.getElementById('currentModel').textContent = currentModel;        if (data._used_model && !preferredModels.includes(data._used_model)) {
+        document.getElementById('currentModel').textContent = currentModel;
+        if (data._used_model && !preferredModels.includes(data._used_model)) {
           preferredModels = [data._used_model, ...preferredModels].slice(0, 5);
           localStorage.setItem("recognizer_preferred_models", JSON.stringify(preferredModels));
           updatePreferredUI();
         }
-
         let items = [];
-        if (data.items && Array.isArray(data.items)) {
-          items = data.items;
-        } else if (data.product_name) {
-          items = [data];
-        }
-        
+        if (data.items && Array.isArray(data.items)) items = data.items;
+        else if (data.product_name) items = [data];
         recognizedItems = items.map((item, idx) => ({
           ...item,
           _id: Date.now() + idx,
           _empty_weight: getEmptyWeight(item.material_type, item.category, item.size, item.product_name),
           _confidence: item.confidence || data.confidence || 'medium'
         }));
-
         selectedIds = new Set(recognizedItems.map(it => it._id));
-        renderResults();
-        actionState = 'results';
+        renderResults(); actionState = 'results';
         showToast(`Распознано ${recognizedItems.length} предмет(ов)`, 'success');
-
-        setTimeout(() => {
-          document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 100);
-
-      } catch (e) {
-        showToast(e.message, 'error');
-        actionState = 'recognize';
-      } finally {
-        document.getElementById('loadingOverlay').classList.remove('active');
-      }
-    }
+        setTimeout(() => { document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+      } catch (e) { showToast(e.message, 'error'); actionState = 'recognize'; }
+      finally { document.getElementById('loadingOverlay').classList.remove('active'); }    }
 
     function renderResults() {
       const section = document.getElementById('resultsSection');
@@ -1021,16 +888,11 @@
       const countEl = document.getElementById('resultsCount');
       const infoEl = document.getElementById('selectionInfo');
       const saveBtn = document.getElementById('btnSaveSelected');
-
-      if (recognizedItems.length === 0) {
-        section.style.display = 'none';
-        return;
-      }
-
-      section.style.display = 'block';      countEl.textContent = recognizedItems.length;
+      if (recognizedItems.length === 0) { section.style.display = 'none'; return; }
+      section.style.display = 'block';
+      countEl.textContent = recognizedItems.length;
       infoEl.textContent = 'Выбрано: ' + selectedIds.size + ' из ' + recognizedItems.length;
       saveBtn.disabled = selectedIds.size === 0;
-
       list.innerHTML = recognizedItems.map(item => {
         const isSelected = selectedIds.has(item._id);
         const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
@@ -1038,134 +900,69 @@
         const confColor = colors[item._confidence] || colors.medium;
         const confLabel = labels[item._confidence] || labels.medium;
         const canEarn = canEarnCoin();
-
         const fields = [
-          ['Производитель', item.manufacturer],
-          ['Бренд', item.brand],
-          ['Страна', item.country],
-          ['Категория', item.category],
-          ['Материал', MATERIAL_LABELS[item.material_type || 'other']],
-          ['Размер', SIZE_LABELS[item.size || 'medium']],
-          ['Вес пустой тары', item._empty_weight + ' г'],
-          ['Указанный вес', item.weight || '—'],
-          ['Переработка', item.recyclable ? 'Да' : 'Нет'],
-          ['Штрихкод', item.barcode || '—'],
-          ['Состав', item.ingredients || '—']
+          ['Производитель', item.manufacturer], ['Бренд', item.brand], ['Страна', item.country],
+          ['Категория', item.category], ['Материал', MATERIAL_LABELS[item.material_type || 'other']],
+          ['Размер', SIZE_LABELS[item.size || 'medium']], ['Вес пустой тары', item._empty_weight + ' г'],
+          ['Указанный вес', item.weight || '—'], ['Переработка', item.recyclable ? 'Да' : 'Нет'],
+          ['Штрихкод', item.barcode || '—'], ['Состав', item.ingredients || '—']
         ];
-
-        return `
-          <div class="item-card ${isSelected ? 'selected' : ''}" data-id="${item._id}">
-            <div class="item-card-header">
-              <input type="checkbox" class="item-checkbox" ${isSelected ? 'checked' : ''} onchange="toggleItem(${item._id})">
-              <div style="flex:1">
-                <div class="item-title">${item.product_name || 'Неизвестный предмет'}</div>
-                <div class="item-subtitle">${item.brand || 'No brand'} · ${MATERIAL_LABELS[item.material_type || 'other']} · ${item._empty_weight} г</div>
-              </div>
-              <span class="item-confidence" style="background:${confColor}18;color:${confColor};border:1px solid ${confColor}40">${confLabel}</span>
+        return `<div class="item-card ${isSelected ? 'selected' : ''}" data-id="${item._id}">
+          <div class="item-card-header">
+            <input type="checkbox" class="item-checkbox" ${isSelected ? 'checked' : ''} onchange="toggleItem(${item._id})">
+            <div style="flex:1">
+              <div class="item-title">${item.product_name || 'Неизвестный предмет'}</div>
+              <div class="item-subtitle">${item.brand || 'No brand'} · ${MATERIAL_LABELS[item.material_type || 'other']} · ${item._empty_weight} г</div>
             </div>
-            ${item.description ? '<div class="item-desc">' + item.description + '</div>' : ''}
-            <div class="item-fields">
-              ${fields.filter(([l, v]) => v).map(([l, v]) => '<div class="item-field"><span class="item-field-label">' + l + '</span><span class="item-field-value">' + v + '</span></div>').join('')}
-            </div>
-            <div class="item-actions">
-              ${canEarn ? '<span class="coin-reward">+1 🪙 при сохранении</span>' : '<span class="coin-reward" style="color:var(--text-muted)">Лимит исчерпан</span>'}
-              <button class="btn btn-success" onclick="saveSingle(${item._id})">Сохранить</button>
-              <button class="btn btn-danger" onclick="removeItem(${item._id})">Убрать</button>
-            </div>
+            <span class="item-confidence" style="background:${confColor}18;color:${confColor};border:1px solid ${confColor}40">${confLabel}</span>
           </div>
-        `;
+          ${item.description ? '<div class="item-desc">' + item.description + '</div>' : ''}
+          <div class="item-fields">
+            ${fields.filter(([l, v]) => v).map(([l, v]) => '<div class="item-field"><span class="item-field-label">' + l + '</span><span class="item-field-value">' + v + '</span></div>').join('')}
+          </div>
+          <div class="item-actions">
+            ${canEarn ? '<span class="coin-reward">+1 🪙 при сохранении</span>' : '<span class="coin-reward" style="color:var(--text-muted)">Лимит исчерпан</span>'}
+            <button class="btn btn-success" onclick="saveSingle(${item._id})">Сохранить</button>
+            <button class="btn btn-danger" onclick="removeItem(${item._id})">Убрать</button>
+          </div>
+        </div>`;
       }).join('');
     }
-    function toggleItem(id) {
-      if (selectedIds.has(id)) selectedIds.delete(id);
-      else selectedIds.add(id);
-      renderResults();
-    }
 
-    function selectAll() {
-      recognizedItems.forEach(it => selectedIds.add(it._id));
-      renderResults();
-      showToast('Выбраны все предметы', 'info');
-    }
-
-    function deselectAll() {
-      selectedIds.clear();
-      renderResults();
-      showToast('Выбор снят', 'info');
-    }
-
+    function toggleItem(id) { if (selectedIds.has(id)) selectedIds.delete(id); else selectedIds.add(id); renderResults(); }    function selectAll() { recognizedItems.forEach(it => selectedIds.add(it._id)); renderResults(); showToast('Выбраны все предметы', 'info'); }
+    function deselectAll() { selectedIds.clear(); renderResults(); showToast('Выбор снят', 'info'); }
     function removeItem(id) {
       recognizedItems = recognizedItems.filter(it => it._id !== id);
       selectedIds.delete(id);
-      if (recognizedItems.length === 0) {
-        cancelResults();
-      } else {
-        renderResults();
-      }
+      if (recognizedItems.length === 0) cancelResults(); else renderResults();
     }
-
-    function saveSingle(id) {
-      const item = recognizedItems.find(it => it._id === id);
-      if (!item) return;
-      saveItems([item]);
-      removeItem(id);
-    }
-
-    function saveSelected() {
-      const toSave = recognizedItems.filter(it => selectedIds.has(it._id));
-      if (toSave.length === 0) return;
-      saveItems(toSave);
-      toSave.forEach(it => removeItem(it._id));
-    }
+    function saveSingle(id) { const item = recognizedItems.find(it => it._id === id); if (!item) return; saveItems([item]); removeItem(id); }
+    function saveSelected() { const toSave = recognizedItems.filter(it => selectedIds.has(it._id)); if (toSave.length === 0) return; saveItems(toSave); toSave.forEach(it => removeItem(it._id)); }
 
     function saveItems(items) {
-      let earnedCoins = 0;
       items.forEach(item => {
         const emptyWeight = item._empty_weight;
         const newItem = {
-          id: Date.now() + Math.random(),
-          product_name: item.product_name || 'Неизвестно',
-          brand: item.brand || 'No brand',          category: item.category || '—',
-          empty_weight: emptyWeight,
-          material_type: item.material_type || 'other',
-          size: item.size || 'medium',
-          recyclable: item.recyclable,
-          timestamp: new Date().toLocaleString('ru-RU'),
-          description: item.description
+          id: Date.now() + Math.random(), product_name: item.product_name || 'Неизвестно',
+          brand: item.brand || 'No brand', category: item.category || '—',
+          empty_weight: emptyWeight, material_type: item.material_type || 'other',
+          size: item.size || 'medium', recyclable: item.recyclable,
+          timestamp: new Date().toLocaleString('ru-RU'), description: item.description
         };
-        stats = {
-          total: stats.total + 1,
-          rec: item.recyclable ? stats.rec + 1 : stats.rec,
-          w: stats.w + emptyWeight
-        };
+        stats = { total: stats.total + 1, rec: item.recyclable ? stats.rec + 1 : stats.rec, w: stats.w + emptyWeight };
         history = [newItem, ...history].slice(0, 200);
-
-        if (canEarnCoin()) {
-          earnCoin();
-          earnedCoins++;
-        }
+        if (canEarnCoin()) earnCoin();
       });
       localStorage.setItem("recognizer_stats", JSON.stringify(stats));
       localStorage.setItem("recognizer_history", JSON.stringify(history));
-      updateStats();
-      updateCoinUI();
-      if (earnedCoins > 0) {
-        showToast(`Сохранено ${items.length} предмет(ов)`, 'success');
-      }
+      updateStats(); updateCoinUI();
+      showToast(`Сохранено ${items.length} предмет(ов)`, 'success');
     }
 
-    function cancelResults() {
-      recognizedItems = [];
-      selectedIds.clear();
-      actionState = 'recognize';
-      document.getElementById('resultsSection').style.display = 'none';
-    }
+    function cancelResults() { recognizedItems = []; selectedIds.clear(); actionState = 'recognize'; document.getElementById('resultsSection').style.display = 'none'; }
 
     async function switchToNextModel() {
-      if (!stream) { 
-        showToast("Сначала включите камеру", 'warning'); 
-        return; 
-      }
+      if (!stream) { showToast("Сначала включите камеру", 'warning'); return; }
       document.getElementById('btnSwitch').disabled = true;
       try {
         const modelsRes = await fetch('/api/models');
@@ -1173,93 +970,66 @@
         if (!modelsData.models || modelsData.models.length === 0) throw new Error("Не удалось получить список моделей");
         const currentIndex = modelsData.models.findIndex(m => m.id === currentModel);
         const nextIndex = (currentIndex + 1) % modelsData.models.length;
-        const nextModel = modelsData.models[nextIndex].id;
-        await doRecognize(nextModel);      } catch (e) { 
-        showToast(e.message, 'error'); 
-      } finally { 
-        document.getElementById('btnSwitch').disabled = false; 
-      }
+        await doRecognize(modelsData.models[nextIndex].id);
+      } catch (e) { showToast(e.message, 'error'); }
+      finally { document.getElementById('btnSwitch').disabled = false; }
     }
 
     function renderGroupedHistory() {
       const container = document.getElementById('historyGrouped');
       document.getElementById('btnClear').disabled = history.length === 0;
-
-      if (history.length === 0) {
-        container.innerHTML = '<div class="empty-state">Пока пусто. Распознайте первый предмет!</div>';
-        return;
-      }
-
-      const groups = {};
+      if (history.length === 0) { container.innerHTML = '<div class="empty-state">Пока пусто. Распознайте первый предмет!</div>'; return; }      const groups = {};
       history.forEach(item => {
         const group = getMaterialGroup(item.material_type);
-        if (!groups[group.key]) {
-          groups[group.key] = { ...group, items: [], totalWeight: 0 };
-        }
+        if (!groups[group.key]) groups[group.key] = { ...group, items: [], totalWeight: 0 };
         groups[group.key].items.push(item);
         groups[group.key].totalWeight += item.empty_weight || 0;
       });
-
       const groupOrder = ['plastic', 'glass', 'paper', 'metal', 'other'];
-      
       let html = '';
       for (const key of groupOrder) {
-        const group = groups[key];
-        if (!group) continue;
+        const group = groups[key]; if (!group) continue;
         const groupId = 'group_' + key;
-        html += `
-          <div class="history-group">
-            <div class="history-group-header" onclick="toggleGroup('${groupId}')">
-              <span class="history-group-icon">${group.icon}</span>
-              <span class="history-group-name">${group.name}</span>
-              <span class="history-group-weight">${group.totalWeight} г</span>
-              <span class="history-group-count">${group.items.length}</span>
-            </div>
-            <div class="history-group-items" id="${groupId}">
-              ${group.items.map(item => `
-                <div class="history-item">
-                  <div class="history-item-header" onclick="toggleExpand(${item.id})">
-                    <div>
-                      <div class="history-item-title">${item.product_name}</div>
-                      <div class="history-item-sub">${item.brand} · ${item.empty_weight} г · ${item.timestamp}</div>
-                    </div>
-                    <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>                  </div>
-                  <div class="history-item-details ${expandedId === item.id ? 'open' : ''}">
-                    <div class="detail-row"><span class="detail-label">Категория</span><span class="detail-value">${item.category}</span></div>
-                    <div class="detail-row"><span class="detail-label">Материал</span><span class="detail-value">${MATERIAL_LABELS[item.material_type] || item.material_type}</span></div>
-                    <div class="detail-row"><span class="detail-label">Размер</span><span class="detail-value">${SIZE_LABELS[item.size] || item.size}</span></div>
-                    <div class="detail-row"><span class="detail-label">Вес пустой тары</span><span class="detail-value">${item.empty_weight} г</span></div>
-                    <div class="weight-calc">Для переработки: <strong>${item.empty_weight} г</strong> (пустая тара)</div>
-                    ${item.description ? '<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">Описание</span><span class="detail-value">' + item.description + '</span></div>' : ''}
-                  </div>
-                </div>
-              `).join('')}
-            </div>
+        html += `<div class="history-group">
+          <div class="history-group-header" onclick="toggleGroup('${groupId}')">
+            <span class="history-group-icon">${group.icon}</span>
+            <span class="history-group-name">${group.name}</span>
+            <span class="history-group-weight">${group.totalWeight} г</span>
+            <span class="history-group-count">${group.items.length}</span>
           </div>
-        `;
+          <div class="history-group-items" id="${groupId}">
+            ${group.items.map(item => `
+              <div class="history-item">
+                <div class="history-item-header" onclick="toggleExpand(${item.id})">
+                  <div>
+                    <div class="history-item-title">${item.product_name}</div>
+                    <div class="history-item-sub">${item.brand} · ${item.empty_weight} г · ${item.timestamp}</div>
+                  </div>
+                  <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>
+                </div>
+                <div class="history-item-details ${expandedId === item.id ? 'open' : ''}">
+                  <div class="detail-row"><span class="detail-label">Категория</span><span class="detail-value">${item.category}</span></div>
+                  <div class="detail-row"><span class="detail-label">Материал</span><span class="detail-value">${MATERIAL_LABELS[item.material_type] || item.material_type}</span></div>
+                  <div class="detail-row"><span class="detail-label">Размер</span><span class="detail-value">${SIZE_LABELS[item.size] || item.size}</span></div>
+                  <div class="detail-row"><span class="detail-label">Вес пустой тары</span><span class="detail-value">${item.empty_weight} г</span></div>
+                  <div class="weight-calc">Для переработки: <strong>${item.empty_weight} г</strong> (пустая тара)</div>
+                  ${item.description ? '<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">Описание</span><span class="detail-value">' + item.description + '</span></div>' : ''}
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>`;
       }
-
       container.innerHTML = html;
     }
 
-    function toggleGroup(groupId) {
-      const el = document.getElementById(groupId);
-      el.classList.toggle('open');
-    }
-
-    function toggleExpand(id) {
-      expandedId = expandedId === id ? null : id;
-      renderGroupedHistory();
-    }
+    function toggleGroup(groupId) { document.getElementById(groupId).classList.toggle('open'); }
+    function toggleExpand(id) { expandedId = expandedId === id ? null : id; renderGroupedHistory(); }
 
     function clearHistory() {
-      if (!confirm('Очистить всю историю и статистику?')) return;
-      history = [];
-      stats = { total: 0, rec: 0, w: 0 };
-      localStorage.removeItem("recognizer_history");
-      localStorage.removeItem("recognizer_stats");
-      updateStats();
-      renderGroupedHistory();
+      if (!confirm('Очистить всю историю и статистику?')) return;      history = []; stats = { total: 0, rec: 0, w: 0 };
+      localStorage.removeItem("recognizer_history"); localStorage.removeItem("recognizer_stats");
+      updateStats(); renderGroupedHistory();
       showToast('История очищена', 'info');
     }
 
@@ -1268,20 +1038,16 @@
         const savedModels = localStorage.getItem("recognizer_preferred_models");
         if (savedModels) { preferredModels = JSON.parse(savedModels); updatePreferredUI(); }
         const savedHistory = localStorage.getItem("recognizer_history");
-        if (savedHistory) { history = JSON.parse(savedHistory); }
+        if (savedHistory) history = JSON.parse(savedHistory);
         const savedStats = localStorage.getItem("recognizer_stats");
         if (savedStats) { stats = JSON.parse(savedStats); updateStats(); }
         const savedGamification = localStorage.getItem("recognizer_gamification");
-        if (savedGamification) {          gamification = { ...gamification, ...JSON.parse(savedGamification) };
-        }
+        if (savedGamification) gamification = { ...gamification, ...JSON.parse(savedGamification) };
         checkDailyReset();
-      } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }
+      } catch (e) { console.error("Ошибка загрузки:", e); }
     }
 
-    function saveGamification() {
-      localStorage.setItem("recognizer_gamification", JSON.stringify(gamification));
-    }
-
+    function saveGamification() { localStorage.setItem("recognizer_gamification", JSON.stringify(gamification)); }
     function updatePreferredUI() {
       if (preferredModels.length > 0) {
         document.getElementById('preferredBadge').style.display = 'inline';
@@ -1290,18 +1056,13 @@
         document.getElementById('preferredInfoCount').textContent = preferredModels.length;
       }
     }
-
     function updateStats() {
       document.getElementById('sTotal').textContent = stats.total;
       document.getElementById('sRec').textContent = stats.rec;
       document.getElementById('sW').textContent = stats.w + ' г';
     }
 
-    // Инициализация
-    loadFromStorage();
-    updateCoinUI();
-    renderShop();
-    renderSettings();
+    loadFromStorage(); updateCoinUI(); renderShop(); renderSettings();
   </script>
 </body>
 </html>

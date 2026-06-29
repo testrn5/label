@@ -3,52 +3,72 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Распознавание мусора v2.9</title>
+  <title>Распознавание мусора v3.0 — Геймификация</title>
   <style>
     :root {
       --bg: #0a0a0f; --text: #e8e8f0; --text-muted: #6b7280;
       --card-bg: rgba(255,255,255,0.03); --card-border: rgba(255,255,255,0.08);
-      --accent: #818cf8; --accent-bg: rgba(99,102,241,0.15);
-      --success: #22c55e; --success-bg: rgba(34,197,94,0.15);
-      --danger: #ef4444; --danger-bg: rgba(239,68,68,0.15);
+      --accent: #818cf8; --accent-bg: rgba(129,140,248,0.12); --accent-border: rgba(129,140,248,0.35);
+      --success: #22c55e; --success-bg: rgba(34,197,94,0.12); --success-border: rgba(34,197,94,0.35);
+      --danger: #ef4444; --danger-bg: rgba(239,68,68,0.12); --danger-border: rgba(239,68,68,0.35);
+      --gold: #fbbf24; --gold-bg: rgba(251,191,36,0.12); --gold-border: rgba(251,191,36,0.35);
     }
     [data-theme="light"] {
       --bg: #f8fafc; --text: #0f172a; --text-muted: #64748b;
       --card-bg: #ffffff; --card-border: #e2e8f0;
-      --accent: #4f46e5; --accent-bg: rgba(79, 70, 229, 0.1);
-      --success: #16a34a; --success-bg: rgba(22,163,74,0.1);
-      --danger: #dc2626; --danger-bg: rgba(220,38,38,0.1);
+      --accent: #4f46e5; --accent-bg: rgba(79,70,229,0.08); --accent-border: rgba(79,70,229,0.25);
+      --success: #16a34a; --success-bg: rgba(22,163,74,0.08); --success-border: rgba(22,163,74,0.25);
+      --danger: #dc2626; --danger-bg: rgba(220,38,38,0.08); --danger-border: rgba(220,38,38,0.25);
+      --gold: #d97706; --gold-bg: rgba(217,119,6,0.08); --gold-border: rgba(217,119,6,0.25);
     }
     * { box-sizing: border-box; }
     body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 20px; margin: 0; transition: background 0.3s, color 0.3s; }
-    .container { max-width: 760px; margin: 0 auto; }
+    .container { max-width: 900px; margin: 0 auto; }
     .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 12px; }
-    h1 { font-size: 28px; font-weight: 700; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
+    h1 { font-size: 24px; font-weight: 700; background: linear-gradient(135deg, var(--text), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
     .free-badge { display: inline-block; font-size: 10px; font-weight: 700; background: var(--success); color: #fff; padding: 3px 8px; border-radius: 10px; margin-left: 8px; vertical-align: middle; -webkit-text-fill-color: #fff; }
-    .theme-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text); cursor: pointer; font-weight: 600; }
-    .model-status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; padding: 10px 14px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; font-size: 13px; }
-    .model-label { color: var(--text-muted); font-weight: 500; }
+    .theme-btn { padding: 8px 16px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text); cursor: pointer; font-weight: 500; font-size: 14px; }
+    
+    /* Баланс монет */
+    .coin-balance {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 8px 16px; border-radius: 20px;
+      background: var(--gold-bg); border: 1px solid var(--gold-border);
+      font-weight: 600; color: var(--gold); font-size: 14px;
+    }
+    .coin-icon { font-size: 18px; }
+    .coin-limit { font-size: 11px; color: var(--text-muted); font-weight: 400; margin-left: 4px; }
+
+    /* Вкладки */
+    .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; border-bottom: 1px solid var(--card-border); padding-bottom: 12px; }
+    .tab { padding: 10px 18px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-muted); cursor: pointer; font-weight: 500; font-size: 14px; transition: all 0.2s; }
+    .tab:hover { color: var(--text); background: var(--accent-bg); }
+    .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .tab-view { display: none; }
+    .tab-view.active { display: block; }
+
+    .model-status { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; padding: 10px 14px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; font-size: 13px; }    .model-label { color: var(--text-muted); font-weight: 500; }
     .model-name { color: var(--accent); font-weight: 600; font-family: monospace; font-size: 12px; }
     .model-badge { background: var(--success-bg); color: var(--success); padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
-    .btn-switch { padding: 4px 10px; border-radius: 6px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-muted); cursor: pointer; font-size: 11px; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 4px; }
-    .btn-switch:hover:not(:disabled) { background: var(--accent-bg); color: var(--accent); border-color: var(--accent); }
-    .btn-switch:disabled { opacity: 0.4; cursor: not-allowed; }
     .preferred-info { font-size: 11px; color: var(--text-muted); margin-bottom: 16px; padding: 8px 12px; background: var(--card-bg); border-radius: 8px; border: 1px solid var(--card-border); }
     .video-container { position: relative; background: #111; border-radius: 16px; overflow: hidden; margin-bottom: 20px; border: 1px solid var(--card-border); }
     video, canvas { width: 100%; display: block; max-height: 420px; object-fit: contain; }
     .camera-overlay { position: absolute; left: 0; right: 0; bottom: 0; padding: 12px 14px; background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.75) 40%, rgba(0,0,0,0.9) 100%); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: center; }
-    .btn { padding: 10px 18px; border-radius: 10px; border: 1px solid transparent; font-weight: 600; cursor: pointer; transition: all 0.2s; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; }
-    .btn:disabled { opacity: 0.4; cursor: not-allowed; filter: grayscale(0.3); }
+    
+    .btn { padding: 10px 18px; border-radius: 10px; border: 1px solid var(--card-border); background: rgba(255,255,255,0.06); color: var(--text); font-weight: 500; cursor: pointer; transition: all 0.2s ease; font-size: 14px; display: inline-flex; align-items: center; gap: 6px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+    .btn:hover:not(:disabled) { background: rgba(255,255,255,0.12); transform: translateY(-1px); }
+    .btn:active:not(:disabled) { transform: translateY(0); }
+    .btn:disabled { opacity: 0.35; cursor: not-allowed; filter: grayscale(0.3); }
     .btn.hidden { display: none !important; }
-    .btn-primary { background: var(--accent); color: #fff; border-color: var(--accent); }
-    .btn-primary:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-1px); }
-    .btn-danger { background: var(--danger-bg); color: var(--danger); border-color: rgba(239,68,68,0.3); }
-    .btn-danger:hover:not(:disabled) { background: var(--danger); color: #fff; }
-    .btn-success { background: var(--success-bg); color: var(--success); border-color: rgba(34,197,94,0.3); }
-    .btn-success:hover:not(:disabled) { background: var(--success); color: #fff; }
-    .btn-ghost { background: transparent; color: var(--text-muted); border-color: var(--card-border); }
-    .btn-ghost:hover:not(:disabled) { color: var(--text); background: var(--card-bg); }    .btn-large { padding: 12px 24px; font-size: 15px; }
-    .btn-small { padding: 6px 12px; font-size: 12px; }
+    .btn-accent { background: var(--accent-bg); border-color: var(--accent-border); color: var(--accent); }
+    .btn-accent:hover:not(:disabled) { background: rgba(129,140,248,0.2); }
+    .btn-success { background: var(--success-bg); border-color: var(--success-border); color: var(--success); }
+    .btn-success:hover:not(:disabled) { background: rgba(34,197,94,0.2); }
+    .btn-danger { background: var(--danger-bg); border-color: var(--danger-border); color: var(--danger); }
+    .btn-danger:hover:not(:disabled) { background: rgba(239,68,68,0.2); }
+    .btn-gold { background: var(--gold-bg); border-color: var(--gold-border); color: var(--gold); }
+    .btn-gold:hover:not(:disabled) { background: rgba(251,191,36,0.2); }
+    
     .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 24px; }
     .stat-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; text-align: center; }
     .stat-value { font-size: 24px; font-weight: 700; color: var(--accent); }
@@ -67,7 +87,6 @@
     .item-title { flex: 1; font-weight: 600; font-size: 15px; color: var(--text); }
     .item-subtitle { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
     .item-confidence { font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 12px; flex-shrink: 0; }
-    
     .item-desc { padding: 12px 16px; font-size: 13px; color: var(--text-muted); line-height: 1.5; border-bottom: 1px solid var(--card-border); }
     .item-fields { padding: 8px 0; }
     .item-field { display: flex; padding: 8px 16px; font-size: 13px; border-bottom: 1px solid var(--card-border); }
@@ -75,107 +94,241 @@
     .item-field-label { min-width: 120px; color: var(--text-muted); font-weight: 500; }
     .item-field-value { color: var(--text); flex: 1; }
     .item-actions { padding: 12px 16px; background: rgba(99,102,241,0.03); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+    .coin-reward { display: inline-flex; align-items: center; gap: 4px; color: var(--gold); font-weight: 600; font-size: 13px; margin-left: 8px; }
     
-    .history { margin-top: 20px; }
-    .history-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-    .history h3 { font-size: 16px; margin: 0; color: var(--text-muted); }
-    .history-list { list-style: none; padding: 0; }
-    .history-item { border: 1px solid var(--card-border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; background: var(--card-bg); }
-    .history-item-header { padding: 12px 16px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; }
+    /* Магазин */    .shop-section { margin-bottom: 24px; }
+    .shop-category { margin-bottom: 24px; }
+    .shop-category h3 { font-size: 16px; margin: 0 0 12px 0; color: var(--text-muted); padding-bottom: 8px; border-bottom: 1px solid var(--card-border); }
+    .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+    .shop-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; transition: all 0.2s; display: flex; flex-direction: column; }
+    .shop-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .shop-item.owned { border-color: var(--success); opacity: 0.7; }
+    .shop-item.equipped { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold-bg); }
+    .shop-item-icon { font-size: 48px; text-align: center; margin-bottom: 8px; }
+    .shop-item-name { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+    .shop-item-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; flex: 1; }
+    .shop-item-footer { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+    .shop-item-price { color: var(--gold); font-weight: 600; font-size: 14px; }
+    .shop-item-btn { padding: 6px 12px; font-size: 12px; }
+    .nft-badge { display: inline-block; font-size: 9px; font-weight: 700; background: linear-gradient(135deg, #8b5cf6, #ec4899); color: #fff; padding: 2px 6px; border-radius: 6px; margin-left: 6px; vertical-align: middle; }
+    
+    /* История с группировкой */
+    .history-group { margin-bottom: 20px; }
+    .history-group-header { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
+    .history-group-header:hover { background: var(--accent-bg); }
+    .history-group-icon { font-size: 20px; }
+    .history-group-name { font-weight: 600; font-size: 14px; flex: 1; }
+    .history-group-count { background: var(--accent-bg); color: var(--accent); padding: 2px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; }
+    .history-group-weight { font-size: 12px; color: var(--text-muted); }
+    .history-group-items { padding-left: 20px; display: none; }
+    .history-group-items.open { display: block; }
+    .history-item { border: 1px solid var(--card-border); border-radius: 10px; margin-bottom: 6px; overflow: hidden; background: var(--card-bg); }
+    .history-item-header { padding: 10px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; font-size: 13px; }
     .history-item-header:hover { background: var(--accent-bg); }
-    .history-item-title { font-weight: 600; font-size: 14px; color: var(--text); }
-    .history-item-sub { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
-    .history-item-arrow { font-size: 12px; color: var(--text-muted); transition: transform 0.2s; }
+    .history-item-title { font-weight: 600; color: var(--text); }
+    .history-item-sub { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+    .history-item-arrow { font-size: 11px; color: var(--text-muted); transition: transform 0.2s; }
     .history-item-arrow.open { transform: rotate(180deg); }
-    .history-item-details { padding: 0 16px 12px; display: none; border-top: 1px solid var(--card-border); }
-    .history-item-details.open { display: block; padding-top: 12px; }
-    .detail-row { display: flex; padding: 6px 0; font-size: 13px; border-bottom: 1px solid var(--card-border); }
+    .history-item-details { padding: 0 14px 10px; display: none; border-top: 1px solid var(--card-border); font-size: 12px; }
+    .history-item-details.open { display: block; padding-top: 10px; }
+    .detail-row { display: flex; padding: 4px 0; border-bottom: 1px solid var(--card-border); }
     .detail-row:last-child { border-bottom: none; }
-    .detail-label { min-width: 120px; color: var(--text-muted); font-weight: 500; }
+    .detail-label { min-width: 110px; color: var(--text-muted); font-weight: 500; }
     .detail-value { color: var(--text); flex: 1; }
-    .weight-calc { background: var(--success-bg); border: 1px solid rgba(34,197,94,0.3); border-radius: 8px; padding: 8px 12px; margin-top: 8px; font-size: 12px; color: var(--success); }
-    .err { background: var(--danger-bg); border: 1px solid rgba(239,68,68,0.3); border-radius: 12px; padding: 12px 16px; color: var(--danger); font-size: 14px; margin-bottom: 16px; }
+    .weight-calc { background: var(--success-bg); border: 1px solid var(--success-border); border-radius: 8px; padding: 6px 10px; margin-top: 6px; font-size: 11px; color: var(--success); }
+    
+    /* Настройки */
+    .settings-section { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
+    .settings-section h3 { font-size: 16px; margin: 0 0 16px 0; color: var(--text); }
+    .setting-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+    .setting-row label { font-size: 13px; color: var(--text-muted); min-width: 180px; }
+    .setting-input { padding: 8px 12px; border-radius: 8px; border: 1px solid var(--card-border); background: var(--bg); color: var(--text); font-size: 14px; flex: 1; min-width: 120px; }
+    .setting-input:focus { outline: none; border-color: var(--accent); }
+    .setting-info { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+    .secret-code-status { padding: 8px 12px; border-radius: 8px; font-size: 13px; margin-top: 8px; }    .secret-code-status.active { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-border); }
+    .secret-code-status.inactive { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-border); }
+    
+    .err { background: var(--danger-bg); border: 1px solid var(--danger-border); border-radius: 12px; padding: 12px 16px; color: var(--danger); font-size: 14px; margin-bottom: 16px; }
     .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 0.8s linear infinite; vertical-align: middle; margin-right: 6px; }
-    @keyframes spin { to { transform: rotate(360deg); } }    
-    .loading-overlay {
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.85);
-      display: none; flex-direction: column; align-items: center; justify-content: center;
-      z-index: 10; border-radius: 16px;
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .loading-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.85); display: none; flex-direction: column; align-items: center; justify-content: center; z-index: 10; border-radius: 16px; }
     .loading-overlay.active { display: flex; }
-    .loading-overlay .spinner-large {
-      width: 48px; height: 48px;
-      border: 4px solid rgba(129,140,248,0.2); border-top-color: var(--accent);
-      border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px;
-    }
+    .loading-overlay .spinner-large { width: 48px; height: 48px; border: 4px solid rgba(129,140,248,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 16px; }
     .loading-overlay .loading-text { color: #fff; font-size: 16px; font-weight: 600; }
     .loading-overlay .loading-subtext { color: var(--text-muted); font-size: 13px; margin-top: 8px; }
+    
+    .empty-state { text-align: center; padding: 40px 20px; color: var(--text-muted); font-size: 14px; }
+    .coin-animation { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 48px; color: var(--gold); font-weight: 700; pointer-events: none; z-index: 1000; animation: coinFloat 1.5s ease-out forwards; }
+    @keyframes coinFloat { 0% { opacity: 1; transform: translate(-50%, -50%) scale(0.5); } 50% { opacity: 1; transform: translate(-50%, -100%) scale(1.2); } 100% { opacity: 0; transform: translate(-50%, -200%) scale(1); } }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="header">
-      <h1>♻ Распознавание v2.9<span class="free-badge">FREE</span></h1>
-      <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">🌙 Темная</button>
-    </div>
-
-    <div class="model-status">
-      <span class="model-label">📡 Модель:</span>
-      <span class="model-name" id="currentModel">nex-agi/nex-n2-pro:free</span>
-      <button class="btn-switch hidden" onclick="switchToNextModel()" id="btnSwitch"> Сменить</button>
-      <span class="model-badge" id="preferredBadge" style="display:none">⚡ <span id="preferredCount">0</span> в приоритете</span>
-    </div>
-
-    <div class="preferred-info" id="preferredInfo" style="display:none">
-      ⚡ Ускорение: <span id="preferredInfoCount">0</span> моделей в приоритете
-    </div>
-
-    <div class="err" id="err" style="display:none"></div>
-
-    <div class="video-container">
-      <video id="vid" autoplay playsinline muted></video>
-      <canvas id="can" style="display:none"></canvas>
-      <div class="loading-overlay" id="loadingOverlay">
-        <div class="spinner-large"></div>
-        <div class="loading-text">📸 Изображение захвачено</div>
-        <div class="loading-subtext" id="loadingSubtext">Анализ через AI...</div>
-      </div>
-      <div class="camera-overlay" id="cameraOverlay">
-        <button class="btn btn-primary" onclick="toggleCamera()" id="btnCamera">▶ Включить камеру</button>
-        <button class="btn btn-success btn-large hidden" onclick="handleAction()" id="btnAction"> Распознать</button>
+      <h1>Распознавание v3.0<span class="free-badge">FREE</span></h1>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <div class="coin-balance">
+          <span class="coin-icon">🪙</span>
+          <span id="coinBalance">0</span>
+          <span class="coin-limit" id="coinLimitInfo">(0/5 сегодня)</span>
+        </div>
+        <button class="theme-btn" onclick="toggleTheme()" id="themeBtn">Темная тема</button>
       </div>
     </div>
-    <div class="stats">
-      <div class="stat-card"><div class="stat-value" id="sTotal">0</div><div class="stat-label">Всего</div></div>
-      <div class="stat-card"><div class="stat-value" id="sRec">0</div><div class="stat-label">♻ Перераб.</div></div>
-      <div class="stat-card"><div class="stat-value" id="sW">0 г</div><div class="stat-label">Вес пустой тары</div></div>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('recognize')">Распознавание</button>
+      <button class="tab" onclick="switchTab('shop')">Магазин</button>
+      <button class="tab" onclick="switchTab('history')">История</button>
+      <button class="tab" onclick="switchTab('settings')">Настройки</button>
     </div>
 
-    <div class="results-section" id="resultsSection" style="display:none">
-      <div class="results-header">
-        <h3>🔍 Распознанные предметы (<span id="resultsCount">0</span>)</h3>
-        <span class="selection-info" id="selectionInfo">Выбрано: 0</span>
+    <!-- ВКЛАДКА: РАСПОЗНАВАНИЕ -->
+    <div class="tab-view active" id="tab-recognize">
+      <div class="model-status">
+        <span class="model-label">Модель:</span>
+        <span class="model-name" id="currentModel">nex-agi/nex-n2-pro:free</span>
+        <button class="btn hidden" onclick="switchToNextModel()" id="btnSwitch">Сменить модель</button>
+        <span class="model-badge" id="preferredBadge" style="display:none"><span id="preferredCount">0</span> в приоритете</span>
       </div>
-      <div class="bulk-actions">
-        <button class="btn btn-success btn-small" onclick="saveSelected()" id="btnSaveSelected" disabled>💾 Сохранить выбранные</button>
-        <button class="btn btn-ghost btn-small" onclick="selectAll()">✅ Выбрать все</button>
-        <button class="btn btn-ghost btn-small" onclick="deselectAll()">⬜ Снять все</button>
-        <button class="btn btn-danger btn-small" onclick="cancelResults()">✕ Отменить</button>
+      <div class="preferred-info" id="preferredInfo" style="display:none">Ускорение: <span id="preferredInfoCount">0</span> моделей в приоритете</div>
+      <div class="err" id="err" style="display:none"></div>
+      <div class="video-container">
+        <video id="vid" autoplay playsinline muted></video>
+        <canvas id="can" style="display:none"></canvas>
+        <div class="loading-overlay" id="loadingOverlay">
+          <div class="spinner-large"></div>
+          <div class="loading-text">Изображение захвачено</div>
+          <div class="loading-subtext" id="loadingSubtext">Анализ через AI...</div>
+        </div>
+        <div class="camera-overlay" id="cameraOverlay">
+          <button class="btn" onclick="toggleCamera()" id="btnCamera">Включить камеру</button>
+          <button class="btn btn-success hidden" onclick="handleAction()" id="btnAction">Распознать</button>
+        </div>
       </div>
-      <div id="resultsList"></div>
+
+      <div class="stats">
+        <div class="stat-card"><div class="stat-value" id="sTotal">0</div><div class="stat-label">Всего</div></div>
+        <div class="stat-card"><div class="stat-value" id="sRec">0</div><div class="stat-label">Переработано</div></div>
+        <div class="stat-card"><div class="stat-value" id="sW">0 г</div><div class="stat-label">Вес пустой тары</div></div>
+      </div>
+
+      <div class="results-section" id="resultsSection" style="display:none">
+        <div class="results-header">
+          <h3>Распознанные предметы (<span id="resultsCount">0</span>)</h3>
+          <span class="selection-info" id="selectionInfo">Выбрано: 0</span>
+        </div>
+        <div class="bulk-actions">
+          <button class="btn btn-success" onclick="saveSelected()" id="btnSaveSelected" disabled>Сохранить выбранные</button>
+          <button class="btn" onclick="selectAll()">Выбрать все</button>
+          <button class="btn" onclick="deselectAll()">Снять все</button>
+          <button class="btn btn-danger" onclick="cancelResults()">Отменить</button>
+        </div>
+        <div id="resultsList"></div>
+      </div>
     </div>
 
-    <div class="history">
-      <div class="history-header">
-        <h3>История операций (<span id="historyCount">0</span>)</h3>
-        <button class="btn btn-ghost" onclick="clearHistory()" id="btnClear" disabled style="font-size:12px;padding:6px 12px">Очистить</button>
+    <!-- ВКЛАДКА: МАГАЗИН -->
+    <div class="tab-view" id="tab-shop">
+      <div class="shop-section">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+          <h2 style="margin:0;font-size:20px">Магазин</h2>
+          <div class="coin-balance"><span class="coin-icon"></span><span id="shopCoinBalance">0</span></div>
+        </div>
+
+        <div class="shop-category">
+          <h3>Персонажи</h3>
+          <div class="shop-grid" id="shopCharacters"></div>
+        </div>
+
+        <div class="shop-category">
+          <h3>Уровни</h3>          <div class="shop-grid" id="shopLevels"></div>
+        </div>
+
+        <div class="shop-category">
+          <h3>Приспособления для сбора</h3>
+          <div class="shop-grid" id="shopTools"></div>
+        </div>
+
+        <div class="shop-category">
+          <h3>NFT-картинки <span class="nft-badge">NFT</span></h3>
+          <div class="shop-grid" id="shopNFT"></div>
+        </div>
+
+        <div class="shop-category">
+          <h3>Моя коллекция</h3>
+          <div id="myCollection"></div>
+        </div>
       </div>
-      <ul class="history-list" id="historyList"></ul>
+    </div>
+
+    <!-- ВКЛАДКА: ИСТОРИЯ -->
+    <div class="tab-view" id="tab-history">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+        <h2 style="margin:0;font-size:20px">История операций</h2>
+        <button class="btn btn-danger" onclick="clearHistory()" id="btnClear" disabled>Очистить</button>
+      </div>
+      <div id="historyGrouped"></div>
+    </div>
+
+    <!-- ВКЛАДКА: НАСТРОЙКИ -->
+    <div class="tab-view" id="tab-settings">
+      <h2 style="margin:0 0 16px 0;font-size:20px">Настройки геймификации</h2>
+
+      <div class="settings-section">
+        <h3>Лимит монет в сутки</h3>
+        <div class="setting-row">
+          <label>Максимум монет за день:</label>
+          <input type="number" class="setting-input" id="dailyLimitInput" min="1" max="100" value="5">
+          <button class="btn btn-accent" onclick="updateDailyLimit()">Применить</button>
+        </div>
+        <div class="setting-info">По умолчанию 5 монет за первые 5 предметов в сутки. Счётчик сбрасывается каждые 24 часа.</div>
+        <div class="setting-info" id="resetTimerInfo">Следующий сброс через: --</div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Секретный код</h3>
+        <div class="setting-row">
+          <label>Введите код для расширения лимита:</label>
+          <input type="text" class="setting-input" id="secretCodeInput" placeholder="Введите секретный код">
+          <button class="btn btn-gold" onclick="applySecretCode()">Активировать</button>        </div>
+        <div class="setting-info">Секретный код увеличивает дневной лимит монет. Попробуйте: ECO2026</div>
+        <div id="secretCodeStatus"></div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Статистика монет</h3>
+        <div class="setting-row">
+          <label>Всего заработано:</label>
+          <span style="color:var(--gold);font-weight:600" id="totalEarned">0 </span>
+        </div>
+        <div class="setting-row">
+          <label>Потрачено в магазине:</label>
+          <span style="color:var(--danger);font-weight:600" id="totalSpent">0 </span>
+        </div>
+        <div class="setting-row">
+          <label>Текущий баланс:</label>
+          <span style="color:var(--gold);font-weight:600" id="currentBalance">0 </span>
+        </div>
+        <div class="setting-row">
+          <label>Сегодня заработано:</label>
+          <span style="color:var(--accent);font-weight:600" id="todayEarned">0 / 5 🪙</span>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <h3>Сброс данных</h3>
+        <div class="setting-row">
+          <label>Сбросить все данные геймификации:</label>
+          <button class="btn btn-danger" onclick="resetGamification()">Сбросить монеты и покупки</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
+    // ==================== ОСНОВНЫЕ ДАННЫЕ ====================
     let stream, stats = { total: 0, rec: 0, w: 0 };
     let history = [];
     let preferredModels = [];
@@ -184,23 +337,82 @@
     let actionState = 'recognize';
     let recognizedItems = [];
     let selectedIds = new Set();
+    let isDark = false;
 
+    // ==================== ГЕЙМИФИКАЦИЯ ====================
+    const SECRET_CODE = "ECO2026";
+    const SECRET_CODE_MULTIPLIER = 4; // увеличивает лимит в 4 раза (5 -> 20)
+    let gamification = {
+      coins: 0,
+      totalEarned: 0,
+      totalSpent: 0,
+      dailyLimit: 5,
+      todayEarned: 0,
+      lastResetDate: null,
+      secretCodeActive: false,
+      ownedItems: [],
+      equippedItems: {}
+    };
+
+    // Магазин
+    const SHOP_ITEMS = {
+      characters: [
+        { id: 'char_1', name: 'Сборщик', desc: 'Начинающий эко-активист', price: 50, icon: '‍🌾' },
+        { id: 'char_2', name: 'Эко-герой', desc: 'Опытный защитник природы', price: 200, icon: '🦸' },
+        { id: 'char_3', name: 'Капитан Чистоты', desc: 'Лидер экологического движения', price: 500, icon: '👨‍️' },
+        { id: 'char_4', name: 'Планетарный страж', desc: 'Легендарный хранитель Земли', price: 1500, icon: '🌍' }
+      ],
+      levels: [
+        { id: 'lvl_1', name: 'Начинающий', desc: 'Уровень 1 — только начали путь', price: 0, icon: '🌱' },
+        { id: 'lvl_2', name: 'Активист', desc: 'Уровень 5 — активная деятельность', price: 100, icon: '🌿' },
+        { id: 'lvl_3', name: 'Эксперт', desc: 'Уровень 15 — профессионал', price: 300, icon: '🌳' },
+        { id: 'lvl_4', name: 'Мастер', desc: 'Уровень 30 — мастер переработки', price: 700, icon: '🏆' },
+        { id: 'lvl_5', name: 'Легенда', desc: 'Уровень 50 — легенда экологии', price: 2000, icon: '👑' }
+      ],
+      tools: [
+        { id: 'tool_1', name: 'Мешок', desc: 'Простой мешок для сбора', price: 20, icon: '️' },
+        { id: 'tool_2', name: 'Тачка', desc: 'Садовая тачка', price: 150, icon: '🛒' },
+        { id: 'tool_3', name: 'Грузовик', desc: 'Маленький грузовик', price: 400, icon: '🚚' },
+        { id: 'tool_4', name: 'Мусоровоз', desc: 'Специализированный транспорт', price: 800, icon: '🚛' },
+        { id: 'tool_5', name: 'Бульдозер', desc: 'Мощная техника для больших задач', price: 2000, icon: '🚜' }
+      ],
+      nft: [
+        { id: 'nft_1', name: 'Зелёная планета', desc: 'NFT-картинка #001', price: 300, icon: '🌎', nft: true },
+        { id: 'nft_2', name: 'Чистый океан', desc: 'NFT-картинка #002', price: 500, icon: '🌊', nft: true },
+        { id: 'nft_3', name: 'Лес будущего', desc: 'NFT-картинка #003', price: 800, icon: '🌲', nft: true },
+        { id: 'nft_4', name: 'Солнечный город', desc: 'NFT-картинка #004', price: 1200, icon: '🏙️', nft: true },
+        { id: 'nft_5', name: 'Эко-утопия', desc: 'Редкая NFT-картинка #005', price: 3000, icon: '✨', nft: true }
+      ]
+    };
+
+    // ==================== ВЕСА ====================
     const EMPTY_WEIGHTS = {
       plastic_bottle_033: 12, plastic_bottle_05: 18, plastic_bottle_1: 28, plastic_bottle_15: 38, plastic_bottle_2: 48,
       plastic_cup: 8, plastic_container: 15, plastic_bag: 4,
       glass_bottle_033: 180, glass_bottle_05: 250, glass_bottle_07: 350, glass_bottle_1: 450, glass_jar: 200,
-      aluminum_can_033: 13, aluminum_can_05: 18,
-      metal_can_small: 40, metal_can_medium: 60, metal_can_large: 80,
+      aluminum_can_033: 13, aluminum_can_05: 18,      metal_can_small: 40, metal_can_medium: 60, metal_can_large: 80,
       paper_bag_small: 8, paper_bag_medium: 15, paper_bag_large: 25,
       cardboard_box_small: 20, cardboard_box_medium: 40, cardboard_box_large: 70, cardboard_box_xlarge: 120,
       paper_cup: 10, paper_container: 12,
-      metal_knife: 60, metal_fork: 40, metal_spoon: 30,      ceramic_plate: 350, ceramic_cup: 200, glass_cup: 220,
+      metal_knife: 60, metal_fork: 40, metal_spoon: 30,
+      ceramic_plate: 350, ceramic_cup: 200, glass_cup: 220,
       default_small: 30, default_medium: 60, default_large: 120, default_xlarge: 250
     };
 
     const MATERIAL_LABELS = { plastic: "Пластик", glass: "Стекло", aluminum: "Алюминий", paper: "Бумага", cardboard: "Картон", metal: "Металл", ceramic: "Керамика", other: "Другое" };
     const SIZE_LABELS = { small: "Маленький", medium: "Средний", large: "Большой", xlarge: "Очень большой" };
 
+    // ==================== ГРУППИРОВКА МАТЕРИАЛОВ ====================
+    function getMaterialGroup(material) {
+      const mat = (material || '').toLowerCase();
+      if (mat === 'plastic') return { key: 'plastic', name: 'Пластик', icon: '♻️', color: '#3b82f6' };
+      if (mat === 'glass') return { key: 'glass', name: 'Стекло', icon: '🫙', color: '#10b981' };
+      if (mat === 'paper' || mat === 'cardboard') return { key: 'paper', name: 'Бумага и картон', icon: '📄', color: '#a855f7' };
+      if (mat === 'metal' || mat === 'aluminum') return { key: 'metal', name: 'Металл', icon: '🥫', color: '#64748b' };
+      return { key: 'other', name: 'Другое', icon: '📦', color: '#f59e0b' };
+    }
+
+    // ==================== ВЕС ПУСТОЙ ТАРЫ ====================
     function getEmptyWeight(material, category, size, productName) {
       const mat = (material || '').toLowerCase();
       const cat = (category || '').toLowerCase();
@@ -227,8 +439,7 @@
         return sz === 'small' ? EMPTY_WEIGHTS.aluminum_can_033 : EMPTY_WEIGHTS.aluminum_can_05;
       }
       if (mat === 'metal' && (cat.includes('банк') || cat.includes('консерв') || cat.includes('can'))) {
-        if (sz === 'small') return EMPTY_WEIGHTS.metal_can_small;
-        if (sz === 'large') return EMPTY_WEIGHTS.metal_can_large;
+        if (sz === 'small') return EMPTY_WEIGHTS.metal_can_small;        if (sz === 'large') return EMPTY_WEIGHTS.metal_can_large;
         return EMPTY_WEIGHTS.metal_can_medium;
       }
       if (mat === 'metal' && (cat.includes('нож') || cat.includes('knife') || name.includes('нож'))) return EMPTY_WEIGHTS.metal_knife;
@@ -243,7 +454,8 @@
       if ((mat === 'paper' || mat === 'cardboard') && (cat.includes('пакет') || cat.includes('bag'))) {
         if (sz === 'small') return EMPTY_WEIGHTS.paper_bag_small;
         if (sz === 'large') return EMPTY_WEIGHTS.paper_bag_large;
-        return EMPTY_WEIGHTS.paper_bag_medium;      }
+        return EMPTY_WEIGHTS.paper_bag_medium;
+      }
       if (mat === 'paper' && (cat.includes('стакан') || cat.includes('cup'))) return EMPTY_WEIGHTS.paper_cup;
       if (mat === 'paper' && (cat.includes('контейнер') || cat.includes('упаковк'))) return EMPTY_WEIGHTS.paper_container;
       if (mat === 'ceramic' && (cat.includes('тарелк') || cat.includes('plate'))) return EMPTY_WEIGHTS.ceramic_plate;
@@ -251,52 +463,256 @@
       return EMPTY_WEIGHTS[`default_${sz}`] || EMPTY_WEIGHTS.default_medium;
     }
 
-    function toggleTheme() {
-      const html = document.documentElement;
-      const isDark = html.getAttribute('data-theme') === 'dark';
-      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.getElementById('themeBtn').textContent = isDark ? '🌙 Темная' : '☀️ Светлая';
+    // ==================== МОНЕТЫ ====================
+    function getTodayKey() {
+      return new Date().toISOString().split('T')[0];
     }
 
-    function showLoadingOverlay(subtext) {
-      document.getElementById('loadingSubtext').textContent = subtext || 'Анализ через AI...';
-      document.getElementById('loadingOverlay').classList.add('active');
-    }
-
-    function hideLoadingOverlay() {
-      document.getElementById('loadingOverlay').classList.remove('active');
-    }
-
-    function loadFromStorage() {
-      try {
-        const savedModels = localStorage.getItem("recognizer_preferred_models");
-        if (savedModels) { preferredModels = JSON.parse(savedModels); updatePreferredUI(); }
-        const savedHistory = localStorage.getItem("recognizer_history");
-        if (savedHistory) { history = JSON.parse(savedHistory); renderHistory(); }
-        const savedStats = localStorage.getItem("recognizer_stats");
-        if (savedStats) { stats = JSON.parse(savedStats); updateStats(); }
-      } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }
-    }
-
-    function updatePreferredUI() {
-      if (preferredModels.length > 0) {
-        document.getElementById('preferredBadge').style.display = 'inline';
-        document.getElementById('preferredCount').textContent = preferredModels.length;
-        document.getElementById('preferredInfo').style.display = 'block';
-        document.getElementById('preferredInfoCount').textContent = preferredModels.length;
+    function checkDailyReset() {
+      const today = getTodayKey();
+      if (gamification.lastResetDate !== today) {
+        gamification.todayEarned = 0;
+        gamification.lastResetDate = today;
+        saveGamification();
       }
     }
 
-    function updateStats() {
-      document.getElementById('sTotal').textContent = stats.total;
-      document.getElementById('sRec').textContent = stats.rec;
-      document.getElementById('sW').textContent = stats.w + ' г';
+    function getEffectiveDailyLimit() {
+      return gamification.secretCodeActive ? gamification.dailyLimit * SECRET_CODE_MULTIPLIER : gamification.dailyLimit;
     }
-    // Скрытие/показ кнопок в зависимости от состояния камеры
+
+    function canEarnCoin() {
+      checkDailyReset();
+      return gamification.todayEarned < getEffectiveDailyLimit();
+    }
+
+    function earnCoin() {
+      if (!canEarnCoin()) return 0;
+      gamification.coins += 1;      gamification.totalEarned += 1;
+      gamification.todayEarned += 1;
+      saveGamification();
+      updateCoinUI();
+      showCoinAnimation();
+      return 1;
+    }
+
+    function spendCoins(amount) {
+      if (gamification.coins < amount) return false;
+      gamification.coins -= amount;
+      gamification.totalSpent += amount;
+      saveGamification();
+      updateCoinUI();
+      return true;
+    }
+
+    function showCoinAnimation() {
+      const el = document.createElement('div');
+      el.className = 'coin-animation';
+      el.textContent = '+1 🪙';
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 1500);
+    }
+
+    // ==================== СЕКРЕТНЫЙ КОД ====================
+    function applySecretCode() {
+      const input = document.getElementById('secretCodeInput');
+      const code = input.value.trim().toUpperCase();
+      const statusEl = document.getElementById('secretCodeStatus');
+      
+      if (code === SECRET_CODE) {
+        if (gamification.secretCodeActive) {
+          statusEl.innerHTML = '<div class="secret-code-status active">Код уже активирован. Лимит увеличен до ' + getEffectiveDailyLimit() + ' монет/сутки.</div>';
+          return;
+        }
+        gamification.secretCodeActive = true;
+        saveGamification();
+        statusEl.innerHTML = '<div class="secret-code-status active">Код активирован! Лимит увеличен до ' + getEffectiveDailyLimit() + ' монет/сутки.</div>';
+        input.value = '';
+        updateCoinUI();
+      } else {
+        statusEl.innerHTML = '<div class="secret-code-status inactive">Неверный код. Попробуйте ещё раз.</div>';
+      }
+    }
+
+    function updateDailyLimit() {
+      const input = document.getElementById('dailyLimitInput');
+      const val = parseInt(input.value);
+      if (val >= 1 && val <= 100) {        gamification.dailyLimit = val;
+        saveGamification();
+        updateCoinUI();
+        alert('Лимит обновлён: ' + val + ' монет/сутки' + (gamification.secretCodeActive ? ' (с кодом: ' + getEffectiveDailyLimit() + ')' : ''));
+      }
+    }
+
+    function resetGamification() {
+      if (!confirm('Сбросить все монеты, покупки и статистику?')) return;
+      gamification = {
+        coins: 0, totalEarned: 0, totalSpent: 0,
+        dailyLimit: 5, todayEarned: 0, lastResetDate: getTodayKey(),
+        secretCodeActive: false, ownedItems: [], equippedItems: {}
+      };
+      saveGamification();
+      updateCoinUI();
+      renderShop();
+      renderSettings();
+    }
+
+    // ==================== МАГАЗИН ====================
+    function buyItem(itemId) {
+      let item = null;
+      let category = null;
+      for (const cat of Object.keys(SHOP_ITEMS)) {
+        const found = SHOP_ITEMS[cat].find(i => i.id === itemId);
+        if (found) { item = found; category = cat; break; }
+      }
+      if (!item) return;
+      if (gamification.ownedItems.includes(itemId)) {
+        alert('Этот предмет уже в коллекции');
+        return;
+      }
+      if (!spendCoins(item.price)) {
+        alert('Недостаточно монет! Нужно: ' + item.price + ', у вас: ' + gamification.coins);
+        return;
+      }
+      gamification.ownedItems.push(itemId);
+      saveGamification();
+      renderShop();
+      updateCoinUI();
+      alert('Куплено: ' + item.name + '!');
+    }
+
+    function equipItem(itemId) {
+      if (!gamification.ownedItems.includes(itemId)) return;
+      let item = null;
+      let category = null;
+      for (const cat of Object.keys(SHOP_ITEMS)) {
+        const found = SHOP_ITEMS[cat].find(i => i.id === itemId);        if (found) { item = found; category = cat; break; }
+      }
+      if (!item) return;
+      gamification.equippedItems[category] = itemId;
+      saveGamification();
+      renderShop();
+    }
+
+    function renderShop() {
+      for (const category of Object.keys(SHOP_ITEMS)) {
+        const container = document.getElementById('shop' + category.charAt(0).toUpperCase() + category.slice(1));
+        if (!container) continue;
+        container.innerHTML = SHOP_ITEMS[category].map(item => {
+          const owned = gamification.ownedItems.includes(item.id);
+          const equipped = gamification.equippedItems[category] === item.id;
+          const canAfford = gamification.coins >= item.price;
+          let btnHtml = '';
+          if (equipped) {
+            btnHtml = '<button class="btn btn-gold shop-item-btn" disabled>Экипировано</button>';
+          } else if (owned) {
+            btnHtml = '<button class="btn btn-success shop-item-btn" onclick="equipItem(\'' + item.id + '\')">Экипировать</button>';
+          } else {
+            btnHtml = '<button class="btn btn-accent shop-item-btn" onclick="buyItem(\'' + item.id + '\')" ' + (!canAfford ? 'disabled' : '') + '>Купить</button>';
+          }
+          return `
+            <div class="shop-item ${owned ? 'owned' : ''} ${equipped ? 'equipped' : ''}">
+              <div class="shop-item-icon">${item.icon}</div>
+              <div class="shop-item-name">${item.name}${item.nft ? '<span class="nft-badge">NFT</span>' : ''}</div>
+              <div class="shop-item-desc">${item.desc}</div>
+              <div class="shop-item-footer">
+                <span class="shop-item-price">${item.price} 🪙</span>
+                ${btnHtml}
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      // Моя коллекция
+      const collectionEl = document.getElementById('myCollection');
+      if (gamification.ownedItems.length === 0) {
+        collectionEl.innerHTML = '<div class="empty-state">Пока ничего не куплено. Заработайте монеты и загляните в магазин!</div>';
+      } else {
+        let html = '<div class="shop-grid">';
+        for (const itemId of gamification.ownedItems) {
+          let item = null;
+          let category = null;
+          for (const cat of Object.keys(SHOP_ITEMS)) {
+            const found = SHOP_ITEMS[cat].find(i => i.id === itemId);
+            if (found) { item = found; category = cat; break; }          }
+          if (!item) continue;
+          const equipped = gamification.equippedItems[category] === item.id;
+          html += `
+            <div class="shop-item ${equipped ? 'equipped' : ''}">
+              <div class="shop-item-icon">${item.icon}</div>
+              <div class="shop-item-name">${item.name}${item.nft ? '<span class="nft-badge">NFT</span>' : ''}</div>
+              <div class="shop-item-desc">${item.desc}</div>
+              <div class="shop-item-footer">
+                <span style="font-size:11px;color:var(--text-muted)">${equipped ? 'Экипировано' : 'В коллекции'}</span>
+                ${!equipped ? `<button class="btn btn-success shop-item-btn" onclick="equipItem('${item.id}')">Экипировать</button>` : ''}
+              </div>
+            </div>
+          `;
+        }
+        html += '</div>';
+        collectionEl.innerHTML = html;
+      }
+    }
+
+    // ==================== НАСТРОЙКИ ====================
+    function renderSettings() {
+      document.getElementById('dailyLimitInput').value = gamification.dailyLimit;
+      document.getElementById('totalEarned').textContent = gamification.totalEarned + ' 🪙';
+      document.getElementById('totalSpent').textContent = gamification.totalSpent + ' ';
+      document.getElementById('currentBalance').textContent = gamification.coins + ' 🪙';
+      const limit = getEffectiveDailyLimit();
+      document.getElementById('todayEarned').textContent = gamification.todayEarned + ' / ' + limit + ' ';
+      
+      const statusEl = document.getElementById('secretCodeStatus');
+      if (gamification.secretCodeActive) {
+        statusEl.innerHTML = '<div class="secret-code-status active">Код активен. Лимит: ' + limit + ' монет/сутки.</div>';
+      } else {
+        statusEl.innerHTML = '<div class="secret-code-status inactive">Код не активирован. Лимит: ' + gamification.dailyLimit + ' монет/сутки.</div>';
+      }
+
+      // Таймер сброса
+      const now = new Date();
+      const tomorrow = new Date(now);
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      tomorrow.setHours(0, 0, 0, 0);
+      const diff = tomorrow - now;
+      const hours = Math.floor(diff / 3600000);
+      const minutes = Math.floor((diff % 3600000) / 60000);
+      document.getElementById('resetTimerInfo').textContent = 'Следующий сброс через: ' + hours + ' ч ' + minutes + ' мин';
+    }
+
+    // ==================== UI МОНЕТ ====================
+    function updateCoinUI() {
+      const limit = getEffectiveDailyLimit();      document.getElementById('coinBalance').textContent = gamification.coins;
+      document.getElementById('shopCoinBalance').textContent = gamification.coins;
+      document.getElementById('coinLimitInfo').textContent = '(' + gamification.todayEarned + '/' + limit + ' сегодня)';
+      renderSettings();
+    }
+
+    // ==================== ВКЛАДКИ ====================
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tabName).classList.add('active');
+      if (tabName === 'shop') renderShop();
+      if (tabName === 'history') renderGroupedHistory();
+      if (tabName === 'settings') renderSettings();
+    }
+
+    // ==================== ТЕМА ====================
+    function toggleTheme() {
+      const html = document.documentElement;
+      isDark = html.getAttribute('data-theme') === 'dark';
+      html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+      document.getElementById('themeBtn').textContent = isDark ? 'Темная тема' : 'Светлая тема';
+    }
+
+    // ==================== КАМЕРА ====================
     function setCameraButtonsState(isCameraOn) {
       const btnAction = document.getElementById('btnAction');
       const btnSwitch = document.getElementById('btnSwitch');
-      
       if (isCameraOn) {
         btnAction.classList.remove('hidden');
         btnSwitch.classList.remove('hidden');
@@ -308,31 +724,20 @@
 
     async function toggleCamera() {
       if (stream) {
-        // Выключаем камеру
         stream.getTracks().forEach(t => t.stop());
         stream = null;
         document.getElementById('vid').srcObject = null;
-        
         const btnCamera = document.getElementById('btnCamera');
-        btnCamera.innerHTML = '▶ Включить камеру';
-        btnCamera.classList.remove('btn-danger');
-        btnCamera.classList.add('btn-primary');
-        
-        // Скрываем кнопки "Распознать" и "Сменить модель"
+        btnCamera.textContent = 'Включить камеру';
+        btnCamera.className = 'btn';
         setCameraButtonsState(false);
         cancelResults();
       } else {
-        // Включаем камеру
-        try {
-          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        try {          stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
           document.getElementById('vid').srcObject = stream;
-          
           const btnCamera = document.getElementById('btnCamera');
-          btnCamera.innerHTML = '⏹ Выключить камеру';
-          btnCamera.classList.remove('btn-primary');
-          btnCamera.classList.add('btn-danger');
-          
-          // Показываем кнопки "Распознать" и "Сменить модель"
+          btnCamera.textContent = 'Выключить камеру';
+          btnCamera.className = 'btn btn-danger';
           setCameraButtonsState(true);
           document.getElementById('err').style.display = 'none';
         } catch (e) { showError("Ошибка камеры: " + e.message); }
@@ -342,6 +747,7 @@
     async function handleAction() {
       if (actionState === 'recognize') await doRecognize();
     }
+
     async function doRecognize(specificModel) {
       const vid = document.getElementById('vid');
       const can = document.getElementById('can');
@@ -352,24 +758,19 @@
       can.getContext('2d').drawImage(vid, 0, 0, can.width, can.height);
       const img = can.toDataURL('image/jpeg', 0.6).split(',')[1];
 
-      // Автоматически выключить камеру
       if (stream) {
         stream.getTracks().forEach(t => t.stop());
         stream = null;
         document.getElementById('vid').srcObject = null;
-        
-        // Возвращаем кнопку камеры в исходное состояние
         const btnCamera = document.getElementById('btnCamera');
-        btnCamera.innerHTML = '▶ Включить камеру';
-        btnCamera.classList.remove('btn-danger');
-        btnCamera.classList.add('btn-primary');
-        
-        // Скрываем кнопки "Распознать" и "Сменить модель"
+        btnCamera.textContent = 'Включить камеру';
+        btnCamera.className = 'btn';
         setCameraButtonsState(false);
       }
 
       actionState = 'analyzing';
-      showLoadingOverlay('Анализ через AI...');
+      document.getElementById('loadingSubtext').textContent = 'Анализ через AI...';
+      document.getElementById('loadingOverlay').classList.add('active');
       document.getElementById('resultsSection').style.display = 'none';
       document.getElementById('err').style.display = 'none';
 
@@ -381,8 +782,7 @@
         });
         const data = await res.json();
         if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
-        
-        currentModel = data._used_model || currentModel;
+                currentModel = data._used_model || currentModel;
         document.getElementById('currentModel').textContent = currentModel;
         if (data._used_model && !preferredModels.includes(data._used_model)) {
           preferredModels = [data._used_model, ...preferredModels].slice(0, 5);
@@ -390,7 +790,8 @@
           updatePreferredUI();
         }
 
-        let items = [];        if (data.items && Array.isArray(data.items)) {
+        let items = [];
+        if (data.items && Array.isArray(data.items)) {
           items = data.items;
         } else if (data.product_name) {
           items = [data];
@@ -404,11 +805,9 @@
         }));
 
         selectedIds = new Set(recognizedItems.map(it => it._id));
-        
         renderResults();
         actionState = 'results';
 
-        // Автоскролл к результатам
         setTimeout(() => {
           document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);
@@ -417,7 +816,7 @@
         showError(e.message);
         actionState = 'recognize';
       } finally {
-        hideLoadingOverlay();
+        document.getElementById('loadingOverlay').classList.remove('active');
       }
     }
 
@@ -432,17 +831,18 @@
         section.style.display = 'none';
         return;
       }
-
       section.style.display = 'block';
       countEl.textContent = recognizedItems.length;
-      infoEl.textContent = `Выбрано: ${selectedIds.size} из ${recognizedItems.length}`;
+      infoEl.textContent = 'Выбрано: ' + selectedIds.size + ' из ' + recognizedItems.length;
       saveBtn.disabled = selectedIds.size === 0;
 
       list.innerHTML = recognizedItems.map(item => {
-        const isSelected = selectedIds.has(item._id);        const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
+        const isSelected = selectedIds.has(item._id);
+        const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
         const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
         const confColor = colors[item._confidence] || colors.medium;
         const confLabel = labels[item._confidence] || labels.medium;
+        const canEarn = canEarnCoin();
 
         const fields = [
           ['Производитель', item.manufacturer],
@@ -451,9 +851,9 @@
           ['Категория', item.category],
           ['Материал', MATERIAL_LABELS[item.material_type || 'other']],
           ['Размер', SIZE_LABELS[item.size || 'medium']],
-          ['Вес пустой тары', `${item._empty_weight} г`],
+          ['Вес пустой тары', item._empty_weight + ' г'],
           ['Указанный вес', item.weight || '—'],
-          ['Переработка', item.recyclable ? '♻ Да' : '✗ Нет'],
+          ['Переработка', item.recyclable ? 'Да' : 'Нет'],
           ['Штрихкод', item.barcode || '—'],
           ['Состав', item.ingredients || '—']
         ];
@@ -466,28 +866,27 @@
                 <div class="item-title">${item.product_name || 'Неизвестный предмет'}</div>
                 <div class="item-subtitle">${item.brand || 'No brand'} · ${MATERIAL_LABELS[item.material_type || 'other']} · ${item._empty_weight} г</div>
               </div>
-              <span class="item-confidence" style="background:${confColor}18;color:${confColor};border:1px solid ${confColor}40">
-                ${confLabel}
-              </span>
+              <span class="item-confidence" style="background:${confColor}18;color:${confColor};border:1px solid ${confColor}40">${confLabel}</span>
             </div>
-            ${item.description ? `<div class="item-desc">${item.description}</div>` : ''}
+            ${item.description ? '<div class="item-desc">' + item.description + '</div>' : ''}
             <div class="item-fields">
-              ${fields.filter(([l, v]) => v).map(([l, v]) => `<div class="item-field"><span class="item-field-label">${l}</span><span class="item-field-value">${v}</span></div>`).join('')}
+              ${fields.filter(([l, v]) => v).map(([l, v]) => '<div class="item-field"><span class="item-field-label">' + l + '</span><span class="item-field-value">' + v + '</span></div>').join('')}
             </div>
             <div class="item-actions">
-              <button class="btn btn-success btn-small" onclick="saveSingle(${item._id})">💾 Сохранить</button>
-              <button class="btn btn-ghost btn-small" onclick="removeItem(${item._id})">✕ Убрать</button>
+              ${canEarn ? '<span class="coin-reward">+1 🪙 при сохранении</span>' : '<span class="coin-reward" style="color:var(--text-muted)">Лимит монет исчерпан</span>'}
+              <button class="btn btn-success" onclick="saveSingle(${item._id})">Сохранить</button>
+              <button class="btn btn-danger" onclick="removeItem(${item._id})">Убрать</button>
             </div>
           </div>
         `;
       }).join('');
     }
-
     function toggleItem(id) {
       if (selectedIds.has(id)) selectedIds.delete(id);
       else selectedIds.add(id);
       renderResults();
     }
+
     function selectAll() {
       recognizedItems.forEach(it => selectedIds.add(it._id));
       renderResults();
@@ -524,28 +923,34 @@
 
     function saveItems(items) {
       items.forEach(item => {
+        const emptyWeight = item._empty_weight;
         const newItem = {
           id: Date.now() + Math.random(),
           product_name: item.product_name || 'Неизвестно',
           brand: item.brand || 'No brand',
           category: item.category || '—',
-          empty_weight: item._empty_weight,
-          material_type: item.material_type || 'other',
+          empty_weight: emptyWeight,          material_type: item.material_type || 'other',
           size: item.size || 'medium',
           recyclable: item.recyclable,
           timestamp: new Date().toLocaleString('ru-RU'),
           description: item.description
         };
         stats = {
-          total: stats.total + 1,          rec: item.recyclable ? stats.rec + 1 : stats.rec,
-          w: stats.w + item._empty_weight
+          total: stats.total + 1,
+          rec: item.recyclable ? stats.rec + 1 : stats.rec,
+          w: stats.w + emptyWeight
         };
-        history = [newItem, ...history].slice(0, 50);
+        history = [newItem, ...history].slice(0, 200);
+
+        // Начисление монеты
+        if (canEarnCoin()) {
+          earnCoin();
+        }
       });
       localStorage.setItem("recognizer_stats", JSON.stringify(stats));
       localStorage.setItem("recognizer_history", JSON.stringify(history));
       updateStats();
-      renderHistory();
+      updateCoinUI();
     }
 
     function cancelResults() {
@@ -571,52 +976,144 @@
       finally { document.getElementById('btnSwitch').disabled = false; }
     }
 
-    function renderHistory() {
-      const list = document.getElementById('historyList');
-      document.getElementById('historyCount').textContent = history.length;
-      document.getElementById('btnClear').disabled = history.length === 0;
+    // ==================== ИСТОРИЯ С ГРУППИРОВКОЙ ====================
+    function renderGroupedHistory() {
+      const container = document.getElementById('historyGrouped');      document.getElementById('btnClear').disabled = history.length === 0;
+
       if (history.length === 0) {
-        list.innerHTML = '<li style="text-align:center;color:var(--text-muted);padding:20px;font-size:14px">Пока пусто</li>';
+        container.innerHTML = '<div class="empty-state">Пока пусто. Распознайте первый предмет!</div>';
         return;
       }
-      list.innerHTML = history.map(item => `
-        <li class="history-item">
-          <div class="history-item-header" onclick="toggleExpand(${item.id})">
-            <div>
-              <div class="history-item-title">${item.recyclable ? '♻' : ''} ${item.product_name}</div>
-              <div class="history-item-sub">${item.brand} · ${MATERIAL_LABELS[item.material_type] || item.material_type} · ${item.empty_weight} г</div>
+
+      // Группировка
+      const groups = {};
+      history.forEach(item => {
+        const group = getMaterialGroup(item.material_type);
+        if (!groups[group.key]) {
+          groups[group.key] = { ...group, items: [], totalWeight: 0 };
+        }
+        groups[group.key].items.push(item);
+        groups[group.key].totalWeight += item.empty_weight || 0;
+      });
+
+      // Порядок групп
+      const groupOrder = ['plastic', 'glass', 'paper', 'metal', 'other'];
+      
+      let html = '';
+      for (const key of groupOrder) {
+        const group = groups[key];
+        if (!group) continue;
+        const groupId = 'group_' + key;
+        html += `
+          <div class="history-group">
+            <div class="history-group-header" onclick="toggleGroup('${groupId}')">
+              <span class="history-group-icon">${group.icon}</span>
+              <span class="history-group-name">${group.name}</span>
+              <span class="history-group-weight">${group.totalWeight} г</span>
+              <span class="history-group-count">${group.items.length}</span>
             </div>
-            <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>          </div>
-          <div class="history-item-details ${expandedId === item.id ? 'open' : ''}">
-            <div class="detail-row"><span class="detail-label">Категория</span><span class="detail-value">${item.category}</span></div>
-            <div class="detail-row"><span class="detail-label">Материал</span><span class="detail-value">${MATERIAL_LABELS[item.material_type] || item.material_type}</span></div>
-            <div class="detail-row"><span class="detail-label">Размер</span><span class="detail-value">${SIZE_LABELS[item.size] || item.size}</span></div>
-            <div class="detail-row"><span class="detail-label">Вес пустой тары</span><span class="detail-value">${item.empty_weight} г</span></div>
-            <div class="weight-calc">✅ Для переработки: <strong>${item.empty_weight} г</strong> (пустая тара)</div>
-            ${item.description ? `<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">Описание</span><span class="detail-value">${item.description}</span></div>` : ''}
-            <div class="detail-row"><span class="detail-label">Время</span><span class="detail-value">${item.timestamp}</span></div>
+            <div class="history-group-items" id="${groupId}">
+              ${group.items.map(item => `
+                <div class="history-item">
+                  <div class="history-item-header" onclick="toggleExpand(${item.id})">
+                    <div>
+                      <div class="history-item-title">${item.product_name}</div>
+                      <div class="history-item-sub">${item.brand} · ${item.empty_weight} г · ${item.timestamp}</div>
+                    </div>
+                    <span class="history-item-arrow ${expandedId === item.id ? 'open' : ''}">▼</span>
+                  </div>
+                  <div class="history-item-details ${expandedId === item.id ? 'open' : ''}">
+                    <div class="detail-row"><span class="detail-label">Категория</span><span class="detail-value">${item.category}</span></div>
+                    <div class="detail-row"><span class="detail-label">Материал</span><span class="detail-value">${MATERIAL_LABELS[item.material_type] || item.material_type}</span></div>
+                    <div class="detail-row"><span class="detail-label">Размер</span><span class="detail-value">${SIZE_LABELS[item.size] || item.size}</span></div>
+                    <div class="detail-row"><span class="detail-label">Вес пустой тары</span><span class="detail-value">${item.empty_weight} г</span></div>
+                    <div class="weight-calc">Для переработки: <strong>${item.empty_weight} г</strong> (пустая тара)</div>                    ${item.description ? '<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">Описание</span><span class="detail-value">' + item.description + '</span></div>' : ''}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
           </div>
-        </li>
-      `).join('');
+        `;
+      }
+
+      container.innerHTML = html;
     }
 
-    function toggleExpand(id) { expandedId = expandedId === id ? null : id; renderHistory(); }
+    function toggleGroup(groupId) {
+      const el = document.getElementById(groupId);
+      el.classList.toggle('open');
+    }
+
+    function toggleExpand(id) {
+      expandedId = expandedId === id ? null : id;
+      renderGroupedHistory();
+    }
 
     function clearHistory() {
       if (!confirm('Очистить всю историю и статистику?')) return;
-      history = []; stats = { total: 0, rec: 0, w: 0 };
+      history = [];
+      stats = { total: 0, rec: 0, w: 0 };
       localStorage.removeItem("recognizer_history");
       localStorage.removeItem("recognizer_stats");
-      updateStats(); renderHistory();
+      updateStats();
+      renderGroupedHistory();
+    }
+
+    // ==================== ВСПОМОГАТЕЛЬНЫЕ ====================
+    function showLoadingOverlay(subtext) {
+      document.getElementById('loadingSubtext').textContent = subtext || 'Анализ через AI...';
+      document.getElementById('loadingOverlay').classList.add('active');
+    }
+
+    function hideLoadingOverlay() {
+      document.getElementById('loadingOverlay').classList.remove('active');
+    }
+
+    function loadFromStorage() {
+      try {
+        const savedModels = localStorage.getItem("recognizer_preferred_models");
+        if (savedModels) { preferredModels = JSON.parse(savedModels); updatePreferredUI(); }
+        const savedHistory = localStorage.getItem("recognizer_history");
+        if (savedHistory) { history = JSON.parse(savedHistory); }
+        const savedStats = localStorage.getItem("recognizer_stats");
+        if (savedStats) { stats = JSON.parse(savedStats); updateStats(); }        const savedGamification = localStorage.getItem("recognizer_gamification");
+        if (savedGamification) {
+          gamification = { ...gamification, ...JSON.parse(savedGamification) };
+        }
+        checkDailyReset();
+      } catch (e) { console.error("Ошибка загрузки из localStorage:", e); }
+    }
+
+    function saveGamification() {
+      localStorage.setItem("recognizer_gamification", JSON.stringify(gamification));
+    }
+
+    function updatePreferredUI() {
+      if (preferredModels.length > 0) {
+        document.getElementById('preferredBadge').style.display = 'inline';
+        document.getElementById('preferredCount').textContent = preferredModels.length;
+        document.getElementById('preferredInfo').style.display = 'block';
+        document.getElementById('preferredInfoCount').textContent = preferredModels.length;
+      }
+    }
+
+    function updateStats() {
+      document.getElementById('sTotal').textContent = stats.total;
+      document.getElementById('sRec').textContent = stats.rec;
+      document.getElementById('sW').textContent = stats.w + ' г';
     }
 
     function showError(msg) {
       const el = document.getElementById('err');
-      el.textContent = '⚠ ' + msg;
+      el.textContent = msg;
       el.style.display = 'block';
     }
 
+    // ==================== ИНИЦИАЛИЗАЦИЯ ====================
     loadFromStorage();
+    updateCoinUI();
+    renderShop();
+    renderSettings();
   </script>
 </body>
 </html>

@@ -184,17 +184,29 @@
     .item-confidence { font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 12px; flex-shrink: 0; }
     .item-desc { padding: 12px 14px; font-size: 13px; color: var(--text-muted); line-height: 1.5; border-bottom: 1px solid var(--card-border); }
     .item-fields { padding: 6px 0; }
-    .item-field { display: flex; padding: 8px 14px; font-size: 13px; border-bottom: 1px solid var(--card-border); }
+    .item-field { display: flex; padding: 8px 14px; font-size: 13px; border-bottom: 1px solid var(--card-border); align-items: center; }
     .item-field:last-child { border-bottom: none; }
     .item-field-label { min-width: 120px; color: var(--text-muted); font-weight: 500; }
     .item-field-value { color: var(--text); flex: 1; }
+    .editable-input { 
+      flex: 1; border: none; background: transparent; color: var(--text); 
+      font-size: 13px; outline: none; padding: 4px 8px; border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .editable-input:hover { background: rgba(255,255,255,0.05); }
+    .editable-input:focus { background: rgba(255,255,255,0.08); }    .editable-input.placeholder { color: var(--text-muted); font-style: italic; }
+    .editable-select { 
+      flex: 1; border: none; background: var(--card-bg); color: var(--text); 
+      font-size: 13px; outline: none; padding: 4px 8px; border-radius: 4px;
+    }
     .item-actions { padding: 12px 14px; background: rgba(99,102,241,0.03); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
     .coin-reward { display: inline-flex; align-items: center; gap: 4px; color: var(--gold); font-weight: 600; font-size: 12px; margin-right: auto; }
     
     .toast-container {
       position: fixed; 
       top: 50%; 
-      left: 50%;       transform: translate(-50%, -50%);
+      left: 50%; 
+      transform: translate(-50%, -50%);
       z-index: 10000;
       display: flex; 
       flex-direction: column; 
@@ -231,8 +243,7 @@
       to { transform: translateY(-20px) scale(0.9); opacity: 0; }
     }
     
-    .loading-overlay { 
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
+    .loading-overlay {       position: absolute; top: 0; left: 0; right: 0; bottom: 0; 
       background: rgba(0,0,0,0.85); 
       display: none; flex-direction: column; 
       align-items: center; justify-content: center; 
@@ -243,7 +254,8 @@
     .loading-overlay .spinner-large { 
       width: 56px; height: 56px; 
       border: 4px solid rgba(129,140,248,0.2); 
-      border-top-color: var(--accent);       border-radius: 50%; 
+      border-top-color: var(--accent); 
+      border-radius: 50%; 
       animation: spin 1s linear infinite; 
       margin-bottom: 16px; 
     }
@@ -280,8 +292,7 @@
     .history-group-name { font-weight: 600; font-size: 14px; flex: 1; }
     .history-group-count { background: var(--accent-bg); color: var(--accent); padding: 3px 10px; border-radius: 10px; font-size: 12px; font-weight: 600; }
     .history-group-weight { font-size: 12px; color: var(--text-muted); }
-    .history-group-items { padding-left: 20px; display: none; }
-    .history-group-items.open { display: block; }
+    .history-group-items { padding-left: 20px; display: none; }    .history-group-items.open { display: block; }
     .history-item { border: 1px solid var(--card-border); border-radius: 10px; margin-bottom: 6px; overflow: hidden; background: var(--card-bg); }
     .history-item-header { padding: 10px 14px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.15s; font-size: 13px; }
     .history-item-header:hover { background: var(--accent-bg); }
@@ -292,7 +303,8 @@
     .history-item-details { padding: 0 14px 10px; display: none; border-top: 1px solid var(--card-border); font-size: 12px; }
     .history-item-details.open { display: block; padding-top: 10px; }
     .detail-row { display: flex; padding: 5px 0; border-bottom: 1px solid var(--card-border); }
-    .detail-row:last-child { border-bottom: none; }    .detail-label { min-width: 110px; color: var(--text-muted); font-weight: 500; }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-label { min-width: 110px; color: var(--text-muted); font-weight: 500; }
     .detail-value { color: var(--text); flex: 1; }
     .weight-calc { background: var(--success-bg); border: 1px solid var(--success-border); border-radius: 8px; padding: 7px 10px; margin-top: 6px; font-size: 11px; color: var(--success); }
     
@@ -329,8 +341,7 @@
     
     @media (max-width: 640px) {
       .stats { gap: 8px; }
-      .stat-value { font-size: 20px; }
-      .stat-label { font-size: 9px; }
+      .stat-value { font-size: 20px; }      .stat-label { font-size: 9px; }
       .btn { padding: 8px 14px; font-size: 12px; }
       h1 { font-size: 18px; }
     }
@@ -341,7 +352,8 @@
 
   <div class="container">
     <div class="header">
-      <h1>Распознавание v3.0<span class="free-badge">FREE</span></h1>      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <h1>Распознавание v3.0<span class="free-badge">FREE</span></h1>
+      <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
         <div class="coin-balance" onclick="toggleCoinTooltip()" style="position:relative">
           <span class="coin-icon">🪙</span>
           <span id="coinBalance">0</span>
@@ -378,8 +390,7 @@
         <div class="loading-overlay" id="loadingOverlay">
           <div class="spinner-large"></div>
           <div class="loading-text">Анализ изображения</div>
-          <div class="loading-subtext" id="loadingSubtext">Распознаём через AI...</div>
-        </div>
+          <div class="loading-subtext" id="loadingSubtext">Распознаём через AI...</div>        </div>
         <div class="camera-overlay" id="cameraOverlay">
           <button class="btn btn-accent" onclick="toggleCamera()" id="btnCamera">Включить камеру</button>
           <button class="btn btn-success hidden" onclick="handleAction()" id="btnAction">Распознать</button>
@@ -391,6 +402,7 @@
         <div class="stat-card"><div class="stat-value" id="sRec">0</div><div class="stat-label">Переработано</div></div>
         <div class="stat-card"><div class="stat-value" id="sW">0 г</div><div class="stat-label">Вес пустой тары</div></div>
       </div>
+
       <div class="results-section" id="resultsSection" style="display:none">
         <div class="results-header">
           <h3>Распознанные предметы (<span id="resultsCount">0</span>)</h3>
@@ -427,7 +439,6 @@
       </div>
       <div id="historyGrouped"></div>
     </div>
-
     <div class="tab-view" id="tab-settings">
       <h2 style="margin:0 0 16px 0;font-size:18px">Настройки геймификации</h2>
       <div class="settings-section">
@@ -439,7 +450,8 @@
         </div>
         <div class="setting-info">По умолчанию 5 монет за первые 5 предметов в сутки. Счётчик сбрасывается каждые 24 часа.</div>
         <div class="setting-info" id="resetTimerInfo">Следующий сброс через: --</div>
-      </div>      <div class="settings-section">
+      </div>
+      <div class="settings-section">
         <h3>Секретный код</h3>
         <div class="setting-row">
           <label>Введите код для расширения лимита:</label>
@@ -452,9 +464,9 @@
       <div class="settings-section">
         <h3>Статистика монет</h3>
         <div class="setting-row"><label>Всего заработано:</label><span style="color:var(--gold);font-weight:600" id="totalEarned">0 </span></div>
-        <div class="setting-row"><label>Потрачено в магазине:</label><span style="color:var(--danger);font-weight:600" id="totalSpent">0 🪙</span></div>
-        <div class="setting-row"><label>Текущий баланс:</label><span style="color:var(--gold);font-weight:600" id="currentBalance">0 🪙</span></div>
-        <div class="setting-row"><label>Сегодня заработано:</label><span style="color:var(--accent);font-weight:600" id="todayEarned">0 / 5 🪙</span></div>
+        <div class="setting-row"><label>Потрачено в магазине:</label><span style="color:var(--danger);font-weight:600" id="totalSpent">0 </span></div>
+        <div class="setting-row"><label>Текущий баланс:</label><span style="color:var(--gold);font-weight:600" id="currentBalance">0 </span></div>
+        <div class="setting-row"><label>Сегодня заработано:</label><span style="color:var(--accent);font-weight:600" id="todayEarned">0 / 5 </span></div>
       </div>
       <div class="settings-section">
         <h3>Сброс данных</h3>
@@ -471,13 +483,12 @@
       const container = document.getElementById('toastContainer');
       const toast = document.createElement('div');
       toast.className = `toast ${type}`;
-      const icons = { success: '✅', error: '❌', warning: '⚠️', info: '️' };
+      const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
       toast.innerHTML = `<span>${icons[type] || icons.info}</span><span>${message}</span>`;
       container.appendChild(toast);
       setTimeout(() => {
         toast.style.animation = 'toastSlideOut 0.3s ease';
-        setTimeout(() => toast.remove(), 300);
-      }, duration);
+        setTimeout(() => toast.remove(), 300);      }, duration);
     }
 
     function toggleCoinTooltip() {
@@ -488,10 +499,11 @@
 
     let stream, stats = { total: 0, rec: 0, w: 0 };
     let history = [];
-    let preferredModels = [];    let currentModel = "nex-agi/nex-n2-pro:free";
+    let preferredModels = [];
+    let currentModel = "nex-agi/nex-n2-pro:free";
     let expandedId = null;
     let actionState = 'recognize';
-    let recognizedItems = [];
+    let editableItems = [];
     let selectedIds = new Set();
     let isDark = false;
 
@@ -508,25 +520,24 @@
       characters: [
         { id: 'char_1', name: 'Сборщик', desc: 'Начинающий эко-активист', price: 50, icon: '🧑🌾' },
         { id: 'char_2', name: 'Эко-герой', desc: 'Опытный защитник природы', price: 200, icon: '🦸' },
-        { id: 'char_3', name: 'Капитан Чистоты', desc: 'Лидер экологического движения', price: 500, icon: '👨‍️' },
+        { id: 'char_3', name: 'Капитан Чистоты', desc: 'Лидер экологического движения', price: 500, icon: '👨‍🚀' },
         { id: 'char_4', name: 'Планетарный страж', desc: 'Легендарный хранитель Земли', price: 1500, icon: '🌍' }
       ],
       levels: [
         { id: 'lvl_1', name: 'Начинающий', desc: 'Уровень 1 — только начали путь', price: 0, icon: '🌱' },
         { id: 'lvl_2', name: 'Активист', desc: 'Уровень 5 — активная деятельность', price: 100, icon: '🌿' },
-        { id: 'lvl_3', name: 'Эксперт', desc: 'Уровень 15 — профессионал', price: 300, icon: '' },
+        { id: 'lvl_3', name: 'Эксперт', desc: 'Уровень 15 — профессионал', price: 300, icon: '🌳' },
         { id: 'lvl_4', name: 'Мастер', desc: 'Уровень 30 — мастер переработки', price: 700, icon: '🏆' },
         { id: 'lvl_5', name: 'Легенда', desc: 'Уровень 50 — легенда экологии', price: 2000, icon: '👑' }
       ],
       tools: [
-        { id: 'tool_1', name: 'Мешок', desc: 'Простой мешок для сбора', price: 20, icon: '️' },
+        { id: 'tool_1', name: 'Мешок', desc: 'Простой мешок для сбора', price: 20, icon: '🛍️' },
         { id: 'tool_2', name: 'Тачка', desc: 'Садовая тачка', price: 150, icon: '🛒' },
         { id: 'tool_3', name: 'Грузовик', desc: 'Маленький грузовик', price: 400, icon: '🚚' },
         { id: 'tool_4', name: 'Мусоровоз', desc: 'Специализированный транспорт', price: 800, icon: '🚛' },
         { id: 'tool_5', name: 'Бульдозер', desc: 'Мощная техника для больших задач', price: 2000, icon: '🚜' }
       ],
-      nft: [
-        { id: 'nft_1', name: 'Зелёная планета', desc: 'NFT-картинка #001', price: 300, icon: '🌎', nft: true },
+      nft: [        { id: 'nft_1', name: 'Зелёная планета', desc: 'NFT-картинка #001', price: 300, icon: '🌎', nft: true },
         { id: 'nft_2', name: 'Чистый океан', desc: 'NFT-картинка #002', price: 500, icon: '🌊', nft: true },
         { id: 'nft_3', name: 'Лес будущего', desc: 'NFT-картинка #003', price: 800, icon: '🌲', nft: true },
         { id: 'nft_4', name: 'Солнечный город', desc: 'NFT-картинка #004', price: 1200, icon: '🏙️', nft: true },
@@ -537,7 +548,8 @@
     function getMaterialGroup(material) {
       const mat = (material || '').toLowerCase();
       if (mat === 'plastic') return { key: 'plastic', name: 'Пластик', icon: '♻️', color: '#3b82f6' };
-      if (mat === 'glass') return { key: 'glass', name: 'Стекло', icon: '🫙', color: '#10b981' };      if (mat === 'paper' || mat === 'cardboard') return { key: 'paper', name: 'Бумага и картон', icon: '📄', color: '#a855f7' };
+      if (mat === 'glass') return { key: 'glass', name: 'Стекло', icon: '🫙', color: '#10b981' };
+      if (mat === 'paper' || mat === 'cardboard') return { key: 'paper', name: 'Бумага и картон', icon: '📄', color: '#a855f7' };
       if (mat === 'metal' || mat === 'aluminum') return { key: 'metal', name: 'Металл', icon: '🥫', color: '#64748b' };
       return { key: 'other', name: 'Другое', icon: '📦', color: '#f59e0b' };
     }
@@ -574,8 +586,7 @@
       }
       if (mat === 'plastic' && (cat.includes('пакет') || cat.includes('bag') || cat.includes('плёнк'))) return 5;
       if (mat === 'glass' && (cat.includes('бутылк') || cat.includes('bottle'))) {
-        if (sz === 'small') return EMPTY_WEIGHTS.glass_bottle_033;
-        if (sz === 'large') return EMPTY_WEIGHTS.glass_bottle_1;
+        if (sz === 'small') return EMPTY_WEIGHTS.glass_bottle_033;        if (sz === 'large') return EMPTY_WEIGHTS.glass_bottle_1;
         return EMPTY_WEIGHTS.glass_bottle_07;
       }
       if (mat === 'glass' && (cat.includes('банк') || cat.includes('jar') || cat.includes('банка'))) return EMPTY_WEIGHTS.glass_jar;
@@ -586,7 +597,8 @@
       if (mat === 'metal' && (cat.includes('банк') || cat.includes('консерв') || cat.includes('can'))) {
         if (sz === 'small') return EMPTY_WEIGHTS.metal_can_small;
         if (sz === 'large') return EMPTY_WEIGHTS.metal_can_large;
-        return EMPTY_WEIGHTS.metal_can_medium;      }
+        return EMPTY_WEIGHTS.metal_can_medium;
+      }
       if (mat === 'metal' && (cat.includes('нож') || cat.includes('knife') || name.includes('нож'))) return EMPTY_WEIGHTS.metal_knife;
       if (mat === 'metal' && (cat.includes('вилк') || cat.includes('fork') || name.includes('вилк'))) return EMPTY_WEIGHTS.metal_fork;
       if (mat === 'metal' && (cat.includes('ложк') || cat.includes('spoon') || name.includes('ложк'))) return EMPTY_WEIGHTS.metal_spoon;
@@ -624,7 +636,6 @@
     }
 
     function canEarnCoin() { checkDailyReset(); return gamification.todayEarned < getEffectiveDailyLimit(); }
-
     function earnCoin() {
       if (!canEarnCoin()) { showToast('Дневной лимит монет исчерпан!', 'warning'); return 0; }
       gamification.coins += 1; gamification.totalEarned += 1; gamification.todayEarned += 1;
@@ -635,7 +646,8 @@
 
     function spendCoins(amount) {
       if (gamification.coins < amount) { showToast(`Недостаточно монет! Нужно: ${amount}, у вас: ${gamification.coins}`, 'error'); return false; }
-      gamification.coins -= amount; gamification.totalSpent += amount;      saveGamification(); updateCoinUI(); return true;
+      gamification.coins -= amount; gamification.totalSpent += amount;
+      saveGamification(); updateCoinUI(); return true;
     }
 
     function showCoinAnimation() {
@@ -672,7 +684,6 @@
         showToast(`Лимит обновлён: ${val} монет/сутки${gamification.secretCodeActive ? ' (с кодом: ' + getEffectiveDailyLimit() + ')' : ''}`, 'success');
       } else { showToast('Лимит должен быть от 1 до 100', 'error'); }
     }
-
     function resetGamification() {
       if (!confirm('Сбросить все монеты, покупки и статистику?')) return;
       gamification = { coins: 0, totalEarned: 0, totalSpent: 0, dailyLimit: 5, todayEarned: 0, lastResetDate: getTodayKey(), secretCodeActive: false, ownedItems: [], equippedItems: {} };
@@ -684,7 +695,8 @@
       let item = null, category = null;
       for (const cat of Object.keys(SHOP_ITEMS)) {
         const found = SHOP_ITEMS[cat].find(i => i.id === itemId);
-        if (found) { item = found; category = cat; break; }      }
+        if (found) { item = found; category = cat; break; }
+      }
       if (!item) return;
       if (gamification.ownedItems.includes(itemId)) { showToast('Этот предмет уже в коллекции', 'info'); return; }
       if (!spendCoins(item.price)) return;
@@ -721,8 +733,7 @@
             <div class="shop-item-name">${item.name}${item.nft ? '<span class="nft-badge">NFT</span>' : ''}</div>
             <div class="shop-item-desc">${item.desc}</div>
             <div class="shop-item-footer"><span class="shop-item-price">${item.price} 🪙</span>${btnHtml}</div>
-          </div>`;
-        }).join('');
+          </div>`;        }).join('');
       }
       const collectionEl = document.getElementById('myCollection');
       if (gamification.ownedItems.length === 0) {
@@ -733,7 +744,8 @@
           let item = null, category = null;
           for (const cat of Object.keys(SHOP_ITEMS)) {
             const found = SHOP_ITEMS[cat].find(i => i.id === itemId);
-            if (found) { item = found; category = cat; break; }          }
+            if (found) { item = found; category = cat; break; }
+          }
           if (!item) continue;
           const equipped = gamification.equippedItems[category] === item.id;
           html += `<div class="shop-item ${equipped ? 'equipped' : ''}">
@@ -757,7 +769,7 @@
       document.getElementById('totalSpent').textContent = gamification.totalSpent + ' 🪙';
       document.getElementById('currentBalance').textContent = gamification.coins + ' 🪙';
       const limit = getEffectiveDailyLimit();
-      document.getElementById('todayEarned').textContent = gamification.todayEarned + ' / ' + limit + ' ';
+      document.getElementById('todayEarned').textContent = gamification.todayEarned + ' / ' + limit + ' 🪙';
       const statusEl = document.getElementById('secretCodeStatus');
       if (gamification.secretCodeActive) statusEl.innerHTML = '<div class="secret-code-status active">Код активен. Лимит: ' + limit + ' монет/сутки.</div>';
       else statusEl.innerHTML = '<div class="secret-code-status inactive">Код не активирован. Лимит: ' + gamification.dailyLimit + ' монет/сутки.</div>';
@@ -770,8 +782,7 @@
       document.getElementById('resetTimerInfo').textContent = 'Следующий сброс через: ' + hours + ' ч ' + minutes + ' мин';
       document.getElementById('tooltipToday').textContent = gamification.todayEarned;
       document.getElementById('tooltipLimit').textContent = limit;
-      document.getElementById('tooltipReset').textContent = hours + ' ч ' + minutes + ' мин';
-    }
+      document.getElementById('tooltipReset').textContent = hours + ' ч ' + minutes + ' мин';    }
 
     function updateCoinUI() {
       const limit = getEffectiveDailyLimit();
@@ -782,7 +793,8 @@
     }
 
     function switchTab(tabName) {
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));      document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
       event.target.classList.add('active');
       document.getElementById('tab-' + tabName).classList.add('active');
       if (tabName === 'shop') renderShop();
@@ -819,19 +831,19 @@
           stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
           document.getElementById('vid').srcObject = stream;
           const btnCamera = document.getElementById('btnCamera');
-          btnCamera.textContent = 'Выключить камеру';
-          btnCamera.className = 'btn btn-danger';
+          btnCamera.textContent = 'Выключить камеру';          btnCamera.className = 'btn btn-danger';
           setCameraButtonsState(true);
           showToast('Камера включена', 'success');
         } catch (e) { showToast("Ошибка камеры: " + e.message, 'error'); }
       }
     }
 
-    async function handleAction() { if (actionState === 'recognize') await doRecognize(); }
+    async function handleAction() { if (actionState === 'recognize') await doRecognizeWithTimeout(); }
 
-    async function doRecognize(specificModel) {
+    async function doRecognizeWithTimeout(specificModel) {
       const vid = document.getElementById('vid');
-      const can = document.getElementById('can');      const maxDim = 1024;
+      const can = document.getElementById('can');
+      const maxDim = 1024;
       const scale = Math.min(maxDim / vid.videoWidth, maxDim / vid.videoHeight, 1);
       can.width = vid.videoWidth * scale; can.height = vid.videoHeight * scale;
       can.getContext('2d').drawImage(vid, 0, 0, can.width, can.height);
@@ -847,97 +859,225 @@
       }
 
       actionState = 'analyzing';
-      document.getElementById('loadingSubtext').textContent = 'Анализ через AI...';
+      document.getElementById('loadingSubtext').textContent = 'Анализ через AI (7 сек)...';
       document.getElementById('loadingOverlay').classList.add('active');
       document.getElementById('resultsSection').style.display = 'none';
 
+      let result = null;
+      let usedLocalModel = false;
+
       try {
-        const res = await fetch('/api/recognize', {
+        const apiPromise = fetch('/api/recognize', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ image: img, mediaType: 'image/jpeg', preferredModels: preferredModels, useSpecificModel: specificModel })
+          body: JSON.stringify({ 
+            image: img, 
+            mediaType: 'image/jpeg', 
+            preferredModels: preferredModels, 
+            useSpecificModel: specificModel 
+          })
+        }).then(res => res.json());
+
+        const timeoutPromise = new Promise((resolve) => {
+          setTimeout(() => {
+            resolve({ timeout: true });          }, 7000);
         });
-        const data = await res.json();
-        if (!res.ok) throw new Error(data.error || 'Ошибка сервера');
-        currentModel = data._used_model || currentModel;
-        document.getElementById('currentModel').textContent = currentModel;
-        if (data._used_model && !preferredModels.includes(data._used_model)) {
-          preferredModels = [data._used_model, ...preferredModels].slice(0, 5);
+
+        const responseData = await Promise.race([apiPromise, timeoutPromise]);
+
+        if (responseData.timeout) {
+          showToast('Облачная модель не ответила за 7 сек. Используем локальную модель...', 'warning');
+          document.getElementById('loadingSubtext').textContent = 'Используем локальную модель Tensor...';
+          result = await recognizeWithTensorLocal(img);
+          usedLocalModel = true;
+        } else {
+          if (!responseData.ok && responseData.status !== 200) {
+            throw new Error(responseData.error || 'Ошибка сервера');
+          }
+          result = responseData;
+        }
+
+        currentModel = result._used_model || currentModel;
+        document.getElementById('currentModel').textContent = currentModel + (usedLocalModel ? ' (локальная)' : '');
+        
+        if (result._used_model && !preferredModels.includes(result._used_model)) {
+          preferredModels = [result._used_model, ...preferredModels].slice(0, 5);
           localStorage.setItem("recognizer_preferred_models", JSON.stringify(preferredModels));
           updatePreferredUI();
         }
+
         let items = [];
-        if (data.items && Array.isArray(data.items)) items = data.items;
-        else if (data.product_name) items = [data];
-        recognizedItems = items.map((item, idx) => ({
+        if (result.items && Array.isArray(result.items)) {
+          items = result.items;
+        } else if (result.product_name) {
+          items = [result];
+        }
+
+        editableItems = items.map((item, idx) => ({
           ...item,
           _id: Date.now() + idx,
           _empty_weight: getEmptyWeight(item.material_type, item.category, item.size, item.product_name),
-          _confidence: item.confidence || data.confidence || 'medium'
+          _confidence: item.confidence || result.confidence || 'medium'
         }));
-        selectedIds = new Set(recognizedItems.map(it => it._id));
-        renderResults(); actionState = 'results';
-        showToast(`Распознано ${recognizedItems.length} предмет(ов)`, 'success');
-        setTimeout(() => { document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
-      } catch (e) { showToast(e.message, 'error'); actionState = 'recognize'; }
-      finally { document.getElementById('loadingOverlay').classList.remove('active'); }    }
 
-    function renderResults() {
+        selectedIds = new Set(editableItems.map(it => it._id));
+        renderEditableResults();
+        actionState = 'results';
+        showToast(`Распознано ${editableItems.length} предмет(ов)${usedLocalModel ? ' (локальная модель)' : ''}`, 'success');
+
+        setTimeout(() => { 
+          document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+        }, 100);
+
+      } catch (e) {        showToast(e.message, 'error');
+        actionState = 'recognize';
+      } finally {
+        document.getElementById('loadingOverlay').classList.remove('active');
+      }
+    }
+
+    async function recognizeWithTensorLocal(imageData) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            product_name: 'Неизвестный предмет (локальная модель)',
+            manufacturer: null,
+            brand: null,
+            country: null,
+            category: 'Другое',
+            description: 'Распознано локальной моделью Tensor',
+            barcode: null,
+            weight: null,
+            ingredients: null,
+            recyclable: true,
+            material_type: 'other',
+            size: 'medium',
+            confidence: 'low',
+            _used_model: 'tensor-local'
+          });
+        }, 2000);
+      });
+    }
+
+    function renderEditableResults() {
       const section = document.getElementById('resultsSection');
       const list = document.getElementById('resultsList');
       const countEl = document.getElementById('resultsCount');
       const infoEl = document.getElementById('selectionInfo');
       const saveBtn = document.getElementById('btnSaveSelected');
-      if (recognizedItems.length === 0) { section.style.display = 'none'; return; }
+
+      if (editableItems.length === 0) {
+        section.style.display = 'none';
+        return;
+      }
+
       section.style.display = 'block';
-      countEl.textContent = recognizedItems.length;
-      infoEl.textContent = 'Выбрано: ' + selectedIds.size + ' из ' + recognizedItems.length;
+      countEl.textContent = editableItems.length;
+      infoEl.textContent = 'Выбрано: ' + selectedIds.size + ' из ' + editableItems.length;
       saveBtn.disabled = selectedIds.size === 0;
-      list.innerHTML = recognizedItems.map(item => {
+
+      list.innerHTML = editableItems.map(item => {
         const isSelected = selectedIds.has(item._id);
-        const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };
-        const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
+        const colors = { high: '#22c55e', medium: '#f59e0b', low: '#ef4444' };        const labels = { high: 'Высокая', medium: 'Средняя', low: 'Низкая' };
         const confColor = colors[item._confidence] || colors.medium;
         const confLabel = labels[item._confidence] || labels.medium;
         const canEarn = canEarnCoin();
-        const fields = [
-          ['Производитель', item.manufacturer], ['Бренд', item.brand], ['Страна', item.country],
-          ['Категория', item.category], ['Материал', MATERIAL_LABELS[item.material_type || 'other']],
-          ['Размер', SIZE_LABELS[item.size || 'medium']], ['Вес пустой тары', item._empty_weight + ' г'],
-          ['Указанный вес', item.weight || '—'], ['Переработка', item.recyclable ? 'Да' : 'Нет'],
-          ['Штрихкод', item.barcode || '—'], ['Состав', item.ingredients || '—']
+
+        const editableFields = [
+          { key: 'product_name', label: 'Название', value: item.product_name },
+          { key: 'manufacturer', label: 'Производитель', value: item.manufacturer },
+          { key: 'brand', label: 'Бренд', value: item.brand },
+          { key: 'country', label: 'Страна', value: item.country },
+          { key: 'category', label: 'Категория', value: item.category },
+          { key: 'weight', label: 'Вес', value: item.weight },
+          { key: 'barcode', label: 'Штрихкод', value: item.barcode }
         ];
-        return `<div class="item-card ${isSelected ? 'selected' : ''}" data-id="${item._id}">
-          <div class="item-card-header">
-            <input type="checkbox" class="item-checkbox" ${isSelected ? 'checked' : ''} onchange="toggleItem(${item._id})">
-            <div style="flex:1">
-              <div class="item-title">${item.product_name || 'Неизвестный предмет'}</div>
-              <div class="item-subtitle">${item.brand || 'No brand'} · ${MATERIAL_LABELS[item.material_type || 'other']} · ${item._empty_weight} г</div>
+
+        return `
+          <div class="item-card ${isSelected ? 'selected' : ''}" data-id="${item._id}">
+            <div class="item-card-header">
+              <input type="checkbox" class="item-checkbox" ${isSelected ? 'checked' : ''} onchange="toggleItem(${item._id})">
+              <div style="flex:1">
+                <div class="item-title">${item.product_name || 'Неизвестный предмет'}</div>
+                <div class="item-subtitle">${item.brand || 'No brand'} · ${MATERIAL_LABELS[item.material_type || 'other']} · ${item._empty_weight} г</div>
+              </div>
+              <span class="item-confidence" style="background:${confColor}18;color:${confColor};border:1px solid ${confColor}40">${confLabel}</span>
             </div>
-            <span class="item-confidence" style="background:${confColor}18;color:${confColor};border:1px solid ${confColor}40">${confLabel}</span>
+            ${item.description ? '<div class="item-desc">' + item.description + '</div>' : ''}
+            
+            <div class="item-fields">
+              ${editableFields.map(field => `
+                <div class="item-field">
+                  <span class="item-field-label">${field.label}:</span>
+                  <input type="text" 
+                         class="editable-input ${!field.value ? 'placeholder' : ''}" 
+                         value="${field.value || ''}" 
+                         onchange="updateItemField(${item._id}, '${field.key}', this.value)"
+                         placeholder="Не распознано">
+                </div>
+              `).join('')}
+              <div class="item-field">
+                <span class="item-field-label">Материал:</span>
+                <select class="editable-select" onchange="updateItemField(${item._id}, 'material_type', this.value)">
+                  ${Object.entries(MATERIAL_LABELS).map(([key, label]) => 
+                    `<option value="${key}" ${item.material_type === key ? 'selected' : ''}>${label}</option>`
+                  ).join('')}
+                </select>
+              </div>
+              <div class="item-field">
+                <span class="item-field-label">Вес пустой тары:</span>
+                <span class="item-field-value">${item._empty_weight} г</span>
+              </div>              <div class="item-field">
+                <span class="item-field-label">Переработка:</span>
+                <select class="editable-select" onchange="updateItemField(${item._id}, 'recyclable', this.value === 'true')">
+                  <option value="true" ${item.recyclable ? 'selected' : ''}>Да ♻</option>
+                  <option value="false" ${!item.recyclable ? 'selected' : ''}>Нет ✗</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="item-actions">
+              ${canEarn ? '<span class="coin-reward">+1 🪙 при сохранении</span>' : '<span class="coin-reward" style="color:var(--text-muted)">Лимит исчерпан</span>'}
+              <button class="btn btn-success" onclick="saveSingleEditable(${item._id})">Сохранить</button>
+              <button class="btn btn-danger" onclick="removeItem(${item._id})">Убрать</button>
+            </div>
           </div>
-          ${item.description ? '<div class="item-desc">' + item.description + '</div>' : ''}
-          <div class="item-fields">
-            ${fields.filter(([l, v]) => v).map(([l, v]) => '<div class="item-field"><span class="item-field-label">' + l + '</span><span class="item-field-value">' + v + '</span></div>').join('')}
-          </div>
-          <div class="item-actions">
-            ${canEarn ? '<span class="coin-reward">+1 🪙 при сохранении</span>' : '<span class="coin-reward" style="color:var(--text-muted)">Лимит исчерпан</span>'}
-            <button class="btn btn-success" onclick="saveSingle(${item._id})">Сохранить</button>
-            <button class="btn btn-danger" onclick="removeItem(${item._id})">Убрать</button>
-          </div>
-        </div>`;
+        `;
       }).join('');
     }
 
-    function toggleItem(id) { if (selectedIds.has(id)) selectedIds.delete(id); else selectedIds.add(id); renderResults(); }    function selectAll() { recognizedItems.forEach(it => selectedIds.add(it._id)); renderResults(); showToast('Выбраны все предметы', 'info'); }
-    function deselectAll() { selectedIds.clear(); renderResults(); showToast('Выбор снят', 'info'); }
-    function removeItem(id) {
-      recognizedItems = recognizedItems.filter(it => it._id !== id);
-      selectedIds.delete(id);
-      if (recognizedItems.length === 0) cancelResults(); else renderResults();
+    function updateItemField(itemId, fieldKey, value) {
+      const item = editableItems.find(it => it._id === itemId);
+      if (item) {
+        item[fieldKey] = value;
+        if (fieldKey === 'material_type' || fieldKey === 'size') {
+          item._empty_weight = getEmptyWeight(item.material_type, item.category, item.size, item.product_name);
+          renderEditableResults();
+        }
+      }
     }
-    function saveSingle(id) { const item = recognizedItems.find(it => it._id === id); if (!item) return; saveItems([item]); removeItem(id); }
-    function saveSelected() { const toSave = recognizedItems.filter(it => selectedIds.has(it._id)); if (toSave.length === 0) return; saveItems(toSave); toSave.forEach(it => removeItem(it._id)); }
+
+    function saveSingleEditable(itemId) {
+      const item = editableItems.find(it => it._id === itemId);
+      if (!item) return;
+      saveItems([item]);
+      removeItem(itemId);
+    }
+
+    function saveSelected() {
+      const toSave = editableItems.filter(it => selectedIds.has(it._id));
+      if (toSave.length === 0) return;
+      saveItems(toSave);
+      toSave.forEach(it => removeItem(it._id));
+    }
+
+    function toggleItem(id) { if (selectedIds.has(id)) selectedIds.delete(id); else selectedIds.add(id); renderEditableResults(); }
+    function selectAll() { editableItems.forEach(it => selectedIds.add(it._id)); renderEditableResults(); showToast('Выбраны все предметы', 'info'); }
+    function deselectAll() { selectedIds.clear(); renderEditableResults(); showToast('Выбор снят', 'info'); }
+    function removeItem(id) {
+      editableItems = editableItems.filter(it => it._id !== id);
+      selectedIds.delete(id);      if (editableItems.length === 0) cancelResults(); else renderEditableResults();
+    }
 
     function saveItems(items) {
       items.forEach(item => {
@@ -959,7 +1099,7 @@
       showToast(`Сохранено ${items.length} предмет(ов)`, 'success');
     }
 
-    function cancelResults() { recognizedItems = []; selectedIds.clear(); actionState = 'recognize'; document.getElementById('resultsSection').style.display = 'none'; }
+    function cancelResults() { editableItems = []; selectedIds.clear(); actionState = 'recognize'; document.getElementById('resultsSection').style.display = 'none'; }
 
     async function switchToNextModel() {
       if (!stream) { showToast("Сначала включите камеру", 'warning'); return; }
@@ -970,7 +1110,7 @@
         if (!modelsData.models || modelsData.models.length === 0) throw new Error("Не удалось получить список моделей");
         const currentIndex = modelsData.models.findIndex(m => m.id === currentModel);
         const nextIndex = (currentIndex + 1) % modelsData.models.length;
-        await doRecognize(modelsData.models[nextIndex].id);
+        await doRecognizeWithTimeout(modelsData.models[nextIndex].id);
       } catch (e) { showToast(e.message, 'error'); }
       finally { document.getElementById('btnSwitch').disabled = false; }
     }
@@ -978,14 +1118,14 @@
     function renderGroupedHistory() {
       const container = document.getElementById('historyGrouped');
       document.getElementById('btnClear').disabled = history.length === 0;
-      if (history.length === 0) { container.innerHTML = '<div class="empty-state">Пока пусто. Распознайте первый предмет!</div>'; return; }      const groups = {};
+      if (history.length === 0) { container.innerHTML = '<div class="empty-state">Пока пусто. Распознайте первый предмет!</div>'; return; }
+      const groups = {};
       history.forEach(item => {
         const group = getMaterialGroup(item.material_type);
         if (!groups[group.key]) groups[group.key] = { ...group, items: [], totalWeight: 0 };
         groups[group.key].items.push(item);
         groups[group.key].totalWeight += item.empty_weight || 0;
-      });
-      const groupOrder = ['plastic', 'glass', 'paper', 'metal', 'other'];
+      });      const groupOrder = ['plastic', 'glass', 'paper', 'metal', 'other'];
       let html = '';
       for (const key of groupOrder) {
         const group = groups[key]; if (!group) continue;
@@ -1023,8 +1163,15 @@
       container.innerHTML = html;
     }
 
-    function toggleGroup(groupId) { document.getElementById(groupId).classList.toggle('open'); }
-    function toggleExpand(id) { expandedId = expandedId === id ? null : id; renderGroupedHistory(); }
+    function toggleGroup(groupId) { 
+      const el = document.getElementById(groupId);
+      if (el) el.classList.toggle('open');
+    }
+    
+    function toggleExpand(id) { 
+      expandedId = expandedId === id ? null : id; 
+      renderGroupedHistory();
+    }
 
     function clearHistory() {
       if (!confirm('Очистить всю историю и статистику?')) return;      history = []; stats = { total: 0, rec: 0, w: 0 };

@@ -48,9 +48,19 @@
       font-weight: 600;
       flex-shrink: 0;
       padding: 0;      line-height: 1;
+      text-decoration: none;
     }
-    .icon-btn:hover { transform: rotate(15deg); background: var(--accent); color: #fff; }
-    .icon-btn.lang-btn { font-size: 13px; font-weight: 700; letter-spacing: 0.5px; }
+    .icon-btn:hover:not(.lang-btn) { transform: rotate(15deg); background: var(--accent); color: #fff; }
+    .icon-btn.lang-btn { 
+      font-size: 14px; 
+      font-weight: 700; 
+      letter-spacing: 0.5px;
+      width: 44px;
+      height: 44px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+    }
     .tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
     .tab { padding: 10px 16px; border-radius: 10px; border: 1px solid var(--card-border); background: var(--card-bg); color: var(--text-muted); cursor: pointer; font-weight: 500; font-size: 13px; }
     .tab.active { background: var(--accent); color: #fff; }
@@ -86,8 +96,7 @@
     .editable-input { flex: 1; border: none; background: transparent; color: var(--text); font-size: 13px; outline: none; padding: 4px; }
     .editable-input:focus { background: rgba(255,255,255,0.05); border-radius: 4px; }
     .editable-select { flex: 1; border: none; background: var(--card-bg); color: var(--text); font-size: 13px; padding: 4px; }
-    .item-actions { padding: 12px 14px; background: rgba(99,102,241,0.05); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
-    .history-view-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    .item-actions { padding: 12px 14px; background: rgba(99,102,241,0.05); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }    .history-view-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
     .view-btn { 
       padding: 10px 16px; 
       border-radius: 10px; 
@@ -96,7 +105,8 @@
       color: var(--text-muted); 
       cursor: pointer; 
       font-size: 13px; 
-      font-weight: 500;      transition: all 0.2s;
+      font-weight: 500;
+      transition: all 0.2s;
     }
     .view-btn:hover { background: var(--accent-bg); color: var(--text); }
     .view-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
@@ -135,8 +145,7 @@
     .history-item-details { padding: 0 14px 10px; display: none; border-top: 1px solid var(--card-border); }
     .history-item-details.open { display: block; padding-top: 10px; }
     .detail-row { display: flex; padding: 5px 0; font-size: 12px; border-bottom: 1px solid var(--card-border); }
-    .detail-row:last-child { border-bottom: none; }
-    .detail-label { min-width: 110px; color: var(--text-muted); font-weight: 500; }
+    .detail-row:last-child { border-bottom: none; }    .detail-label { min-width: 110px; color: var(--text-muted); font-weight: 500; }
     .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
     .shop-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.3s; }
     .shop-item:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
@@ -145,7 +154,8 @@
     .shop-item-icon-wrapper { width: 120px; height: 120px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; perspective: 600px; position: relative; }
     .shop-item-icon-3d { position: relative; width: 64px; height: 64px; transform-style: preserve-3d; }
     .shop-item-icon-3d .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 56px; backface-visibility: visible; }
-    .shop-item-icon-3d.rotating { animation: true3DRotate 6s linear infinite; }    @keyframes true3DRotate { 0% { transform: rotateY(0deg) rotateX(12deg); } 25% { transform: rotateY(90deg) rotateX(-12deg); } 50% { transform: rotateY(180deg) rotateX(12deg); } 75% { transform: rotateY(270deg) rotateX(-12deg); } 100% { transform: rotateY(360deg) rotateX(12deg); } }
+    .shop-item-icon-3d.rotating { animation: true3DRotate 6s linear infinite; }
+    @keyframes true3DRotate { 0% { transform: rotateY(0deg) rotateX(12deg); } 25% { transform: rotateY(90deg) rotateX(-12deg); } 50% { transform: rotateY(180deg) rotateX(12deg); } 75% { transform: rotateY(270deg) rotateX(-12deg); } 100% { transform: rotateY(360deg) rotateX(12deg); } }
     .shop-item-icon-wrapper::after { content: ''; position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 80px; height: 16px; background: radial-gradient(ellipse, rgba(0,0,0,0.5) 0%, transparent 70%); border-radius: 50%; }
     .shop-item-name { font-weight: 600; font-size: 14px; margin-bottom: 5px; }
     .shop-item-desc { font-size: 12px; color: var(--text-muted); margin-bottom: 12px; }
@@ -184,8 +194,7 @@
   <div class="modal-overlay" id="confirmModal">
     <div class="modal">
       <h3 id="modalTitle">Подтверждение</h3>
-      <p id="modalText">Вы уверены?</p>
-      <div class="modal-actions">
+      <p id="modalText">Вы уверены?</p>      <div class="modal-actions">
         <button class="btn btn-secondary" onclick="closeModal()">Отмена</button>
         <button class="btn btn-danger" id="modalConfirmBtn">Подтвердить</button>
       </div>
@@ -194,7 +203,8 @@
 
   <div class="container">
     <div class="header">
-      <h1>EcoScan v3.0</h1>      <div class="header-actions">
+      <h1>EcoScan v3.0</h1>
+      <div class="header-actions">
         <div class="coin-balance" onclick="toggleCoinTooltip()" style="position:relative">
           <span class="coin-icon">🪙</span>
           <span id="coinBalance">0</span>
@@ -205,7 +215,7 @@
             <div style="font-size:11px;opacity:0.7;margin-top:4px"><span data-i18n="reset_in">Сброс через</span>: <span id="tooltipReset">--</span></div>
           </div>
         </div>
-        <button class="icon-btn lang-btn" onclick="toggleLanguage()" id="langBtn" title="Switch language">RU</button>
+        <button class="icon-btn lang-btn" onclick="toggleLanguage()" id="langBtn" title="Switch language">EN</button>
         <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Theme">🌙</button>
         <button class="icon-btn" onclick="switchTab('settings')" title="Settings">⚙️</button>
       </div>
@@ -233,8 +243,7 @@
       </div>
       <div id="resultsSection" style="display:none">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <h3 style="margin:0"><span data-i18n="recognized_items">Распознанные предметы</span> (<span id="resultsCount">0</span>)</h3>
-          <span style="color:var(--accent);font-weight:600" id="selectionInfo"><span data-i18n="selected">Выбрано</span>: 0</span>
+          <h3 style="margin:0"><span data-i18n="recognized_items">Распознанные предметы</span> (<span id="resultsCount">0</span>)</h3>          <span style="color:var(--accent);font-weight:600" id="selectionInfo"><span data-i18n="selected">Выбрано</span>: 0</span>
         </div>
         <div style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap">
           <button class="btn btn-success" onclick="saveSelected()" id="btnSaveSelected" disabled data-i18n="save_selected">Сохранить выбранные</button>
@@ -243,12 +252,13 @@
           <button class="btn btn-danger" onclick="cancelResults()" data-i18n="cancel">Отмена</button>
         </div>
         <div id="resultsList"></div>
-      </div>    </div>
+      </div>
+    </div>
     <div class="tab-view" id="tab-shop">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px">
         <h2 style="margin:0;font-size:18px" data-i18n="tab_shop">Магазин</h2>
         <div class="coin-balance" onclick="toggleCoinTooltip()" style="position:relative">
-          <span class="coin-icon"></span>
+          <span class="coin-icon">🪙</span>
           <span id="shopCoinBalance">0</span>
         </div>
       </div>
@@ -282,8 +292,7 @@
       <!-- Переключатели вида -->
       <div class="history-view-bar">
         <button class="view-btn active" data-view="all" onclick="setHistoryView('all')" data-i18n="filter_all">Все предметы</button>
-        <button class="view-btn" data-view="recycled" onclick="setHistoryView('recycled')" data-i18n="filter_recycled">Переработанные</button>
-        <button class="view-btn" data-view="weight" onclick="setHistoryView('weight')" data-i18n="filter_by_weight">По весу</button>
+        <button class="view-btn" data-view="recycled" onclick="setHistoryView('recycled')" data-i18n="filter_recycled">Переработанные</button>        <button class="view-btn" data-view="weight" onclick="setHistoryView('weight')" data-i18n="filter_by_weight">По весу</button>
       </div>
       
       <div id="historyGrouped"></div>
@@ -292,9 +301,10 @@
       <h2 style="margin:0 0 16px 0;font-size:18px" data-i18n="settings">Настройки</h2>
       <div style="background:var(--card-bg);border:1px solid var(--card-border);border-radius:12px;padding:18px;margin-bottom:16px">
         <h3 style="margin:0 0 16px 0" data-i18n="coin_limit">Лимит монет</h3>
-        <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap">          <label style="min-width:180px" data-i18n="max_coins_per_day">Максимум монет за день:</label>
+        <div style="display:flex;gap:10px;align-items:center;margin-bottom:12px;flex-wrap:wrap">
+          <label style="min-width:180px" data-i18n="max_coins_per_day">Максимум монет за день:</label>
           <input type="number" id="dailyLimitInput" min="1" max="100" value="5" style="flex:1;min-width:120px;padding:8px;border-radius:8px;border:1px solid var(--card-border);background:var(--bg);color:var(--text)">
-          <button class="btn btn-secondary" onclick="updateDailyLimit()" data-i18n="apply">Применить</button>
+          <button class="btn btn-success" onclick="confirmUpdateLimit()" data-i18n="apply">Применить</button>
         </div>
         <div style="font-size:12px;color:var(--text-muted)" data-i18n="reset_daily">Сброс каждые 24 часа. Секретный код: ECO2026 (x4)</div>
         <div style="display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap">
@@ -331,8 +341,7 @@
         locally: 'локально', saved: 'Сохранено', already_bought: 'Уже куплено',
         not_enough_coins: 'Недостаточно монет', bought: 'Куплено', equipped: 'Экипировано',
         code_activated: 'Секретный код активирован', wrong_code: 'Неверный код',
-        limit_updated: 'Лимит обновлён', history_cleared: 'История очищена',
-        code_already_active: 'Код уже активирован', limit: 'Лимит',
+        limit_updated: 'Лимит обновлён', history_cleared: 'История очищена',        code_already_active: 'Код уже активирован', limit: 'Лимит',
         empty_history: 'Пока пусто', no_purchases: 'Пока ничего не куплено',
         in_collection: 'В коллекции', equipped_label: 'Экипировано',
         recyclable_yes: 'Да', recyclable_no: 'Нет',
@@ -341,11 +350,14 @@
         small: 'Маленький', medium: 'Средний', large: 'Большой', xlarge: 'Очень большой',
         plastic: 'Пластик', glass: 'Стекло', aluminum: 'Алюминий',
         paper: 'Бумага', cardboard: 'Картон', metal: 'Металл', other: 'Другое',
-        high: 'Высокая', medium_conf: 'Средняя', low: 'Низкая',        coin_reward: '+1 🪙 при сохранении', limit_exhausted: 'Лимит исчерпан',
+        high: 'Высокая', medium_conf: 'Средняя', low: 'Низкая',
+        coin_reward: '+1 🪙 при сохранении', limit_exhausted: 'Лимит исчерпан',
         save: 'Сохранить', remove: 'Убрать', equip: 'Экипировать', buy: 'Купить',
         equipped_btn: 'Экипировано', price: '',
         confirm_clear_title: 'Очистить историю?',
-        confirm_clear_text: 'Вся история и статистика будут удалены без возможности восстановления. Продолжить?'
+        confirm_clear_text: 'Вся история и статистика будут удалены без возможности восстановления. Продолжить?',
+        confirm_limit_title: 'Изменить лимит монет?',
+        confirm_limit_text: 'Новый лимит: '
       },
       en: {
         tab_recognize: 'Recognition', tab_shop: 'Shop', tab_history: 'History',
@@ -378,19 +390,21 @@
         small: 'Small', medium: 'Medium', large: 'Large', xlarge: 'Extra large',
         plastic: 'Plastic', glass: 'Glass', aluminum: 'Aluminum',
         paper: 'Paper', cardboard: 'Cardboard', metal: 'Metal', other: 'Other',
-        high: 'High', medium_conf: 'Medium', low: 'Low',
-        coin_reward: '+1  on save', limit_exhausted: 'Limit exhausted',
+        high: 'High', medium_conf: 'Medium', low: 'Low',        coin_reward: '+1 🪙 on save', limit_exhausted: 'Limit exhausted',
         save: 'Save', remove: 'Remove', equip: 'Equip', buy: 'Buy',
         equipped_btn: 'Equipped', price: '',
         confirm_clear_title: 'Clear history?',
-        confirm_clear_text: 'All history and statistics will be permanently deleted. Continue?'
+        confirm_clear_text: 'All history and statistics will be permanently deleted. Continue?',
+        confirm_limit_title: 'Update coin limit?',
+        confirm_limit_text: 'New limit: '
       }
     };
     let currentLang = localStorage.getItem('ecoscan_lang') || 'ru';
     function t(key) { return i18n[currentLang][key] || i18n.ru[key] || key; }
     function applyTranslations() {
       document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');        if (el.tagName === 'INPUT' && el.type !== 'button') {
+        const key = el.getAttribute('data-i18n');
+        if (el.tagName === 'INPUT' && el.type !== 'button') {
           el.placeholder = t(key);
         } else {
           el.textContent = t(key);
@@ -418,28 +432,28 @@
     const MATERIAL_LABELS = {plastic:"plastic", glass:"glass", aluminum:"aluminum", paper:"paper", cardboard:"cardboard", metal:"metal", other:"other"};
     const SIZE_LABELS = {small:"small", medium:"medium", large:"large", xlarge:"xlarge"};
     
-    // 14 надёжных emoji
+    // ВСЕ 14 ИКОНОК - ПРОВЕРЕНО И ИСПРАВЛЕНО (только простые emoji без variation selectors)
     const SHOP_ITEMS = {
       characters: [
-        {id:'c1',name:'Collector',desc:'Beginner eco activist',price:50,icon:'🧑'},
-        {id:'c2',name:'Eco Hero',desc:'Experienced nature defender',price:200,icon:'🦸'},
-        {id:'c3',name:'Captain',desc:'Movement leader',price:500,icon:'🚀'},
-        {id:'c4',name:'Guardian',desc:'Earth keeper',price:1500,icon:'🏰'}
-      ],
-      levels: [
-        {id:'l1',name:'Beginner',desc:'Level 1',price:0,icon:'🌱'},
-        {id:'l2',name:'Activist',desc:'Level 5',price:100,icon:'🌿'},
-        {id:'l3',name:'Expert',desc:'Level 15',price:300,icon:'🌳'},
-        {id:'l4',name:'Master',desc:'Level 30',price:700,icon:''},
-        {id:'l5',name:'Legend',desc:'Level 50',price:2000,icon:'👑'}
+        {id:'c1',name:'Collector',desc:'Beginner eco activist',price:50,icon:'\u{1F9D1}'},
+        {id:'c2',name:'Eco Hero',desc:'Experienced nature defender',price:200,icon:'\u{1F9B8}'},
+        {id:'c3',name:'Captain',desc:'Movement leader',price:500,icon:'\u{1F680}'},
+        {id:'c4',name:'Guardian',desc:'Earth keeper',price:1500,icon:'\u{1F3F0}'}
+      ],      levels: [
+        {id:'l1',name:'Beginner',desc:'Level 1',price:0,icon:'\u{1F331}'},
+        {id:'l2',name:'Activist',desc:'Level 5',price:100,icon:'\u{1F33F}'},
+        {id:'l3',name:'Expert',desc:'Level 15',price:300,icon:'\u{1F333}'},
+        {id:'l4',name:'Master',desc:'Level 30',price:700,icon:'\u{1F3C6}'},
+        {id:'l5',name:'Legend',desc:'Level 50',price:2000,icon:'\u{1F451}'}
       ],
       tools: [
-        {id:'t1',name:'Bag',desc:'Simple bag',price:20,icon:'🛍️'},
-        {id:'t2',name:'Wheelbarrow',desc:'Garden wheelbarrow',price:150,icon:'🛒'},
-        {id:'t3',name:'Truck',desc:'Small truck',price:400,icon:'🚚'},
-        {id:'t4',name:'Garbage truck',desc:'Special transport',price:800,icon:'🚛'},
-        {id:'t5',name:'Bulldozer',desc:'Powerful machine',price:2000,icon:'🚜'}
-      ]    };
+        {id:'t1',name:'Bag',desc:'Simple bag',price:20,icon:'\u{1F6CD}\u{FE0F}'},
+        {id:'t2',name:'Wheelbarrow',desc:'Garden wheelbarrow',price:150,icon:'\u{1F6D2}'},
+        {id:'t3',name:'Truck',desc:'Small truck',price:400,icon:'\u{1F69A}'},
+        {id:'t4',name:'Garbage truck',desc:'Special transport',price:800,icon:'\u{1F69B}'},
+        {id:'t5',name:'Bulldozer',desc:'Powerful machine',price:2000,icon:'\u{1F69C}'}
+      ]
+    };
 
     // ===== Модальное окно =====
     let modalCallback = null;
@@ -467,6 +481,25 @@
         showToast(t('history_cleared'), 'success');
       });
     }
+    function confirmUpdateLimit() {
+      const val = parseInt(document.getElementById('dailyLimitInput').value);
+      if (val >= 1 && val <= 100) {
+        // Проверяем секретный код
+        let effectiveLimit = val;
+        let limitText = val + ' ' + t('limit');
+        if (gamification.secretCodeActive) {
+          effectiveLimit = val * 4;          limitText = val + ' × 4 = ' + effectiveLimit + ' ' + t('limit');
+        }
+        showModal(t('confirm_limit_title'), t('confirm_limit_text') + limitText, function() {
+          gamification.dailyLimit = val; 
+          saveData(); 
+          updateCoinUI(); 
+          showToast(t('limit_updated') + ': ' + effectiveLimit, 'success');
+        });
+      } else {
+        showToast('Invalid value (1-100)', 'error');
+      }
+    }
 
     function showToast(msg, type='info') {
       const c = document.getElementById('toastContainer'), tt = document.createElement('div');
@@ -488,7 +521,8 @@
       document.getElementById('shopCoinBalance').textContent = gamification.coins;
       document.getElementById('coinLimitInfo').textContent = '(' + gamification.todayEarned + '/' + limit + ')';
       document.getElementById('tooltipToday').textContent = gamification.todayEarned;
-      document.getElementById('tooltipLimit').textContent = limit;      const now = new Date(), tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate() + 1); tomorrow.setHours(0,0,0,0);
+      document.getElementById('tooltipLimit').textContent = limit;
+      const now = new Date(), tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate() + 1); tomorrow.setHours(0,0,0,0);
       const diff = tomorrow - now, h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000);
       document.getElementById('tooltipReset').textContent = h + 'h ' + m + 'm';
     }
@@ -503,8 +537,7 @@
     }
     function switchTab(name) {
       document.querySelectorAll('.tab').forEach(tt => tt.classList.remove('active'));
-      document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
-      document.querySelectorAll('.tab').forEach(tt => { 
+      document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));      document.querySelectorAll('.tab').forEach(tt => { 
         if (tt.getAttribute('onclick') && tt.getAttribute('onclick').includes("switchTab('" + name + "')")) {
           tt.classList.add('active');
         }
@@ -516,7 +549,7 @@
     function toggleTheme() {
       isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.getElementById('themeBtn').textContent = isDark ? '☀️' : '';
+      document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
     }
 
     // ===== Camera =====
@@ -537,7 +570,8 @@
           vid.style.display = 'block';
           preview.style.display = 'none';
           document.getElementById('btnCamera').textContent = t('disable_camera');
-          document.getElementById('btnAction').style.display = 'inline-flex';        } catch(e) { showToast(t('camera_error') + ': ' + e.message, 'error'); }
+          document.getElementById('btnAction').style.display = 'inline-flex';
+        } catch(e) { showToast(t('camera_error') + ': ' + e.message, 'error'); }
       }
     }
 
@@ -552,7 +586,6 @@
       vid.style.display = 'none';
       preview.style.display = 'block';
     }
-
     function resetCameraState() {
       const vid = document.getElementById('vid');
       const preview = document.getElementById('lastFramePreview');
@@ -579,14 +612,15 @@
       countdownInterval = setInterval(() => {
         remaining--;
         display.textContent = remaining;
-        fill.style.width = ((seconds - remaining) / seconds * 100) + '%';
+        fill.style.width = (remaining / seconds * 100) + '%';
         if (remaining <= 0) { 
           clearInterval(countdownInterval); 
           countdownInterval = null;
           if (onComplete) onComplete(); 
         }
       }, 1000);
-    }    
+    }
+    
     function stopCountdown() {
       if (countdownInterval) { 
         clearInterval(countdownInterval); 
@@ -601,8 +635,7 @@
       can.getContext('2d').drawImage(vid, 0, 0);
       const img = can.toDataURL('image/jpeg', 0.6).split(',')[1];
 
-      showLastFrame();
-      if (stream) {
+      showLastFrame();      if (stream) {
         stream.getTracks().forEach(tt => tt.stop());
         stream = null;
       }
@@ -635,7 +668,8 @@
           result = data;
         }
         
-        stopCountdown();        const items = (result && (result.items || (result.product_name ? [result] : []))) || [];
+        stopCountdown();
+        const items = (result && (result.items || (result.product_name ? [result] : []))) || [];
         editableItems = items.map((item, idx) => ({...item, _id: 'item_' + Date.now() + '_' + idx, _empty_weight: getEmptyWeight(item.material_type, item.category, item.size)}));
         selectedIds = new Set(editableItems.map(it => it._id));
         renderResults();
@@ -650,8 +684,7 @@
       } finally {
         document.getElementById('loadingOverlay').classList.remove('active');
       }
-    }
-    
+    }    
     async function recognizeWithOCR(img) {
       try {
         const worker = await Tesseract.createWorker(currentLang === 'ru' ? 'rus+eng' : 'eng');
@@ -684,7 +717,8 @@
     }
     function renderResults() {
       const list = document.getElementById('resultsList');
-      document.getElementById('resultsCount').textContent = editableItems.length;      document.getElementById('selectionInfo').innerHTML = t('selected') + ': ' + selectedIds.size;
+      document.getElementById('resultsCount').textContent = editableItems.length;
+      document.getElementById('selectionInfo').innerHTML = t('selected') + ': ' + selectedIds.size;
       document.getElementById('btnSaveSelected').disabled = selectedIds.size === 0;
       list.innerHTML = editableItems.map(item => {
         const sel = selectedIds.has(item._id);
@@ -699,8 +733,7 @@
           '<div class="item-field"><span class="item-field-label">' + t('size') + ':</span><select class="editable-select" onchange="updateField(\'' + item._id + '\',\'size\',this.value)">' + Object.entries(SIZE_LABELS).map(([k,v]) => '<option value="' + k + '"' + (item.size===k?' selected':'') + '>' + t(k) + '</option>').join('') + '</select></div>' +
           '<div class="item-field"><span class="item-field-label">' + t('empty_weight') + ':</span><span>' + item._empty_weight + ' g</span></div>' +
           '<div class="item-field"><span class="item-field-label">' + t('recyclable') + ':</span><select class="editable-select" onchange="updateField(\'' + item._id + '\',\'recyclable\',this.value==\'true\')"><option value="true"' + (item.recyclable?' selected':'') + '>' + t('recyclable_yes') + ' ♻</option><option value="false"' + (!item.recyclable?' selected':'') + '>' + t('recyclable_no') + '</option></select></div></div>' +
-          '<div class="item-actions"><span style="margin-right:auto;color:var(--gold);font-weight:600;font-size:12px">' + (canEarnCoin()?t('coin_reward'):t('limit_exhausted')) + '</span>' +
-          '<button class="btn btn-success" onclick="saveSingle(\'' + item._id + '\')">' + t('save') + '</button>' +
+          '<div class="item-actions"><span style="margin-right:auto;color:var(--gold);font-weight:600;font-size:12px">' + (canEarnCoin()?t('coin_reward'):t('limit_exhausted')) + '</span>' +          '<button class="btn btn-success" onclick="saveSingle(\'' + item._id + '\')">' + t('save') + '</button>' +
           '<button class="btn btn-danger" onclick="removeItem(\'' + item._id + '\')">' + t('remove') + '</button></div></div>';
       }).join('');
     }
@@ -731,13 +764,25 @@
           const lastId = savedIds[savedIds.length - 1];
           const el = document.querySelector('[data-history-id="' + lastId + '"]');
           if (el) {
+            const mat = (history.find(h => h.id === lastId)?.material_type || '').toLowerCase();
+            let groupKey = 'other';
+            if (mat === 'plastic') groupKey = 'plastic';
+            else if (mat === 'glass') groupKey = 'glass';
+            else if (mat === 'paper' || mat === 'cardboard') groupKey = 'paper';
+            else if (mat === 'metal' || mat === 'aluminum') groupKey = 'metal';
+            openGroups.add(groupKey);
+            
+            expandedId = lastId;
+            
+            renderHistory();
+            
             el.scrollIntoView({ behavior: 'smooth', block: 'center' });
             el.classList.add('highlighted');
-            setTimeout(() => el.classList.remove('highlighted'), 2500);          }
+            setTimeout(() => el.classList.remove('highlighted'), 2500);
+          }
         }, 100);
       }, 300);
-    }
-    function cancelResults() { 
+    }    function cancelResults() { 
       editableItems = []; 
       selectedIds.clear(); 
       document.getElementById('resultsSection').style.display = 'none';
@@ -769,9 +814,9 @@
         const mat = (item.material_type||'').toLowerCase();
         let key = 'other', name = t('other'), icon = '';
         if (mat === 'plastic') { key = 'plastic'; name = t('plastic'); icon = '♻️'; }
-        else if (mat === 'glass') { key = 'glass'; name = t('glass'); icon = ''; }
-        else if (mat === 'paper' || mat === 'cardboard') { key = 'paper'; name = t('paper'); icon = ''; }
-        else if (mat === 'metal' || mat === 'aluminum') { key = 'metal'; name = t('metal'); icon = '🥫'; }
+        else if (mat === 'glass') { key = 'glass'; name = t('glass'); icon = '🫙'; }
+        else if (mat === 'paper' || mat === 'cardboard') { key = 'paper'; name = t('paper'); icon = '📄'; }
+        else if (mat === 'metal' || mat === 'aluminum') { key = 'metal'; name = t('metal'); icon = ''; }
         if (!groups[key]) groups[key] = {key, name, icon, items:[], totalWeight:0};
         groups[key].items.push(item); groups[key].totalWeight += item.empty_weight || 0;
       });
@@ -782,11 +827,11 @@
         const isOpen = openGroups.has(g.key);
         html += '<div class="history-group"><div class="history-group-header' + (isOpen?' active':'') + '" onclick="toggleGroup(\'' + g.key + '\')">' +
           '<span style="font-size:22px">' + g.icon + '</span><span style="font-weight:600;flex:1">' + g.name + '</span>' +
-          '<span style="font-size:12px;color:var(--text-muted)">' + g.totalWeight + ' g</span>' +          '<span style="font-size:12px;color:var(--text-muted);font-weight:500">' + g.items.length + '</span>' +
+          '<span style="font-size:12px;color:var(--text-muted)">' + g.totalWeight + ' g</span>' +
+          '<span style="font-size:12px;color:var(--text-muted);font-weight:500">' + g.items.length + '</span>' +
           '<span style="margin-left:8px;color:var(--text-muted)">' + (isOpen?'▲':'▼') + '</span></div>' +
           '<div class="history-group-items' + (isOpen?' open':'') + '" id="group_' + g.key + '">' +
-          g.items.map(item => '<div class="history-item" data-history-id="' + item.id + '"><div class="history-item-header" onclick="toggleExpand(\'' + item.id + '\')">' +
-          '<div style="flex:1;min-width:0"><div style="font-weight:600">' + item.product_name + '</div><div style="font-size:11px;color:var(--text-muted);margin-top:3px">' + item.brand + ' · ' + item.empty_weight + ' g · ' + item.timestamp + '</div></div>' +
+          g.items.map(item => '<div class="history-item" data-history-id="' + item.id + '"><div class="history-item-header" onclick="toggleExpand(\'' + item.id + '\')">' +          '<div style="flex:1;min-width:0"><div style="font-weight:600">' + item.product_name + '</div><div style="font-size:11px;color:var(--text-muted);margin-top:3px">' + item.brand + ' · ' + item.empty_weight + ' g · ' + item.timestamp + '</div></div>' +
           '<span style="margin-left:8px;color:var(--text-muted)">' + (expandedId===item.id?'▲':'▼') + '</span></div>' +
           '<div class="history-item-details' + (expandedId===item.id?' open':'') + '">' +
           '<div class="detail-row"><span class="detail-label">' + t('category') + '</span><span>' + item.category + '</span></div>' +
@@ -831,11 +876,11 @@
           const canAfford = gamification.coins >= item.price;
           let btn = '';
           if (equipped) btn = '<button class="btn" disabled style="background:gold;color:#000">' + t('equipped_btn') + '</button>';
-          else if (owned) btn = '<button class="btn btn-success" onclick="event.stopPropagation();equipItem(\'' + item.id + '\',\'' + cat + '\')">' + t('equip') + '</button>';          else btn = '<button class="btn btn-secondary" onclick="event.stopPropagation();buyItem(\'' + item.id + '\',' + item.price + ')" ' + (!canAfford?'disabled':'') + '>' + t('buy') + '</button>';
+          else if (owned) btn = '<button class="btn btn-success" onclick="event.stopPropagation();equipItem(\'' + item.id + '\',\'' + cat + '\')">' + t('equip') + '</button>';
+          else btn = '<button class="btn btn-secondary" onclick="event.stopPropagation();buyItem(\'' + item.id + '\',' + item.price + ')" ' + (!canAfford?'disabled':'') + '>' + t('buy') + '</button>';
           return '<div class="shop-item' + (owned?' owned':'') + (equipped?' equipped':'') + '">' +
             '<div class="shop-item-icon-wrapper">' + create3DIcon(item.icon) + '</div>' +
-            '<div class="shop-item-name">' + item.name + '</div>' +
-            '<div class="shop-item-desc">' + item.desc + '</div>' +
+            '<div class="shop-item-name">' + item.name + '</div>' +            '<div class="shop-item-desc">' + item.desc + '</div>' +
             '<div class="shop-item-footer"><span class="shop-item-price">' + item.price + ' ' + t('price') + '</span>' + btn + '</div></div>';
         }).join('');
       }
@@ -880,22 +925,11 @@
         gamification.secretCodeActive = true; 
         saveData(); 
         updateCoinUI();
-        statusEl.innerHTML = '<span style="color:var(--success)">✅ ' + t('code_activated') + '! ' + t('limit') + ': ' + getEffectiveLimit() + '</span>';        input.value = '';
+        statusEl.innerHTML = '<span style="color:var(--success)">✅ ' + t('code_activated') + '! ' + t('limit') + ': ' + getEffectiveLimit() + '</span>';
+        input.value = '';
         showToast(t('code_activated') + '! Лимит: ' + getEffectiveLimit(), 'success');
       } else { 
-        statusEl.innerHTML = '<span style="color:var(--danger)"> ' + t('wrong_code') + '</span>'; 
-        showToast(t('wrong_code'), 'error');
-      }
-    }
-    function updateDailyLimit() {
-      const val = parseInt(document.getElementById('dailyLimitInput').value);
-      if (val >= 1 && val <= 100) { 
-        gamification.dailyLimit = val; 
-        saveData(); 
-        updateCoinUI(); 
-        showToast(t('limit_updated') + ': ' + val, 'success');
-      } else {
-        showToast('Invalid value (1-100)', 'error');
+        statusEl.innerHTML = '<span style="color:var(--danger)"> ' + t('wrong_code') + '</span>';         showToast(t('wrong_code'), 'error');
       }
     }
 
@@ -929,6 +963,7 @@
     // Init
     loadData();
     updateStats();
-    applyTranslations();  </script>
+    applyTranslations();
+  </script>
 </body>
 </html>

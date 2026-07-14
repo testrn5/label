@@ -126,7 +126,7 @@
     .editable-select { flex: 1; border: none; background: var(--card-bg); color: var(--text); font-size: 13px; padding: 4px; }
     .item-actions { padding: 12px 14px; background: rgba(99,102,241,0.05); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
     
-    /* Кнопки сортировки - одинаковый размер для всех состояний */
+    /* Кнопки сортировки */
     .history-view-bar { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
     .view-btn { 
       padding: 10px 16px; 
@@ -255,7 +255,7 @@
       <div class="coin-info">
         <div class="coin-info-row">
           <span class="coin-info-label">Всего заработано:</span>
-          <span class="coin-info-value" id="coinTotalEarned">0 🪙</span>
+          <span class="coin-info-value" id="coinTotalEarned">0 </span>
         </div>
         <div class="coin-info-row">
           <span class="coin-info-label">Сегодня:</span>
@@ -282,7 +282,7 @@
           <span class="coin-limit" id="coinLimitInfo">(0/5)</span>
         </div>
         <button class="icon-btn lang-btn" onclick="toggleLanguage()" id="langBtn" title="Switch language">EN</button>
-        <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Theme">🌙</button>
+        <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Theme"></button>
         <button class="icon-btn" onclick="switchTab('settings')" title="Settings">⚙️</button>
       </div>
     </div>
@@ -334,15 +334,14 @@
       <div class="shop-category"><h3 data-i18n="my_collection">Моя коллекция</h3><div id="myCollection"></div></div>
     </div>
     <div class="tab-view" id="tab-history">
-      <!-- Выровненный заголовок и кнопка Clear -->
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
         <h2 style="margin:0;font-size:18px;line-height:1.4" data-i18n="tab_history">История</h2>
         <button class="btn btn-danger" onclick="confirmClearHistory()" id="btnClear" disabled data-i18n="clear" style="padding: 10px 18px; font-size: 13px; line-height: 1.2;">Очистить</button>
       </div>
       
       <div class="history-stats">
-        <div class="history-stat">          <div class="history-stat-value" id="hTotal">0</div>
-          <div class="history-stat-label" data-i18n="stat_total">Всего</div>
+        <div class="history-stat">
+          <div class="history-stat-value" id="hTotal">0</div>          <div class="history-stat-label" data-i18n="stat_total">Всего</div>
         </div>
         <div class="history-stat">
           <div class="history-stat-value" id="hRec">0</div>
@@ -390,8 +389,8 @@
         recognize: 'Распознать', save_selected: 'Сохранить выбранные',
         select_all: 'Выбрать все', deselect_all: 'Снять все', cancel: 'Отмена',
         stat_total: 'Всего', stat_recycled: 'Переработано', stat_weight: 'Вес пустой тары',
-        recognized_items: 'Распознанные предметы', selected: 'Выбрано',        characters: 'Персонажи', levels: 'Уровни', tools: 'Приспособления', my_collection: 'Моя коллекция',
-        clear: 'Очистить', settings: 'Настройки', coin_limit: 'Лимит монет',
+        recognized_items: 'Распознанные предметы', selected: 'Выбрано',
+        characters: 'Персонажи', levels: 'Уровни', tools: 'Приспособления', my_collection: 'Моя коллекция',        clear: 'Очистить', settings: 'Настройки', coin_limit: 'Лимит монет',
         max_coins_per_day: 'Максимум монет за день:', apply: 'Применить',
         reset_daily: 'Сброс каждые 24 часа. Секретный код: ECO2026 (x4)',
         secret_code: 'Секретный код:', activate: 'Активировать',
@@ -439,8 +438,8 @@
         clear: 'Clear', settings: 'Settings', coin_limit: 'Coin limit',
         max_coins_per_day: 'Max coins per day:', apply: 'Apply',
         reset_daily: 'Resets every 24h. Secret code: ECO2026 (x4)',
-        secret_code: 'Secret code:', activate: 'Activate',        coin_limit_title: 'Coin limit', today: 'Today', reset_in: 'Reset in',
-        filter_all: 'All items', filter_recycled: 'Recycled', filter_by_weight: 'By weight',
+        secret_code: 'Secret code:', activate: 'Activate',
+        coin_limit_title: 'Coin limit', today: 'Today', reset_in: 'Reset in',        filter_all: 'All items', filter_recycled: 'Recycled', filter_by_weight: 'By weight',
         analyzing: 'Analyzing image', sending_to_cloud: 'Cloud AI...',
         reading_ocr: 'Local LLM...',
         camera_enabled: 'Camera enabled', camera_disabled: 'Camera disabled',
@@ -466,7 +465,7 @@
         confirm_clear_text: 'All history and statistics will be permanently deleted. Continue?',
         confirm_limit_title: 'Update coin limit?',
         confirm_limit_text: 'New limit: ',
-        coin_modal_title: '🪙 Coin Balance',
+        coin_modal_title: ' Coin Balance',
         coin_total_earned: 'Total earned:',
         coin_today: 'Today:',
         coin_daily_limit: 'Daily limit:',
@@ -488,8 +487,8 @@
       document.documentElement.lang = currentLang;
     }
     function toggleLanguage() {
-      currentLang = currentLang === 'ru' ? 'en' : 'ru';      localStorage.setItem('ecoscan_lang', currentLang);
-      applyTranslations();
+      currentLang = currentLang === 'ru' ? 'en' : 'ru';
+      localStorage.setItem('ecoscan_lang', currentLang);      applyTranslations();
       renderResults();
       renderHistory();
       renderShop();
@@ -537,8 +536,8 @@
     function closeModal() {
       document.getElementById('confirmModal').classList.remove('active');
       modalCallback = null;
-    }    function showCoinModal() {
-      const limit = getEffectiveLimit();
+    }
+    function showCoinModal() {      const limit = getEffectiveLimit();
       document.getElementById('coinTotalEarned').textContent = gamification.totalEarned + ' ';
       document.getElementById('coinToday').textContent = gamification.todayEarned + ' / ' + limit;
       document.getElementById('coinDailyLimit').textContent = limit + ' ' + t('limit') + '/день';
@@ -584,10 +583,10 @@
     function showToast(msg, type='info') {
       const c = document.getElementById('toastContainer'), tt = document.createElement('div');
       tt.className = 'toast ' + type;
-      const icons = {success:'✅',error:'❌',warning:'️',info:'ℹ️'};
+      const icons = {success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
       tt.innerHTML = '<span>' + (icons[type]||'ℹ️') + '</span><span>' + msg + '</span>';
-      c.appendChild(tt); setTimeout(() => { tt.style.animation = 'slideOut 0.3s ease'; setTimeout(() => tt.remove(), 300); }, 2000);    }
-    function getTodayKey() { return new Date().toISOString().split('T')[0]; }
+      c.appendChild(tt); setTimeout(() => { tt.style.animation = 'slideOut 0.3s ease'; setTimeout(() => tt.remove(), 300); }, 2000);
+    }    function getTodayKey() { return new Date().toISOString().split('T')[0]; }
     function checkDailyReset() { const tt = getTodayKey(); if (gamification.lastResetDate !== tt) { gamification.todayEarned = 0; gamification.lastResetDate = tt; saveData(); } }
     function getEffectiveLimit() { return gamification.secretCodeActive ? gamification.dailyLimit * 4 : gamification.dailyLimit; }
     function canEarnCoin() { checkDailyReset(); return gamification.todayEarned < getEffectiveLimit(); }
@@ -632,11 +631,11 @@
     function toggleTheme() {
       isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
+      document.getElementById('themeBtn').textContent = isDark ? '☀️' : '';
     }
 
-    async function toggleCamera() {      const vid = document.getElementById('vid');
-      const preview = document.getElementById('lastFramePreview');
+    async function toggleCamera() {
+      const vid = document.getElementById('vid');      const preview = document.getElementById('lastFramePreview');
       if (stream) {
         stream.getTracks().forEach(tt => tt.stop());
         stream = null;
@@ -684,8 +683,8 @@
     async function handleAction() { await recognizeWithTimeout(); }
     
     function startCountdown(seconds, onComplete) {
-      let remaining = seconds;      const display = document.getElementById('countdownDisplay');
-      const bar = document.getElementById('countdownBar');
+      let remaining = seconds;
+      const display = document.getElementById('countdownDisplay');      const bar = document.getElementById('countdownBar');
       const fill = document.getElementById('countdownBarFill');
       display.textContent = remaining;
       fill.style.width = '100%';
@@ -733,8 +732,8 @@
         
         const timeoutPromise = new Promise(resolve => { 
           startCountdown(CLOUD_TIMEOUT, () => { 
-            timedOut = true;             resolve({timeout:true}); 
-          }); 
+            timedOut = true; 
+            resolve({timeout:true});           }); 
         });
         
         const data = await Promise.race([apiPromise, timeoutPromise]);
@@ -782,8 +781,8 @@
       let name = lines[0] || 'Unknown', weight = null, barcode = null, material = 'other', category = 'Other', size = 'medium';
       const wMatch = text.match(/(\d+[\.,]?\d*)\s*(г|кг|мл|л|g|kg|ml|l)/i);
       if (wMatch) weight = wMatch[0];
-      const bMatch = text.match(/\b(\d{8,14})\b/);      if (bMatch) barcode = bMatch[1];
-      const matKeys = {plastic:['пластик','plastic','pet','pe','pp'], glass:['стекло','glass'], aluminum:['алюминий','aluminum','alum'], paper:['бумага','paper'], cardboard:['картон','cardboard'], metal:['металл','metal']};
+      const bMatch = text.match(/\b(\d{8,14})\b/);
+      if (bMatch) barcode = bMatch[1];      const matKeys = {plastic:['пластик','plastic','pet','pe','pp'], glass:['стекло','glass'], aluminum:['алюминий','aluminum','alum'], paper:['бумага','paper'], cardboard:['картон','cardboard'], metal:['металл','metal']};
       for (const [m, keys] of Object.entries(matKeys)) { if (keys.some(k => text.toLowerCase().includes(k))) { material = m; break; } }
       if (weight) { const w = parseFloat(weight.replace(',','.')); size = w < 500 ? 'small' : w < 1500 ? 'medium' : w < 3000 ? 'large' : 'xlarge'; }
       return {product_name:name, manufacturer:null, brand:null, country:null, category:category, description:'OCR: ' + text.substring(0,80), barcode:barcode, weight:weight, ingredients:null, recyclable:true, material_type:material, size:size, confidence:'medium', _used_model:'ocr'};
@@ -831,8 +830,8 @@
     function saveSelected() { const toSave = editableItems.filter(it => selectedIds.has(it._id)); if (toSave.length === 0) return; saveItems(toSave); toSave.forEach(it => removeItem(it._id)); }
     function saveItems(items) {
       const savedIds = [];
-      items.forEach(item => {        const earned = canEarnCoin() ? 1 : 0;
-        const newItem = {id:'hist_' + Date.now() + '_' + Math.floor(Math.random()*1000), product_name:item.product_name||'Unknown', brand:item.brand||'No brand', category:item.category||'—', empty_weight:item._empty_weight, material_type:item.material_type||'other', size:item.size||'medium', recyclable:item.recyclable, timestamp:new Date().toLocaleString(currentLang === 'ru' ? 'ru-RU' : 'en-US'), description:item.description, coins_earned: earned};
+      items.forEach(item => {
+        const earned = canEarnCoin() ? 1 : 0;        const newItem = {id:'hist_' + Date.now() + '_' + Math.floor(Math.random()*1000), product_name:item.product_name||'Unknown', brand:item.brand||'No brand', category:item.category||'—', empty_weight:item._empty_weight, material_type:item.material_type||'other', size:item.size||'medium', recyclable:item.recyclable, timestamp:new Date().toLocaleString(currentLang === 'ru' ? 'ru-RU' : 'en-US'), description:item.description, coins_earned: earned};
         stats.total++; if (item.recyclable) stats.rec++; stats.w += item._empty_weight;
         history = [newItem, ...history].slice(0, 200);
         savedIds.push(newItem.id);
@@ -880,8 +879,8 @@
     function setHistoryView(view) {
       historyView = view;
       document.querySelectorAll('.view-btn').forEach(b => {
-        b.classList.remove('active');        if (b.getAttribute('data-view') === view) {
-          b.classList.add('active');
+        b.classList.remove('active');
+        if (b.getAttribute('data-view') === view) {          b.classList.add('active');
         }
       });
       renderHistory();
@@ -922,15 +921,15 @@
           '<div style="flex:1;min-width:0"><div style="font-weight:600">' + item.product_name + (item.coins_earned ? '<span class="coin-badge">+1 </span>' : '') + '</div><div style="font-size:11px;color:var(--text-muted);margin-top:3px">' + item.brand + ' · ' + item.empty_weight + ' g · ' + item.timestamp + '</div></div>' +
           '<span style="margin-left:8px;color:var(--text-muted)">' + (expandedId===item.id?'▲':'▼') + '</span></div>' +
           '<div class="history-item-details' + (expandedId===item.id?' open':'') + '">' +
-          '<div class="detail-row"><span class="detail-label">' + t('category') + '</span><span>' + item.category + '</span></div>' +
+          '<div class="detail-row"><span class="detail-label">' + t('category') + '</span><span>' + (item.category || '—') + '</span></div>' +
           '<div class="detail-row"><span class="detail-label">' + t('material') + '</span><span>' + t(item.material_type||'other') + '</span></div>' +
           '<div class="detail-row"><span class="detail-label">' + t('size') + '</span><span>' + t(item.size||'medium') + '</span></div>' +
           '<div class="detail-row"><span class="detail-label">' + t('empty_weight') + '</span><span>' + item.empty_weight + ' g</span></div>' +
-          (item.coins_earned ? '<div class="detail-row"><span class="detail-label">Монеты</span><span class="coin-badge">+1 🪙</span></div>' : '') +
+          (item.coins_earned ? '<div class="detail-row"><span class="detail-label">' + t('coin_reward').split(' ')[0] + '</span><span class="coin-badge">+1 🪙</span></div>' : '') +
           '<div class="detail-row"><span class="detail-label">' + t('recyclable') + '</span><span>' + (item.recyclable ? t('recyclable_yes') : t('recyclable_no')) + '</span></div>' +
           (item.description ? '<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">Description</span><span>' + item.description + '</span></div>' : '') + '</div></div>').join('') + '</div></div>';
-      }      container.innerHTML = html;
-    }
+      }
+      container.innerHTML = html;    }
     
     function toggleGroup(key) { 
       if (openGroups.has(key)) openGroups.delete(key);
@@ -978,8 +977,8 @@
       let html = '<div class="shop-grid">';
       for (const itemId of gamification.ownedItems) {
         let item = null, cat = null;
-        for (const c of ['characters','levels','tools']) { const f = SHOP_ITEMS[c].find(i => i.id === itemId); if (f) { item = f; cat = c; break; } }        if (!item) continue;
-        const equipped = gamification.equippedItems[cat] === item.id;
+        for (const c of ['characters','levels','tools']) { const f = SHOP_ITEMS[c].find(i => i.id === itemId); if (f) { item = f; cat = c; break; } }
+        if (!item) continue;        const equipped = gamification.equippedItems[cat] === item.id;
         html += '<div class="shop-item' + (equipped?' equipped':'') + '"><div class="shop-item-icon-wrapper">' + create3DIcon(item.icon) + '</div><div class="shop-item-name">' + item.name + '</div><div class="shop-item-desc">' + item.desc + '</div><div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">' + (equipped?t('equipped_label'):t('in_collection')) + '</div>' + (!equipped?'<button class="btn btn-success" onclick="event.stopPropagation();equipItem(\'' + item.id + '\',\'' + cat + '\')" style="margin-top:8px">' + t('equip') + '</button>':'') + '</div>';
       }
       html += '</div>'; coll.innerHTML = html;
@@ -1027,8 +1026,8 @@
       if (shopItems.length === 0) return;
       let ticking = false;
       function updateRotation() {
-        const viewportCenter = window.innerHeight / 2;        let closestItem = null, closestDistance = Infinity;
-        shopItems.forEach(item => {
+        const viewportCenter = window.innerHeight / 2;
+        let closestItem = null, closestDistance = Infinity;        shopItems.forEach(item => {
           const rect = item.getBoundingClientRect();
           const itemCenter = rect.top + rect.height / 2;
           const distance = Math.abs(viewportCenter - itemCenter);

@@ -71,41 +71,32 @@
     #lastFramePreview { display: none; }
     .camera-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 16px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; z-index: 2; }
     
-    /* Кнопки - исправлены для обеих тем */
+    /* Кнопки */
     .btn { 
       padding: 10px 18px; 
       border-radius: 10px; 
-      border: none; 
-      font-weight: 600; 
+      border: 1px solid transparent;
+      font-weight: 500; 
       cursor: pointer; 
-      backdrop-filter: blur(10px); 
       transition: all 0.2s;
+      font-size: 13px;
+      line-height: 1.2;
     }
     .btn:hover:not(:disabled) { transform: translateY(-1px); }
     
-    /* Основные кнопки - всегда с белым текстом */
-    .btn-success { background: rgba(34,197,94,0.8); color: #fff; }
-    .btn-danger { background: rgba(239,68,68,0.8); color: #fff; }
+    .btn-success { background: var(--success); color: #fff; border-color: var(--success); }
+    .btn-danger { background: var(--danger); color: #fff; border-color: var(--danger); }
     
-    /* Вторичные кнопки - адаптивные для тем */
     .btn-secondary { 
-      background: rgba(255,255,255,0.2); 
-      color: #fff;
-      border: 1px solid rgba(255,255,255,0.3);
+      background: var(--card-bg); 
+      color: var(--text);
+      border-color: var(--card-border);
     }
     
-    /* Для светлой темы - вторичные кнопки с тёмным текстом */
-    [data-theme="light"] .btn-secondary { 
-      background: rgba(0,0,0,0.08);       color: var(--text);
-      border: 1px solid var(--card-border);
-    }
-    
-    /* Кнопка камеры - светло-зелёная независимо от темы */
     .btn-camera {
       background: rgba(74, 222, 128, 0.15);
       color: #4ade80;
-      border: 1px solid rgba(74, 222, 128, 0.4);
-    }
+      border-color: rgba(74, 222, 128, 0.4);    }
     .btn-camera:hover:not(:disabled) {
       background: rgba(74, 222, 128, 0.25);
       color: #4ade80;
@@ -134,23 +125,27 @@
     .editable-input:focus { background: rgba(255,255,255,0.05); border-radius: 4px; }
     .editable-select { flex: 1; border: none; background: var(--card-bg); color: var(--text); font-size: 13px; padding: 4px; }
     .item-actions { padding: 12px 14px; background: rgba(99,102,241,0.05); display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
-    .history-view-bar { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+    
+    /* Кнопки сортировки - одинаковый размер для всех состояний */
+    .history-view-bar { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
     .view-btn { 
       padding: 10px 16px; 
       border-radius: 10px; 
       border: 1px solid var(--card-border); 
       background: var(--card-bg); 
-      color: var(--text);
+      color: var(--text-muted);
       cursor: pointer; 
       font-size: 13px; 
       font-weight: 500;
       transition: all 0.2s;
-    }    .view-btn:hover { background: var(--accent-bg); }
+      line-height: 1.2;
+    }
+    .view-btn:hover { background: var(--accent-bg); color: var(--text); }
     .view-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+    
     .history-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 16px; }
     .history-stat { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 14px; text-align: center; }
-    .history-stat-value { font-size: 22px; font-weight: 700; color: var(--accent); }
-    .history-stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
+    .history-stat-value { font-size: 22px; font-weight: 700; color: var(--accent); }    .history-stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-top: 4px; }
     .history-group { margin-bottom: 16px; }
     .history-group-header { 
       display: flex; 
@@ -194,12 +189,12 @@
       border-radius: 10px; 
       font-size: 11px; 
       font-weight: 600;
-      margin-left: 8px;    }
+      margin-left: 8px;
+    }
     .shop-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
     .shop-item { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: all 0.3s; }
     .shop-item:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
-    .shop-item.owned { border-color: var(--success); opacity: 0.85; }
-    .shop-item.equipped { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(251,191,36,0.2); }
+    .shop-item.owned { border-color: var(--success); opacity: 0.85; }    .shop-item.equipped { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(251,191,36,0.2); }
     .shop-item-icon-wrapper { width: 120px; height: 120px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; perspective: 600px; position: relative; }
     .shop-item-icon-3d { position: relative; width: 64px; height: 64px; transform-style: preserve-3d; }
     .shop-item-icon-3d .layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 56px; backface-visibility: visible; }
@@ -223,7 +218,6 @@
     .empty-state { text-align: center; padding: 30px 20px; color: var(--text-muted); }
     .beta-footer { text-align: center; font-size: 11px; color: var(--text-muted); margin-top: 30px; padding: 10px; border-top: 1px solid var(--card-border); opacity: 0.7; }
     
-    /* Модальное окно подтверждения */
     .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: none; align-items: center; justify-content: center; z-index: 10001; backdrop-filter: blur(4px); }
     .modal-overlay.active { display: flex; }
     .modal { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 28px; max-width: 400px; width: 90%; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
@@ -231,7 +225,6 @@
     .modal p { margin: 0 0 20px 0; color: var(--text); line-height: 1.5; }
     .modal-actions { display: flex; gap: 10px; justify-content: flex-end; }
     
-    /* Модальное окно для монет */
     .coin-modal .modal h3 { color: var(--gold); }
     .coin-info { background: rgba(251,191,36,0.1); padding: 16px; border-radius: 10px; margin: 16px 0; }
     .coin-info-row { display: flex; justify-content: space-between; margin: 8px 0; font-size: 16px; }
@@ -243,21 +236,19 @@
     }
   </style>
 </head>
-<body>  <div class="toast-container" id="toastContainer"></div>
+<body>
+  <div class="toast-container" id="toastContainer"></div>
   
-  <!-- Модальное окно подтверждения -->
   <div class="modal-overlay" id="confirmModal">
     <div class="modal">
       <h3 id="modalTitle">Подтверждение</h3>
       <p id="modalText">Вы уверены?</p>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeModal()">Отмена</button>
+      <div class="modal-actions">        <button class="btn btn-secondary" onclick="closeModal()">Отмена</button>
         <button class="btn btn-danger" id="modalConfirmBtn">Подтвердить</button>
       </div>
     </div>
   </div>
 
-  <!-- Модальное окно для монет -->
   <div class="modal-overlay" id="coinModal">
     <div class="modal coin-modal">
       <h3>🪙 Баланс монет</h3>
@@ -292,7 +283,8 @@
         </div>
         <button class="icon-btn lang-btn" onclick="toggleLanguage()" id="langBtn" title="Switch language">EN</button>
         <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Theme">🌙</button>
-        <button class="icon-btn" onclick="switchTab('settings')" title="Settings">⚙️</button>      </div>
+        <button class="icon-btn" onclick="switchTab('settings')" title="Settings">⚙️</button>
+      </div>
     </div>
     <div class="tabs">
       <button class="tab active" onclick="switchTab('recognize')" data-i18n="tab_recognize">Распознавание</button>
@@ -300,8 +292,7 @@
       <button class="tab" onclick="switchTab('history')" data-i18n="tab_history">История</button>
     </div>
     <div class="tab-view active" id="tab-recognize">
-      <div class="video-container">
-        <video id="vid" autoplay playsinline muted></video>
+      <div class="video-container">        <video id="vid" autoplay playsinline muted></video>
         <img id="lastFramePreview" alt="Last frame">
         <div class="loading-overlay" id="loadingOverlay">
           <div class="spinner"></div>
@@ -341,16 +332,16 @@
       <div class="shop-category"><h3 data-i18n="levels">Уровни</h3><div class="shop-grid" id="shopLevels"></div></div>
       <div class="shop-category"><h3 data-i18n="tools">Приспособления</h3><div class="shop-grid" id="shopTools"></div></div>
       <div class="shop-category"><h3 data-i18n="my_collection">Моя коллекция</h3><div id="myCollection"></div></div>
-    </div>    <div class="tab-view" id="tab-history">
+    </div>
+    <div class="tab-view" id="tab-history">
+      <!-- Выровненный заголовок и кнопка Clear -->
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <h2 style="margin:0;font-size:18px" data-i18n="tab_history">История</h2>
-        <button class="btn btn-danger" onclick="confirmClearHistory()" id="btnClear" disabled data-i18n="clear">Очистить</button>
+        <h2 style="margin:0;font-size:18px;line-height:1.4" data-i18n="tab_history">История</h2>
+        <button class="btn btn-danger" onclick="confirmClearHistory()" id="btnClear" disabled data-i18n="clear" style="padding: 10px 18px; font-size: 13px; line-height: 1.2;">Очистить</button>
       </div>
       
-      <!-- Статистика в истории -->
       <div class="history-stats">
-        <div class="history-stat">
-          <div class="history-stat-value" id="hTotal">0</div>
+        <div class="history-stat">          <div class="history-stat-value" id="hTotal">0</div>
           <div class="history-stat-label" data-i18n="stat_total">Всего</div>
         </div>
         <div class="history-stat">
@@ -363,7 +354,6 @@
         </div>
       </div>
       
-      <!-- Переключатели вида -->
       <div class="history-view-bar">
         <button class="view-btn active" data-view="all" onclick="setHistoryView('all')" data-i18n="filter_all">Все предметы</button>
         <button class="view-btn" data-view="recycled" onclick="setHistoryView('recycled')" data-i18n="filter_recycled">Переработанные</button>
@@ -390,9 +380,9 @@
         <div id="secretCodeStatus" style="margin-top:8px;font-size:12px"></div>
       </div>
     </div>
-    <div class="beta-footer">Beta v3.0</div>  </div>
+    <div class="beta-footer">Beta v3.0</div>
+  </div>
   <script>
-    // ===== i18n =====
     const i18n = {
       ru: {
         tab_recognize: 'Распознавание', tab_shop: 'Магазин', tab_history: 'История',
@@ -400,8 +390,7 @@
         recognize: 'Распознать', save_selected: 'Сохранить выбранные',
         select_all: 'Выбрать все', deselect_all: 'Снять все', cancel: 'Отмена',
         stat_total: 'Всего', stat_recycled: 'Переработано', stat_weight: 'Вес пустой тары',
-        recognized_items: 'Распознанные предметы', selected: 'Выбрано',
-        characters: 'Персонажи', levels: 'Уровни', tools: 'Приспособления', my_collection: 'Моя коллекция',
+        recognized_items: 'Распознанные предметы', selected: 'Выбрано',        characters: 'Персонажи', levels: 'Уровни', tools: 'Приспособления', my_collection: 'Моя коллекция',
         clear: 'Очистить', settings: 'Настройки', coin_limit: 'Лимит монет',
         max_coins_per_day: 'Максимум монет за день:', apply: 'Применить',
         reset_daily: 'Сброс каждые 24 часа. Секретный код: ECO2026 (x4)',
@@ -426,7 +415,7 @@
         plastic: 'Пластик', glass: 'Стекло', aluminum: 'Алюминий',
         paper: 'Бумага', cardboard: 'Картон', metal: 'Металл', other: 'Другое',
         high: 'Высокая', medium_conf: 'Средняя', low: 'Низкая',
-        coin_reward: '+1  при сохранении', limit_exhausted: 'Лимит исчерпан',
+        coin_reward: '+1 🪙 при сохранении', limit_exhausted: 'Лимит исчерпан',
         save: 'Сохранить', remove: 'Убрать', equip: 'Экипировать', buy: 'Купить',
         equipped_btn: 'Экипировано', price: '',
         confirm_clear_title: 'Очистить историю?',
@@ -439,7 +428,8 @@
         coin_daily_limit: 'Дневной лимит:',
         close: 'Закрыть'
       },
-      en: {        tab_recognize: 'Recognition', tab_shop: 'Shop', tab_history: 'History',
+      en: {
+        tab_recognize: 'Recognition', tab_shop: 'Shop', tab_history: 'History',
         enable_camera: 'Enable camera', disable_camera: 'Disable camera',
         recognize: 'Recognize', save_selected: 'Save selected',
         select_all: 'Select all', deselect_all: 'Deselect all', cancel: 'Cancel',
@@ -449,8 +439,7 @@
         clear: 'Clear', settings: 'Settings', coin_limit: 'Coin limit',
         max_coins_per_day: 'Max coins per day:', apply: 'Apply',
         reset_daily: 'Resets every 24h. Secret code: ECO2026 (x4)',
-        secret_code: 'Secret code:', activate: 'Activate',
-        coin_limit_title: 'Coin limit', today: 'Today', reset_in: 'Reset in',
+        secret_code: 'Secret code:', activate: 'Activate',        coin_limit_title: 'Coin limit', today: 'Today', reset_in: 'Reset in',
         filter_all: 'All items', filter_recycled: 'Recycled', filter_by_weight: 'By weight',
         analyzing: 'Analyzing image', sending_to_cloud: 'Cloud AI...',
         reading_ocr: 'Local LLM...',
@@ -488,7 +477,8 @@
     function t(key) { return i18n[currentLang][key] || i18n.ru[key] || key; }
     function applyTranslations() {
       document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.getAttribute('data-i18n');        if (el.tagName === 'INPUT' && el.type !== 'button') {
+        const key = el.getAttribute('data-i18n');
+        if (el.tagName === 'INPUT' && el.type !== 'button') {
           el.placeholder = t(key);
         } else {
           el.textContent = t(key);
@@ -498,15 +488,13 @@
       document.documentElement.lang = currentLang;
     }
     function toggleLanguage() {
-      currentLang = currentLang === 'ru' ? 'en' : 'ru';
-      localStorage.setItem('ecoscan_lang', currentLang);
+      currentLang = currentLang === 'ru' ? 'en' : 'ru';      localStorage.setItem('ecoscan_lang', currentLang);
       applyTranslations();
       renderResults();
       renderHistory();
       renderShop();
     }
 
-    // ===== State =====
     let stream, stats = {total:0, rec:0, w:0}, history = [], editableItems = [], selectedIds = new Set();
     let gamification = {coins:0, totalEarned:0, totalSpent:0, dailyLimit:5, todayEarned:0, lastResetDate:null, secretCodeActive:false, ownedItems:[], equippedItems:{}};
     let countdownInterval = null, expandedId = null, isDark = false;
@@ -516,7 +504,6 @@
     const MATERIAL_LABELS = {plastic:"plastic", glass:"glass", aluminum:"aluminum", paper:"paper", cardboard:"cardboard", metal:"metal", other:"other"};
     const SIZE_LABELS = {small:"small", medium:"medium", large:"large", xlarge:"xlarge"};
     
-    // ВСЕ 14 ИКОНОК - ПРОВЕРЕНО И ИСПРАВЛЕНО
     const SHOP_ITEMS = {
       characters: [
         {id:'c1',name:'Collector',desc:'Beginner eco activist',price:50,icon:'\u{1F9D1}'},
@@ -537,9 +524,9 @@
         {id:'t3',name:'Truck',desc:'Small truck',price:400,icon:'\u{1F69A}'},
         {id:'t4',name:'Garbage truck',desc:'Special transport',price:800,icon:'\u{1F69B}'},
         {id:'t5',name:'Bulldozer',desc:'Powerful machine',price:2000,icon:'\u{1F69C}'}
-      ]    };
+      ]
+    };
 
-    // ===== Модальные окна =====
     let modalCallback = null;
     function showModal(title, text, onConfirm) {
       document.getElementById('modalTitle').textContent = title;
@@ -550,10 +537,9 @@
     function closeModal() {
       document.getElementById('confirmModal').classList.remove('active');
       modalCallback = null;
-    }
-    function showCoinModal() {
+    }    function showCoinModal() {
       const limit = getEffectiveLimit();
-      document.getElementById('coinTotalEarned').textContent = gamification.totalEarned + ' 🪙';
+      document.getElementById('coinTotalEarned').textContent = gamification.totalEarned + ' ';
       document.getElementById('coinToday').textContent = gamification.todayEarned + ' / ' + limit;
       document.getElementById('coinDailyLimit').textContent = limit + ' ' + t('limit') + '/день';
       document.getElementById('coinModal').classList.add('active');
@@ -586,7 +572,8 @@
         }
         showModal(t('confirm_limit_title'), t('confirm_limit_text') + limitText, function() {
           gamification.dailyLimit = val; 
-          saveData();           updateCoinUI(); 
+          saveData(); 
+          updateCoinUI(); 
           showToast(t('limit_updated') + ': ' + effectiveLimit, 'success');
         });
       } else {
@@ -597,10 +584,9 @@
     function showToast(msg, type='info') {
       const c = document.getElementById('toastContainer'), tt = document.createElement('div');
       tt.className = 'toast ' + type;
-      const icons = {success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
+      const icons = {success:'✅',error:'❌',warning:'️',info:'ℹ️'};
       tt.innerHTML = '<span>' + (icons[type]||'ℹ️') + '</span><span>' + msg + '</span>';
-      c.appendChild(tt); setTimeout(() => { tt.style.animation = 'slideOut 0.3s ease'; setTimeout(() => tt.remove(), 300); }, 2000);
-    }
+      c.appendChild(tt); setTimeout(() => { tt.style.animation = 'slideOut 0.3s ease'; setTimeout(() => tt.remove(), 300); }, 2000);    }
     function getTodayKey() { return new Date().toISOString().split('T')[0]; }
     function checkDailyReset() { const tt = getTodayKey(); if (gamification.lastResetDate !== tt) { gamification.todayEarned = 0; gamification.lastResetDate = tt; saveData(); } }
     function getEffectiveLimit() { return gamification.secretCodeActive ? gamification.dailyLimit * 4 : gamification.dailyLimit; }
@@ -635,7 +621,8 @@
       document.querySelectorAll('.tab').forEach(tt => tt.classList.remove('active'));
       document.querySelectorAll('.tab-view').forEach(v => v.classList.remove('active'));
       document.querySelectorAll('.tab').forEach(tt => { 
-        if (tt.getAttribute('onclick') && tt.getAttribute('onclick').includes("switchTab('" + name + "')")) {          tt.classList.add('active');
+        if (tt.getAttribute('onclick') && tt.getAttribute('onclick').includes("switchTab('" + name + "')")) {
+          tt.classList.add('active');
         }
       });
       document.getElementById('tab-' + name).classList.add('active');
@@ -648,9 +635,7 @@
       document.getElementById('themeBtn').textContent = isDark ? '☀️' : '🌙';
     }
 
-    // ===== Camera =====
-    async function toggleCamera() {
-      const vid = document.getElementById('vid');
+    async function toggleCamera() {      const vid = document.getElementById('vid');
       const preview = document.getElementById('lastFramePreview');
       if (stream) {
         stream.getTracks().forEach(tt => tt.stop());
@@ -684,7 +669,8 @@
     }
 
     function resetCameraState() {
-      const vid = document.getElementById('vid');      const preview = document.getElementById('lastFramePreview');
+      const vid = document.getElementById('vid');
+      const preview = document.getElementById('lastFramePreview');
       vid.style.display = 'none';
       preview.style.display = 'none';
       if (stream) {
@@ -698,8 +684,7 @@
     async function handleAction() { await recognizeWithTimeout(); }
     
     function startCountdown(seconds, onComplete) {
-      let remaining = seconds;
-      const display = document.getElementById('countdownDisplay');
+      let remaining = seconds;      const display = document.getElementById('countdownDisplay');
       const bar = document.getElementById('countdownBar');
       const fill = document.getElementById('countdownBarFill');
       display.textContent = remaining;
@@ -733,7 +718,8 @@
 
       showLastFrame();
       if (stream) {
-        stream.getTracks().forEach(tt => tt.stop());        stream = null;
+        stream.getTracks().forEach(tt => tt.stop());
+        stream = null;
       }
 
       document.getElementById('loadingOverlay').classList.add('active');
@@ -747,8 +733,7 @@
         
         const timeoutPromise = new Promise(resolve => { 
           startCountdown(CLOUD_TIMEOUT, () => { 
-            timedOut = true; 
-            resolve({timeout:true}); 
+            timedOut = true;             resolve({timeout:true}); 
           }); 
         });
         
@@ -782,7 +767,8 @@
       }
     }
     
-    async function recognizeWithOCR(img) {      try {
+    async function recognizeWithOCR(img) {
+      try {
         const worker = await Tesseract.createWorker(currentLang === 'ru' ? 'rus+eng' : 'eng');
         const {data: {text}} = await worker.recognize(img);
         await worker.terminate();
@@ -796,8 +782,7 @@
       let name = lines[0] || 'Unknown', weight = null, barcode = null, material = 'other', category = 'Other', size = 'medium';
       const wMatch = text.match(/(\d+[\.,]?\d*)\s*(г|кг|мл|л|g|kg|ml|l)/i);
       if (wMatch) weight = wMatch[0];
-      const bMatch = text.match(/\b(\d{8,14})\b/);
-      if (bMatch) barcode = bMatch[1];
+      const bMatch = text.match(/\b(\d{8,14})\b/);      if (bMatch) barcode = bMatch[1];
       const matKeys = {plastic:['пластик','plastic','pet','pe','pp'], glass:['стекло','glass'], aluminum:['алюминий','aluminum','alum'], paper:['бумага','paper'], cardboard:['картон','cardboard'], metal:['металл','metal']};
       for (const [m, keys] of Object.entries(matKeys)) { if (keys.some(k => text.toLowerCase().includes(k))) { material = m; break; } }
       if (weight) { const w = parseFloat(weight.replace(',','.')); size = w < 500 ? 'small' : w < 1500 ? 'medium' : w < 3000 ? 'large' : 'xlarge'; }
@@ -831,7 +816,8 @@
           '<div class="item-field"><span class="item-field-label">' + t('recyclable') + ':</span><select class="editable-select" onchange="updateField(\'' + item._id + '\',\'recyclable\',this.value==\'true\')"><option value="true"' + (item.recyclable?' selected':'') + '>' + t('recyclable_yes') + ' ♻</option><option value="false"' + (!item.recyclable?' selected':'') + '>' + t('recyclable_no') + '</option></select></div></div>' +
           '<div class="item-actions"><span style="margin-right:auto;color:var(--gold);font-weight:600;font-size:12px">' + (canEarnCoin()?t('coin_reward'):t('limit_exhausted')) + '</span>' +
           '<button class="btn btn-success" onclick="saveSingle(\'' + item._id + '\')">' + t('save') + '</button>' +
-          '<button class="btn btn-danger" onclick="removeItem(\'' + item._id + '\')">' + t('remove') + '</button></div></div>';      }).join('');
+          '<button class="btn btn-danger" onclick="removeItem(\'' + item._id + '\')">' + t('remove') + '</button></div></div>';
+      }).join('');
     }
     function updateField(id, key, val) {
       const item = editableItems.find(it => it._id === id);
@@ -845,8 +831,7 @@
     function saveSelected() { const toSave = editableItems.filter(it => selectedIds.has(it._id)); if (toSave.length === 0) return; saveItems(toSave); toSave.forEach(it => removeItem(it._id)); }
     function saveItems(items) {
       const savedIds = [];
-      items.forEach(item => {
-        const earned = canEarnCoin() ? 1 : 0;
+      items.forEach(item => {        const earned = canEarnCoin() ? 1 : 0;
         const newItem = {id:'hist_' + Date.now() + '_' + Math.floor(Math.random()*1000), product_name:item.product_name||'Unknown', brand:item.brand||'No brand', category:item.category||'—', empty_weight:item._empty_weight, material_type:item.material_type||'other', size:item.size||'medium', recyclable:item.recyclable, timestamp:new Date().toLocaleString(currentLang === 'ru' ? 'ru-RU' : 'en-US'), description:item.description, coins_earned: earned};
         stats.total++; if (item.recyclable) stats.rec++; stats.w += item._empty_weight;
         history = [newItem, ...history].slice(0, 200);
@@ -880,7 +865,8 @@
         }, 100);
       }, 300);
     }
-    function cancelResults() {       editableItems = []; 
+    function cancelResults() { 
+      editableItems = []; 
       selectedIds.clear(); 
       document.getElementById('resultsSection').style.display = 'none';
       resetCameraState();
@@ -893,7 +879,11 @@
 
     function setHistoryView(view) {
       historyView = view;
-      document.querySelectorAll('.view-btn').forEach(b => b.classList.toggle('active', b.getAttribute('data-view') === view));
+      document.querySelectorAll('.view-btn').forEach(b => {
+        b.classList.remove('active');        if (b.getAttribute('data-view') === view) {
+          b.classList.add('active');
+        }
+      });
       renderHistory();
     }
 
@@ -929,7 +919,8 @@
           '<span style="margin-left:8px;color:var(--text-muted)">' + (isOpen?'▲':'▼') + '</span></div>' +
           '<div class="history-group-items' + (isOpen?' open':'') + '" id="group_' + g.key + '">' +
           g.items.map(item => '<div class="history-item" data-history-id="' + item.id + '"><div class="history-item-header" onclick="toggleExpand(\'' + item.id + '\')">' +
-          '<div style="flex:1;min-width:0"><div style="font-weight:600">' + item.product_name + (item.coins_earned ? '<span class="coin-badge">+1 </span>' : '') + '</div><div style="font-size:11px;color:var(--text-muted);margin-top:3px">' + item.brand + ' · ' + item.empty_weight + ' g · ' + item.timestamp + '</div></div>' +          '<span style="margin-left:8px;color:var(--text-muted)">' + (expandedId===item.id?'▲':'▼') + '</span></div>' +
+          '<div style="flex:1;min-width:0"><div style="font-weight:600">' + item.product_name + (item.coins_earned ? '<span class="coin-badge">+1 </span>' : '') + '</div><div style="font-size:11px;color:var(--text-muted);margin-top:3px">' + item.brand + ' · ' + item.empty_weight + ' g · ' + item.timestamp + '</div></div>' +
+          '<span style="margin-left:8px;color:var(--text-muted)">' + (expandedId===item.id?'▲':'▼') + '</span></div>' +
           '<div class="history-item-details' + (expandedId===item.id?' open':'') + '">' +
           '<div class="detail-row"><span class="detail-label">' + t('category') + '</span><span>' + item.category + '</span></div>' +
           '<div class="detail-row"><span class="detail-label">' + t('material') + '</span><span>' + t(item.material_type||'other') + '</span></div>' +
@@ -938,8 +929,7 @@
           (item.coins_earned ? '<div class="detail-row"><span class="detail-label">Монеты</span><span class="coin-badge">+1 🪙</span></div>' : '') +
           '<div class="detail-row"><span class="detail-label">' + t('recyclable') + '</span><span>' + (item.recyclable ? t('recyclable_yes') : t('recyclable_no')) + '</span></div>' +
           (item.description ? '<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">Description</span><span>' + item.description + '</span></div>' : '') + '</div></div>').join('') + '</div></div>';
-      }
-      container.innerHTML = html;
+      }      container.innerHTML = html;
     }
     
     function toggleGroup(key) { 
@@ -978,7 +968,8 @@
           else btn = '<button class="btn btn-secondary" onclick="event.stopPropagation();buyItem(\'' + item.id + '\',' + item.price + ')" ' + (!canAfford?'disabled':'') + '>' + t('buy') + '</button>';
           return '<div class="shop-item' + (owned?' owned':'') + (equipped?' equipped':'') + '">' +
             '<div class="shop-item-icon-wrapper">' + create3DIcon(item.icon) + '</div>' +
-            '<div class="shop-item-name">' + item.name + '</div>' +            '<div class="shop-item-desc">' + item.desc + '</div>' +
+            '<div class="shop-item-name">' + item.name + '</div>' +
+            '<div class="shop-item-desc">' + item.desc + '</div>' +
             '<div class="shop-item-footer"><span class="shop-item-price">' + item.price + ' ' + t('price') + '</span>' + btn + '</div></div>';
         }).join('');
       }
@@ -987,8 +978,7 @@
       let html = '<div class="shop-grid">';
       for (const itemId of gamification.ownedItems) {
         let item = null, cat = null;
-        for (const c of ['characters','levels','tools']) { const f = SHOP_ITEMS[c].find(i => i.id === itemId); if (f) { item = f; cat = c; break; } }
-        if (!item) continue;
+        for (const c of ['characters','levels','tools']) { const f = SHOP_ITEMS[c].find(i => i.id === itemId); if (f) { item = f; cat = c; break; } }        if (!item) continue;
         const equipped = gamification.equippedItems[cat] === item.id;
         html += '<div class="shop-item' + (equipped?' equipped':'') + '"><div class="shop-item-icon-wrapper">' + create3DIcon(item.icon) + '</div><div class="shop-item-name">' + item.name + '</div><div class="shop-item-desc">' + item.desc + '</div><div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">' + (equipped?t('equipped_label'):t('in_collection')) + '</div>' + (!equipped?'<button class="btn btn-success" onclick="event.stopPropagation();equipItem(\'' + item.id + '\',\'' + cat + '\')" style="margin-top:8px">' + t('equip') + '</button>':'') + '</div>';
       }
@@ -1027,7 +1017,8 @@
         input.value = '';
         showToast(t('code_activated') + '! Лимит: ' + getEffectiveLimit(), 'success');
       } else { 
-        statusEl.innerHTML = '<span style="color:var(--danger)"> ' + t('wrong_code') + '</span>';         showToast(t('wrong_code'), 'error');
+        statusEl.innerHTML = '<span style="color:var(--danger)"> ' + t('wrong_code') + '</span>'; 
+        showToast(t('wrong_code'), 'error');
       }
     }
 
@@ -1036,8 +1027,7 @@
       if (shopItems.length === 0) return;
       let ticking = false;
       function updateRotation() {
-        const viewportCenter = window.innerHeight / 2;
-        let closestItem = null, closestDistance = Infinity;
+        const viewportCenter = window.innerHeight / 2;        let closestItem = null, closestDistance = Infinity;
         shopItems.forEach(item => {
           const rect = item.getBoundingClientRect();
           const itemCenter = rect.top + rect.height / 2;
@@ -1058,7 +1048,6 @@
       updateRotation();
     }
 
-    // Init
     loadData();
     updateStats();
     applyTranslations();

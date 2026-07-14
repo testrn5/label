@@ -251,7 +251,7 @@
 
   <div class="modal-overlay" id="coinModal">
     <div class="modal coin-modal">
-      <h3>🪙 Баланс монет</h3>
+      <h3> Баланс монет</h3>
       <div class="coin-info">
         <div class="coin-info-row">
           <span class="coin-info-label">Всего заработано:</span>
@@ -277,12 +277,12 @@
       <h1>EcoScan v3.0</h1>
       <div class="header-actions">
         <div class="coin-balance" onclick="showCoinModal()">
-          <span class="coin-icon">🪙</span>
+          <span class="coin-icon"></span>
           <span id="coinBalance">0</span>
           <span class="coin-limit" id="coinLimitInfo">(0/5)</span>
         </div>
         <button class="icon-btn lang-btn" onclick="toggleLanguage()" id="langBtn" title="Switch language">EN</button>
-        <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Theme"></button>
+        <button class="icon-btn" onclick="toggleTheme()" id="themeBtn" title="Theme">🌙</button>
         <button class="icon-btn" onclick="switchTab('settings')" title="Settings">⚙️</button>
       </div>
     </div>
@@ -425,7 +425,8 @@
         coin_total_earned: 'Всего заработано:',
         coin_today: 'Сегодня:',
         coin_daily_limit: 'Дневной лимит:',
-        close: 'Закрыть'
+        close: 'Закрыть',
+        description: 'Описание'
       },
       en: {
         tab_recognize: 'Recognition', tab_shop: 'Shop', tab_history: 'History',
@@ -438,8 +439,8 @@
         clear: 'Clear', settings: 'Settings', coin_limit: 'Coin limit',
         max_coins_per_day: 'Max coins per day:', apply: 'Apply',
         reset_daily: 'Resets every 24h. Secret code: ECO2026 (x4)',
-        secret_code: 'Secret code:', activate: 'Activate',
-        coin_limit_title: 'Coin limit', today: 'Today', reset_in: 'Reset in',        filter_all: 'All items', filter_recycled: 'Recycled', filter_by_weight: 'By weight',
+        secret_code: 'Secret code:', activate: 'Activate',        coin_limit_title: 'Coin limit', today: 'Today', reset_in: 'Reset in',
+        filter_all: 'All items', filter_recycled: 'Recycled', filter_by_weight: 'By weight',
         analyzing: 'Analyzing image', sending_to_cloud: 'Cloud AI...',
         reading_ocr: 'Local LLM...',
         camera_enabled: 'Camera enabled', camera_disabled: 'Camera disabled',
@@ -465,11 +466,12 @@
         confirm_clear_text: 'All history and statistics will be permanently deleted. Continue?',
         confirm_limit_title: 'Update coin limit?',
         confirm_limit_text: 'New limit: ',
-        coin_modal_title: ' Coin Balance',
+        coin_modal_title: '🪙 Coin Balance',
         coin_total_earned: 'Total earned:',
         coin_today: 'Today:',
         coin_daily_limit: 'Daily limit:',
-        close: 'Close'
+        close: 'Close',
+        description: 'Description'
       }
     };
     let currentLang = localStorage.getItem('ecoscan_lang') || 'ru';
@@ -486,9 +488,9 @@
       document.getElementById('langBtn').textContent = currentLang.toUpperCase();
       document.documentElement.lang = currentLang;
     }
-    function toggleLanguage() {
-      currentLang = currentLang === 'ru' ? 'en' : 'ru';
-      localStorage.setItem('ecoscan_lang', currentLang);      applyTranslations();
+    function toggleLanguage() {      currentLang = currentLang === 'ru' ? 'en' : 'ru';
+      localStorage.setItem('ecoscan_lang', currentLang);
+      applyTranslations();
       renderResults();
       renderHistory();
       renderShop();
@@ -535,9 +537,9 @@
     }
     function closeModal() {
       document.getElementById('confirmModal').classList.remove('active');
-      modalCallback = null;
-    }
-    function showCoinModal() {      const limit = getEffectiveLimit();
+      modalCallback = null;    }
+    function showCoinModal() {
+      const limit = getEffectiveLimit();
       document.getElementById('coinTotalEarned').textContent = gamification.totalEarned + ' ';
       document.getElementById('coinToday').textContent = gamification.todayEarned + ' / ' + limit;
       document.getElementById('coinDailyLimit').textContent = limit + ' ' + t('limit') + '/день';
@@ -584,9 +586,9 @@
       const c = document.getElementById('toastContainer'), tt = document.createElement('div');
       tt.className = 'toast ' + type;
       const icons = {success:'✅',error:'❌',warning:'⚠️',info:'ℹ️'};
-      tt.innerHTML = '<span>' + (icons[type]||'ℹ️') + '</span><span>' + msg + '</span>';
-      c.appendChild(tt); setTimeout(() => { tt.style.animation = 'slideOut 0.3s ease'; setTimeout(() => tt.remove(), 300); }, 2000);
-    }    function getTodayKey() { return new Date().toISOString().split('T')[0]; }
+      tt.innerHTML = '<span>' + (icons[type]||'ℹ️') + '</span><span>' + msg + '</span>';      c.appendChild(tt); setTimeout(() => { tt.style.animation = 'slideOut 0.3s ease'; setTimeout(() => tt.remove(), 300); }, 2000);
+    }
+    function getTodayKey() { return new Date().toISOString().split('T')[0]; }
     function checkDailyReset() { const tt = getTodayKey(); if (gamification.lastResetDate !== tt) { gamification.todayEarned = 0; gamification.lastResetDate = tt; saveData(); } }
     function getEffectiveLimit() { return gamification.secretCodeActive ? gamification.dailyLimit * 4 : gamification.dailyLimit; }
     function canEarnCoin() { checkDailyReset(); return gamification.todayEarned < getEffectiveLimit(); }
@@ -631,11 +633,11 @@
     function toggleTheme() {
       isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       document.documentElement.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      document.getElementById('themeBtn').textContent = isDark ? '☀️' : '';
+      document.getElementById('themeBtn').textContent = isDark ? '️' : '🌙';
     }
-
     async function toggleCamera() {
-      const vid = document.getElementById('vid');      const preview = document.getElementById('lastFramePreview');
+      const vid = document.getElementById('vid');
+      const preview = document.getElementById('lastFramePreview');
       if (stream) {
         stream.getTracks().forEach(tt => tt.stop());
         stream = null;
@@ -682,9 +684,9 @@
 
     async function handleAction() { await recognizeWithTimeout(); }
     
-    function startCountdown(seconds, onComplete) {
-      let remaining = seconds;
-      const display = document.getElementById('countdownDisplay');      const bar = document.getElementById('countdownBar');
+    function startCountdown(seconds, onComplete) {      let remaining = seconds;
+      const display = document.getElementById('countdownDisplay');
+      const bar = document.getElementById('countdownBar');
       const fill = document.getElementById('countdownBarFill');
       display.textContent = remaining;
       fill.style.width = '100%';
@@ -731,9 +733,9 @@
         const apiPromise = fetch('/api/recognize', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({image:img, mediaType:'image/jpeg', preferredModels:[], useSpecificModel:null})}).then(r => r.json());
         
         const timeoutPromise = new Promise(resolve => { 
-          startCountdown(CLOUD_TIMEOUT, () => { 
-            timedOut = true; 
-            resolve({timeout:true});           }); 
+          startCountdown(CLOUD_TIMEOUT, () => {             timedOut = true; 
+            resolve({timeout:true}); 
+          }); 
         });
         
         const data = await Promise.race([apiPromise, timeoutPromise]);
@@ -780,9 +782,9 @@
       const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
       let name = lines[0] || 'Unknown', weight = null, barcode = null, material = 'other', category = 'Other', size = 'medium';
       const wMatch = text.match(/(\d+[\.,]?\d*)\s*(г|кг|мл|л|g|kg|ml|l)/i);
-      if (wMatch) weight = wMatch[0];
-      const bMatch = text.match(/\b(\d{8,14})\b/);
-      if (bMatch) barcode = bMatch[1];      const matKeys = {plastic:['пластик','plastic','pet','pe','pp'], glass:['стекло','glass'], aluminum:['алюминий','aluminum','alum'], paper:['бумага','paper'], cardboard:['картон','cardboard'], metal:['металл','metal']};
+      if (wMatch) weight = wMatch[0];      const bMatch = text.match(/\b(\d{8,14})\b/);
+      if (bMatch) barcode = bMatch[1];
+      const matKeys = {plastic:['пластик','plastic','pet','pe','pp'], glass:['стекло','glass'], aluminum:['алюминий','aluminum','alum'], paper:['бумага','paper'], cardboard:['картон','cardboard'], metal:['металл','metal']};
       for (const [m, keys] of Object.entries(matKeys)) { if (keys.some(k => text.toLowerCase().includes(k))) { material = m; break; } }
       if (weight) { const w = parseFloat(weight.replace(',','.')); size = w < 500 ? 'small' : w < 1500 ? 'medium' : w < 3000 ? 'large' : 'xlarge'; }
       return {product_name:name, manufacturer:null, brand:null, country:null, category:category, description:'OCR: ' + text.substring(0,80), barcode:barcode, weight:weight, ingredients:null, recyclable:true, material_type:material, size:size, confidence:'medium', _used_model:'ocr'};
@@ -829,9 +831,9 @@
     function saveSingle(id) { const item = editableItems.find(it => it._id === id); if (!item) return; saveItems([item]); removeItem(id); }
     function saveSelected() { const toSave = editableItems.filter(it => selectedIds.has(it._id)); if (toSave.length === 0) return; saveItems(toSave); toSave.forEach(it => removeItem(it._id)); }
     function saveItems(items) {
-      const savedIds = [];
-      items.forEach(item => {
-        const earned = canEarnCoin() ? 1 : 0;        const newItem = {id:'hist_' + Date.now() + '_' + Math.floor(Math.random()*1000), product_name:item.product_name||'Unknown', brand:item.brand||'No brand', category:item.category||'—', empty_weight:item._empty_weight, material_type:item.material_type||'other', size:item.size||'medium', recyclable:item.recyclable, timestamp:new Date().toLocaleString(currentLang === 'ru' ? 'ru-RU' : 'en-US'), description:item.description, coins_earned: earned};
+      const savedIds = [];      items.forEach(item => {
+        const earned = canEarnCoin() ? 1 : 0;
+        const newItem = {id:'hist_' + Date.now() + '_' + Math.floor(Math.random()*1000), product_name:item.product_name||'Unknown', brand:item.brand||'No brand', category:item.category||'—', empty_weight:item._empty_weight, material_type:item.material_type||'other', size:item.size||'medium', recyclable:item.recyclable, timestamp:new Date().toLocaleString(currentLang === 'ru' ? 'ru-RU' : 'en-US'), description:item.description, coins_earned: earned};
         stats.total++; if (item.recyclable) stats.rec++; stats.w += item._empty_weight;
         history = [newItem, ...history].slice(0, 200);
         savedIds.push(newItem.id);
@@ -878,9 +880,9 @@
 
     function setHistoryView(view) {
       historyView = view;
-      document.querySelectorAll('.view-btn').forEach(b => {
-        b.classList.remove('active');
-        if (b.getAttribute('data-view') === view) {          b.classList.add('active');
+      document.querySelectorAll('.view-btn').forEach(b => {        b.classList.remove('active');
+        if (b.getAttribute('data-view') === view) {
+          b.classList.add('active');
         }
       });
       renderHistory();
@@ -900,9 +902,9 @@
         const mat = (item.material_type||'').toLowerCase();
         let key = 'other', name = t('other'), icon = '';
         if (mat === 'plastic') { key = 'plastic'; name = t('plastic'); icon = '♻️'; }
-        else if (mat === 'glass') { key = 'glass'; name = t('glass'); icon = '🫙'; }
+        else if (mat === 'glass') { key = 'glass'; name = t('glass'); icon = ''; }
         else if (mat === 'paper' || mat === 'cardboard') { key = 'paper'; name = t('paper'); icon = '📄'; }
-        else if (mat === 'metal' || mat === 'aluminum') { key = 'metal'; name = t('metal'); icon = '🥫'; }
+        else if (mat === 'metal' || mat === 'aluminum') { key = 'metal'; name = t('metal'); icon = ''; }
         if (!groups[key]) groups[key] = {key, name, icon, items:[], totalWeight:0};
         groups[key].items.push(item); groups[key].totalWeight += item.empty_weight || 0;
       });
@@ -927,9 +929,9 @@
           '<div class="detail-row"><span class="detail-label">' + t('empty_weight') + '</span><span>' + item.empty_weight + ' g</span></div>' +
           (item.coins_earned ? '<div class="detail-row"><span class="detail-label">' + t('coin_reward').split(' ')[0] + '</span><span class="coin-badge">+1 🪙</span></div>' : '') +
           '<div class="detail-row"><span class="detail-label">' + t('recyclable') + '</span><span>' + (item.recyclable ? t('recyclable_yes') : t('recyclable_no')) + '</span></div>' +
-          (item.description ? '<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">Description</span><span>' + item.description + '</span></div>' : '') + '</div></div>').join('') + '</div></div>';
-      }
-      container.innerHTML = html;    }
+          (item.description ? '<div class="detail-row" style="flex-direction:column;gap:4px"><span class="detail-label">' + t('description') + '</span><span>' + item.description + '</span></div>' : '') + '</div></div>').join('') + '</div></div>';      }
+      container.innerHTML = html;
+    }
     
     function toggleGroup(key) { 
       if (openGroups.has(key)) openGroups.delete(key);
@@ -976,9 +978,9 @@
       if (gamification.ownedItems.length === 0) { coll.innerHTML = '<div class="empty-state">' + t('no_purchases') + '</div>'; return; }
       let html = '<div class="shop-grid">';
       for (const itemId of gamification.ownedItems) {
-        let item = null, cat = null;
-        for (const c of ['characters','levels','tools']) { const f = SHOP_ITEMS[c].find(i => i.id === itemId); if (f) { item = f; cat = c; break; } }
-        if (!item) continue;        const equipped = gamification.equippedItems[cat] === item.id;
+        let item = null, cat = null;        for (const c of ['characters','levels','tools']) { const f = SHOP_ITEMS[c].find(i => i.id === itemId); if (f) { item = f; cat = c; break; } }
+        if (!item) continue;
+        const equipped = gamification.equippedItems[cat] === item.id;
         html += '<div class="shop-item' + (equipped?' equipped':'') + '"><div class="shop-item-icon-wrapper">' + create3DIcon(item.icon) + '</div><div class="shop-item-name">' + item.name + '</div><div class="shop-item-desc">' + item.desc + '</div><div style="font-size:11px;color:var(--text-muted);margin-bottom:8px">' + (equipped?t('equipped_label'):t('in_collection')) + '</div>' + (!equipped?'<button class="btn btn-success" onclick="event.stopPropagation();equipItem(\'' + item.id + '\',\'' + cat + '\')" style="margin-top:8px">' + t('equip') + '</button>':'') + '</div>';
       }
       html += '</div>'; coll.innerHTML = html;
@@ -1025,9 +1027,9 @@
       const shopItems = document.querySelectorAll('.shop-item');
       if (shopItems.length === 0) return;
       let ticking = false;
-      function updateRotation() {
-        const viewportCenter = window.innerHeight / 2;
-        let closestItem = null, closestDistance = Infinity;        shopItems.forEach(item => {
+      function updateRotation() {        const viewportCenter = window.innerHeight / 2;
+        let closestItem = null, closestDistance = Infinity;
+        shopItems.forEach(item => {
           const rect = item.getBoundingClientRect();
           const itemCenter = rect.top + rect.height / 2;
           const distance = Math.abs(viewportCenter - itemCenter);
